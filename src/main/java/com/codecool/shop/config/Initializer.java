@@ -23,19 +23,43 @@ public class Initializer implements ServletContextListener {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
-        //setting up a new supplier
-        Supplier amazon = new Supplier("Amazon", "Digital content and services");
-        supplierDataStore.add(amazon);
-        Supplier lenovo = new Supplier("Lenovo", "Computers");
-        supplierDataStore.add(lenovo);
+        // Suppliers
 
-        //setting up a new product category
-        ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
-        productCategoryDataStore.add(tablet);
+            // Body Augmentation
+            Supplier bakumatsuChipmasters = new Supplier("Bakumatsu Chipmasters", "We are a manufacturing company based on human augmentations.");
+            Supplier sarifIndustries = new Supplier("Sarif Industries", "We are committed to providing the highest quality, customer service and products.");
+            supplierDataStore.add(bakumatsuChipmasters);
+            supplierDataStore.add(sarifIndustries);
 
-        //setting up products and printing it
-        productDataStore.add(new Product("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon));
-        productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
-        productDataStore.add(new Product("Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
+            // Electric Animals
+            Supplier aniMate = new Supplier("AniMate", "We are your only provider of electric animals. Show everyone how empathic you are!");
+            supplierDataStore.add(aniMate);
+
+            // Fashion
+            Supplier cyberdog = new Supplier("Cyberdog", "Colorful fashion, rave outfits, no future.");
+            Supplier pandemonium = new Supplier("Pandemonium", "Don't you want to look cool?");
+            supplierDataStore.add(cyberdog);
+            supplierDataStore.add(pandemonium);
+
+
+        //Categories
+        ProductCategory bodyAugmentation = new ProductCategory("Body Augmentation", "Human Enhancement", "Technological alteration of the human body in order to enhance physical or mental capabilities.");
+        ProductCategory electricAnimals = new ProductCategory("Electric Animals", "Toy", "Devices to show how empathetic you are.");
+        ProductCategory fashion = new ProductCategory("Fashion", "Clothing", "If you survived you might want to look cool.");
+        productCategoryDataStore.add(bodyAugmentation);
+        productCategoryDataStore.add(electricAnimals);
+        productCategoryDataStore.add(fashion);
+
+        //Products
+
+            // Implants ID: 1 - 6
+            productDataStore.add(new Product("Dialect Chip", 75000, "JPY", "Be able to speak the 69420 languages of our world.", bodyAugmentation, bakumatsuChipmasters));
+            productDataStore.add(new Product("Reflex Stabilizer", 50000, "JPY", "Move like a cat. Meow.", bodyAugmentation, bakumatsuChipmasters));
+            productDataStore.add(new Product("USB Finger", 30000, "JPY", "Connect the world to your fingertip.", bodyAugmentation, bakumatsuChipmasters));
+            productDataStore.add(new Product("Bionic Eye Implant", 55000, "JPY", "See more than you have ever seen.", bodyAugmentation, sarifIndustries));
+            productDataStore.add(new Product("Portable Encyclopedia", 35000, "JPY", "Know more than you have ever known.", bodyAugmentation, sarifIndustries));
+            productDataStore.add(new Product("Mood Organ", 65000, "JPY", "Feel more than you have ever felt.", bodyAugmentation, sarifIndustries));
+
+            //Animals ID:
     }
 }
