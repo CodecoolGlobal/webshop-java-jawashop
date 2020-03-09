@@ -66,13 +66,16 @@ public class Initializer implements ServletContextListener {
             products.add(new Product("Dog LT54-62", 550000, "JPY", "Guards your house and cares for children, so you don't need to.", electricAnimals, aniMate));
             products.add(new Product("Cat ZY85-32", 500000, "JPY", "An inseparable pair. Now comes in a bundle.", electricAnimals, aniMate));
 
-            // Fashion-items: 11 - 17
+            // Fashion-items: 11 - 20
             products.add(new Product("Proton Pants", 5000, "JPY", "Proton Pants are back! Adjustable at the sides, with gigantic pockets.", fashion, cyberdog));
             products.add(new Product("Space Commander Bodysuit", 6000, "JPY", "Limited edition bodysuit with eye-catching translucent box and a hood with visor.", fashion, cyberdog));
-            products.add(new Product("Entrapmented Dress", 8000, "JPY", "Part of the Electric Dreams collection by Terry Davy.", fashion, cyberdog));
+            products.add(new Product("Trapper Dress", 8000, "JPY", "Part of the Electric Dreams collection by Terry Davy.", fashion, cyberdog));
             products.add(new Product("Black (K)night Wear Woman", 15000, "JPY", "Durable, feminine and black. Do you need more?", fashion, pandemonium));
-            products.add(new Product("Black (K)night Wear Man", 15000, "JPY", "Durable, masculine and grey. Do you need more?", fashion, pandemonium));
+            products.add(new Product("Black (K)night Wear Man", 15000, "JPY", "Durable, masculine and black. Do you need more?", fashion, pandemonium));
             products.add(new Product("Urban Wear Woman", 15000, "JPY", "Comfortable, feminine and brown. Do you need more?", fashion, pandemonium));
             products.add(new Product("Urban Wear Man", 15000, "JPY", "Comfortable, masculine and brown. Do you need more?", fashion, pandemonium));
+            products.add(new Product("Duo Goggles", 5000, "JPY", "Has a built-in microchip visor.", fashion, pandemonium));
+            products.add(new Product("Viral Glasses", 5000, "JPY", "Funky glasses which create a psychedelic experience!", fashion, pandemonium));
+            products.add(new Product("McFly Hoverboard", 25000, "JPY", "Marty, McFly away!", fashion, cyberdog));
     }
 }
