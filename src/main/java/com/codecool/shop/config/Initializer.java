@@ -60,6 +60,11 @@ public class Initializer implements ServletContextListener {
             productDataStore.add(new Product("Portable Encyclopedia", 35000, "JPY", "Know more than you have ever known.", bodyAugmentation, sarifIndustries));
             productDataStore.add(new Product("Mood Organ", 65000, "JPY", "Feel more than you have ever felt.", bodyAugmentation, sarifIndustries));
 
-            //Animals ID:
+            //Animals ID: 7 - 10
+            productDataStore.add(new Product("Horse B100-02", 650000, "JPY", "Impress your neighbours with this beautiful creature.", electricAnimals, aniMate));
+            productDataStore.add(new Product("Sheep AZ15-82", 450000, "JPY", "You can feel the warmth of his nose.", electricAnimals, aniMate));
+            productDataStore.add(new Product("Dog LT54-62", 550000, "JPY", "Guards your house and cares for children, so you don't need to.", electricAnimals, aniMate));
+            productDataStore.add(new Product("Cat ZY85-32", 550000, "JPY", "An inseparable pair. Now comes in a bundle.", electricAnimals, aniMate));
+
     }
 }
