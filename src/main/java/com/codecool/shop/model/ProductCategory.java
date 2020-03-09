@@ -1,5 +1,7 @@
 package com.codecool.shop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +27,12 @@ public class ProductCategory extends BaseModel {
         this.products = products;
     }
 
+    @JsonIgnore
     public List<Product> getProducts() {
         return this.products;
     }
 
+    @JsonIgnore
     public void addProduct(Product product) {
         this.products.add(product);
     }
