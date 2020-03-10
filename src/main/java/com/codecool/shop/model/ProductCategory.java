@@ -1,7 +1,5 @@
 package com.codecool.shop.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,19 +25,18 @@ public class ProductCategory extends BaseModel {
         this.products = products;
     }
 
-    @JsonIgnore
     public List<Product> getProducts() {
         return this.products;
     }
 
-    @JsonIgnore
     public void addProduct(Product product) {
         this.products.add(product);
     }
 
+    @Override
     public String toString() {
         return String.format(
-                "id: %1$d," +
+                        "id: %1$d," +
                         "name: %2$s, " +
                         "department: %3$s, " +
                         "description: %4$s",
