@@ -1,15 +1,19 @@
 .navbar {
+    padding-left: 15%;
+    padding-right: 15%;
     font-family: 'Play', sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .logo {
-    width: 8%;
-    height: 8%;
+    width: 10%;
+    height: 10%;
 }
 
 .cart i {
-    color: #99729e;
+    color: #eeeeee;
 }
 
-
+.container {
+    margin-top: 10%;
+}
