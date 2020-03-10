@@ -29,17 +29,16 @@ public class ProductDaoMem implements ProductDao {
 
     @Override
     public void add(Product product) {
-        product.setId(data.size() + 1);
         data.add(product);
     }
 
     @Override
-    public Product find(int id) {
-        return data.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+    public Product find(String id) {
+        return data.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(String id) {
         data.remove(find(id));
     }
 
