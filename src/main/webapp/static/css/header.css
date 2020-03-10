@@ -1,0 +1,15 @@
+.navbar {
+    font-family: 'Play', sans-serif;
+    font-size: 2rem;
+}
+
+.logo {
+    width: 8%;
+    height: 8%;
+}
+
+.cart i {
+    color: #99729e;
+}
+
+
