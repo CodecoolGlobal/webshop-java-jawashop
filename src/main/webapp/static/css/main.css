@@ -1,0 +1,10 @@
+body {
+    background-image: url("/static/img/bg.jpg") ;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.card-container {
+    background-color: white ;
+    color: #6b646e;
+}
