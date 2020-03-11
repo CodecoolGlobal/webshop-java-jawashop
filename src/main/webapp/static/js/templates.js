@@ -4,6 +4,7 @@ export let template = {
         rootNode.classList.add("col", "col-sm-12", "col-md-6", "col-lg-4");
 
             const cardNode = document.createElement("div");
+            cardNode.classList.add("card", "card-container");
 
                 const imageNode = document.createElement("img");
                 imageNode.setAttribute("src", `/static/img/uploads/${product.id}.jpg`);
