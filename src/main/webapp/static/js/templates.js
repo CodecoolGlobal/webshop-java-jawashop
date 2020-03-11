@@ -4,6 +4,7 @@ export let template = {
         rootNode.classList.add("col", "col-sm-12", "col-md-6", "col-lg-4");
 
             const cardNode = document.createElement("div");
+            cardNode.classList.add("card", "card-container");
 
                 const imageNode = document.createElement("img");
                 imageNode.setAttribute("src", `/static/img/uploads/${product.id}.jpg`);
@@ -39,7 +40,7 @@ export let template = {
                     productPriceContainerNode.classList.add("card-text");
 
                         const addToCartNode = document.createElement("a");
-                        addToCartNode.classList.add("btn", "btn-success");
+                        addToCartNode.classList.add("btn", "btn-dark");
                         addToCartNode.setAttribute("src", "#");
                         addToCartNode.innerHTML = "Add to cart";
 
@@ -55,5 +56,14 @@ export let template = {
         rootNode.appendChild(cardNode);
 
         return rootNode;
+    },
+
+    forDropdown: function(filterOption) {
+        const categoryDropDownRoot = document.createElement("div");
+        const dropDownItem = document.createElement("a");
+        dropDownItem.classList.add("dropdown-item");
+        dropDownItem.innerHTML = filterOption.name;
+        categoryDropDownRoot.appendChild(dropDownItem);
+        return categoryDropDownRoot;
     }
-}
+};

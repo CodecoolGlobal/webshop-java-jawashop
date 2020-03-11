@@ -1,6 +1,8 @@
 package com.codecool.shop;
 
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -10,7 +12,7 @@ import java.util.List;
 
 public class JsonConverter {
 
-    public String toString(List<Product> products) {
+    public String productToString(List<Product> products) {
         String category = products.get(1).getProductCategory().getName();
         JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
 
@@ -30,6 +32,40 @@ public class JsonConverter {
             arrayBuilder.add(productJson);
         }
         JsonObject root = rootBuilder.add("category_name", category).add("products", arrayBuilder).build();
+        return root.toString();
+    }
+
+    public String categoryToString(List<ProductCategory> productCategories) {
+        JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+        for (ProductCategory category : productCategories) {
+            JsonObjectBuilder categoryBuilder = Json.createObjectBuilder();
+            JsonObject productJson = categoryBuilder
+                    .add("id", category.getId())
+                    .add("name", category.getName())
+                    .build();
+
+            arrayBuilder.add(productJson);
+        }
+        JsonObject root = rootBuilder.add("categories", arrayBuilder).build();
+        return root.toString();
+    }
+
+    public String supplierToString(List<Supplier> suppliers) {
+        JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+        for (Supplier supplier : suppliers) {
+            JsonObjectBuilder categoryBuilder = Json.createObjectBuilder();
+            JsonObject productJson = categoryBuilder
+                    .add("id", supplier.getId())
+                    .add("name", supplier.getName())
+                    .build();
+
+            arrayBuilder.add(productJson);
+        }
+        JsonObject root = rootBuilder.add("suppliers", arrayBuilder).build();
         return root.toString();
     }
 }

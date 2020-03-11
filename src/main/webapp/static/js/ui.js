@@ -18,4 +18,16 @@ export let ui = {
 
         htmlRoot.appendChild(root);
     },
-}
+    createCategoryDropdown: function(response) {
+        const dropdownCategoryRoot = document.getElementById("category-dropdown");
+        for (const category of response.categories) {
+            dropdownCategoryRoot.appendChild(template.forDropdown(category))
+        }
+    },
+    createSupplierDropdown: function(response) {
+        const dropdownCategoryRoot = document.getElementById("supplier-dropdown");
+        for (const supplier of response.suppliers) {
+            dropdownCategoryRoot.appendChild(template.forDropdown(supplier))
+        }
+    }
+};

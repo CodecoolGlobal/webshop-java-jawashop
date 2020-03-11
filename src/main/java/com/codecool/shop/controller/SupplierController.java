@@ -1,9 +1,9 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.JsonConverter;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.model.Product;
+import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.model.Supplier;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/product"})
-public class ProductController extends JsonResponseController {
+@WebServlet(urlPatterns = {"/supplier"})
+public class SupplierController extends JsonResponseController {
     private final JsonConverter jsonConverter = new JsonConverter();
-    private final ProductDao productDataStore = ProductDaoMem.getInstance();
+    private final SupplierDao supplierDao = SupplierDaoMem.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Product> products = productDataStore.getAll();
-        super.jsonify(jsonConverter.productToString(products), req, resp);
+        List<Supplier> suppliers = supplierDao.getAll();
+        super.jsonify(jsonConverter.supplierToString(suppliers), req, resp);
     }
 }
