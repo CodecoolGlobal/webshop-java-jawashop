@@ -33,9 +33,10 @@ public class ProductCategory extends BaseModel {
         this.products.add(product);
     }
 
+    @Override
     public String toString() {
         return String.format(
-                "id: %1$d," +
+                        "id: %1$d," +
                         "name: %2$s, " +
                         "department: %3$s, " +
                         "description: %4$s",
