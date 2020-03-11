@@ -25,7 +25,7 @@ export let ui = {
         }
     },
     createSupplierDropdown: function(response) {
-        const dropdownCategoryRoot = document.getElementById("category-dropdown");
+        const dropdownCategoryRoot = document.getElementById("supplier-dropdown");
         for (const supplier of response.suppliers) {
             dropdownCategoryRoot.appendChild(template.forDropdown(supplier))
         }
