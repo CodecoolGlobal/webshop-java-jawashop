@@ -3,7 +3,7 @@ package com.codecool.shop.model;
 
 public class BaseModel {
 
-    protected int id;
+    protected String id;
     protected String name;
     protected String description;
 
@@ -11,17 +11,18 @@ public class BaseModel {
         this.name = name;
     }
 
-    public BaseModel(String name, String description) {
+    public BaseModel(String name, String description, String id) {
         this.name = name;
         this.description = description;
+        this.id = id;
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
