@@ -40,7 +40,7 @@ export let template = {
                     productPriceContainerNode.classList.add("card-text");
 
                         const addToCartNode = document.createElement("a");
-                        addToCartNode.classList.add("btn", "btn-success");
+                        addToCartNode.classList.add("btn", "btn-dark");
                         addToCartNode.setAttribute("src", "#");
                         addToCartNode.innerHTML = "Add to cart";
 

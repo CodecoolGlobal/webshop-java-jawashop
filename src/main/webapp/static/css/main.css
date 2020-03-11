@@ -8,3 +8,7 @@ body {
     background-color: white ;
     color: #6b646e;
 }
+
+.btn.btn-dark {
+    color: white !important;
+}
