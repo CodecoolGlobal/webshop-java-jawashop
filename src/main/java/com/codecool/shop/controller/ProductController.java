@@ -20,6 +20,6 @@ public class ProductController extends JsonResponseController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Product> products = productDataStore.getAll();
-        super.jsonify(jsonConverter.toString(products), req, resp);
+        super.jsonify(jsonConverter.productToString(products), req, resp);
     }
 }
