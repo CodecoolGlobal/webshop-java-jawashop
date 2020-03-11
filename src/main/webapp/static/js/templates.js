@@ -6,7 +6,7 @@ export let template = {
             const cardNode = document.createElement("div");
 
                 const imageNode = document.createElement("img");
-                imageNode.setAttribute("src", `/static/img/product_${product.id}.jpg`);
+                imageNode.setAttribute("src", `/static/img/uploads/${product.id}.jpg`);
                 imageNode.setAttribute("alt", "Image of the product.");
 
                 const cardHeaderNode = document.createElement("div");
