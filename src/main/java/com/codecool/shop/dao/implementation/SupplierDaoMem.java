@@ -25,17 +25,16 @@ public class SupplierDaoMem implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {
-        supplier.setId(data.size() + 1);
         data.add(supplier);
     }
 
     @Override
-    public Supplier find(int id) {
-        return data.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+    public Supplier find(String id) {
+        return data.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(String id) {
         data.remove(find(id));
     }
 
