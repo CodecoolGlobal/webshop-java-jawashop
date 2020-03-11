@@ -1,6 +1,7 @@
 package com.codecool.shop;
 
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -30,6 +31,23 @@ public class JsonConverter {
             arrayBuilder.add(productJson);
         }
         JsonObject root = rootBuilder.add("category_name", category).add("products", arrayBuilder).build();
+        return root.toString();
+    }
+
+    public String categoryToString(List<ProductCategory> productCategories) {
+        JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+        for (ProductCategory category : productCategories) {
+            JsonObjectBuilder categoryBuilder = Json.createObjectBuilder();
+            JsonObject productJson = categoryBuilder
+                    .add("id", category.getId())
+                    .add("name", category.getName())
+                    .build();
+
+            arrayBuilder.add(productJson);
+        }
+        JsonObject root = rootBuilder.add("categories", arrayBuilder).build();
         return root.toString();
     }
 }

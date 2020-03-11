@@ -6,6 +6,8 @@ import { ui } from "./ui.js";
 
 function init() {
     dataHandler.getIndexPage(ui.createIndexPage);
+    dataHandler.getCategories(ui.createCategoryDropdown);
+    dataHandler.getSuppliers(ui.createSupplierDropdown);
 }
 
 init();

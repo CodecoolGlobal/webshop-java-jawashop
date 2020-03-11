@@ -56,5 +56,14 @@ export let template = {
         rootNode.appendChild(cardNode);
 
         return rootNode;
+    },
+
+    forDropdown: function(filterOption) {
+        const categoryDropDownRoot = document.createElement("div");
+        const dropDownItem = document.createElement("a");
+        dropDownItem.classList.add("dropdown-item");
+        dropDownItem.innerHTML = filterOption.name;
+        categoryDropDownRoot.appendChild(dropDownItem);
+        return categoryDropDownRoot;
     }
-}
+};

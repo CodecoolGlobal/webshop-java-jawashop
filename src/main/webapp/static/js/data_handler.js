@@ -26,4 +26,15 @@ export let dataHandler = {
             callback(response);
         });
     },
+
+    getCategories: function (callback) {
+        this._api_get('/category', (response) => {
+            callback(response);
+        });
+    },
+    getSuppliers: function (callback) {
+        this._api_get('/supplier', (response) => {
+            callback(response);
+        });
+    }
 };

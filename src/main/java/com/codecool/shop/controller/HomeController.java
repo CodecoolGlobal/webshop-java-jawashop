@@ -12,7 +12,6 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/"})
 public class HomeController extends JsonResponseController {
-    ProductController productController = new ProductController();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
