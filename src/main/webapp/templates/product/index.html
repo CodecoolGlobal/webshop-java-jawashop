@@ -28,33 +28,16 @@
     <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Exo+2|Monoton|Orbitron|Play&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/header.css"/>
+
+    <script src="/static/js/core.js" type="module" defer></script>
 </head>
 
 <body>
 
 <div th:replace="header.html :: copy"></div>
 
-<div class="container">
-    <div id="products" class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
-            <div class="card">
-                <img class="" src="http://placehold.it/400x250/000/fff" th:attr="src='/static/img/uploads/' + ${prod.id} + '.jpg'" alt="" />
-                <div class="card-header">
-                    <h4 class="card-title" th:text="${prod.name}">Product name</h4>
-                    <p class="card-text" th:text="${prod.description}">Product description... </p>
-                </div>
-                <div class="card-body">
-                    <div class="card-text">
-                        <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
-                    </div>
-                    <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<section id ="content-container"></section>
+
 
 <div th:replace="footer.html :: copy"></div>
 
