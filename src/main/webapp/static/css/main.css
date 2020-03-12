@@ -5,10 +5,46 @@ body {
 }
 
 .card-container {
-    background-color: white ;
+    background-color: #f6f6f6f6 ;
     color: #6b646e;
+    height: 37.5rem;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: 300ms;
 }
 
 .btn.btn-dark {
     color: white !important;
+}
+
+.product-image {
+    height: 22.5rem;
+}
+
+.card-container:hover {
+    transform: scale(1.02);
+    transition: 300ms;
+}
+
+.card-header {
+    height: 11rem;
+    text-align: center;
+}
+
+.card-header h4 {
+    font-weight: bold;
+    padding-top: 0.625rem;
+}
+
+.card-text {
+    text-align: center;
+}
+
+.card-text p, .btn-dark {
+    display: inline-block;
+}
+
+.card-text p {
+    font-weight: bold;
+    float: left;
 }
