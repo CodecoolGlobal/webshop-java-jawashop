@@ -1,9 +1,17 @@
 export let template = {
 
-    dropdownTemplate : function(filterOption) {
+    categoryDropdownTemplate : function(category) {
         return `
             <div class="dropdown-option">
-                <a class="dropdown-item" data-id="${filterOption.id}">${filterOption.name}</a>
+                <a class="category-dropdown-item" data-id="${category.id}">${category.name}</a>
+            </div>
+        `
+    },
+
+    supplierDropdownTemplate: function(supplier) {
+        return `
+            <div class="dropdown-option">
+                <a class="supplier-dropdown-item" data-id="${supplier.id}">${supplier.name}</a>
             </div>
         `
     },
