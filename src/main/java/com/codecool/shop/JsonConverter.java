@@ -13,7 +13,7 @@ import java.util.List;
 public class JsonConverter {
 
     public String productToString(List<Product> products) {
-        String category = products.get(1).getProductCategory().getName();
+        String category = products.get(0).getProductCategory().getName();
         JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
 
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();

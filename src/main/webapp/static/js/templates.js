@@ -21,7 +21,7 @@ export let template = {
                         <div class="card-text">
                             <p class="lead">${product.price}</p>
                             <div>
-                                <a class="btn btn-dark" href="#">Add to cart</a>
+                                <a class="btn btn-dark add-to-cart-btn" data-id="${product.id}">Add to cart</a>
                             </div>
                         </div>
                     </div>

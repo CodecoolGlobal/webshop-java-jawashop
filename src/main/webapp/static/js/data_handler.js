@@ -14,7 +14,7 @@ export let dataHandler = {
             credentials: 'same-origin',
             body: JSON.stringify(Object.fromEntries(data)),
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             }
         })
         .then(response => response.json())
@@ -41,5 +41,10 @@ export let dataHandler = {
         this._api_get(`/products-by-category?id=${id}`, (response) => {
             callback(response);
         });
+    },
+    addToShoppingCart: function(id, callback){
+        this._api_post(`/cart`, new Map([["id", id]]), (response) => {
+            callback(response);
+        })
     }
 };
