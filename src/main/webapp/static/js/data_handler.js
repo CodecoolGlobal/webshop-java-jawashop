@@ -36,5 +36,10 @@ export let dataHandler = {
         this._api_get('/supplier', (response) => {
             callback(response);
         });
+    },
+    getProductsByCategory: function (id, callback) {
+        this._api_get(`/products-by-category?id=${id}`, (response) => {
+            callback(response);
+        });
     }
 };
