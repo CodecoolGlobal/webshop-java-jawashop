@@ -12,18 +12,17 @@ function init() {
 }
 
 function attachEventListeners() {
+    console.log("core.attachEventListeners");
     const categoryDropdownContainer = ui.getCategoryDropdown();
-    console.log(categoryDropdownContainer);
-    // categoryDropdownContainer.forEach(categoryButtonContainer => function () {
-    //     console.log(1);
-    //     console.log(categoryButtonContainer.firstChild)
-    // });
-    //
-    // categoryDropdownContainer.forEach(categoryButtonContainer => categoryButtonContainer.firstChild.addEventListener("click", function () {
-    //     const id = this.dataset.id;
-    //     console.log(id);
-    //     dataHandler.getProductsByCategory(id, ui.createIndexPage);
-    // }))
+    //console.log(categoryDropdownContainer);
 }
+
+/*
+    attachEventListeners : function () {
+        const filterOptions = document.querySelectorAll(".dropdown-item");
+        filterOptions.forEach(filterOption => filterOption.addEventListener("click", function () {
+            dataHandler.getProductsByCategory(this.dataset.id, ui.createFilteredPage);
+        }))
+    }*/
 
 init();

@@ -11,27 +11,29 @@ export let ui = {
 
         const root = document.createElement("div");
         root.classList.add("row");
-
-        for (const product of response.products) {
-            root.appendChild(template.forIndexPageProduct(product));
-        }
-
+        const products = response.products;
+        root.innerHTML = products.map(template.productTemplate).join("");
         htmlRoot.appendChild(root);
     },
+    createFilteredPage: function(response) {
+        console.log(response)
+    },
     createCategoryDropdown: function(response) {
+        console.log("createCategoryDropdown")
         const dropdownCategoryRoot = document.getElementById("category-dropdown");
-        for (const category of response.categories) {
-            dropdownCategoryRoot.appendChild(template.forDropdown(category))
-        }
+        const categories = response.categories;
+        dropdownCategoryRoot.innerHTML = categories.map(template.dropdownTemplate).join("");
+        console.log("createCategoryDropdown END")
     },
     createSupplierDropdown: function(response) {
+        console.log("createSupplierDropdown")
         const dropdownCategoryRoot = document.getElementById("supplier-dropdown");
-        for (const supplier of response.suppliers) {
-            dropdownCategoryRoot.appendChild(template.forDropdown(supplier))
-        }
+        const suppliers = response.suppliers;
+        dropdownCategoryRoot.innerHTML = suppliers.map(template.dropdownTemplate).join("");
+        console.log("createSupplierDropdown END")
     },
     getCategoryDropdown: function() {
         const categoryDropdown = document.querySelectorAll("#category-dropdown");
         return categoryDropdown[0].children;
-    }
+    },
 };
