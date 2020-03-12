@@ -9,15 +9,6 @@ export let ui = {
     },
 
     createIndexPage: function(response) {
-        const htmlRoot = ui.getViewRoot();
-        const root = document.createElement("div");
-        root.classList.add("row");
-        const products = response.products;
-        root.innerHTML = products.map(template.productTemplate).join("");
-        htmlRoot.appendChild(root);
-    },
-
-    createFilteredPage: function(response) {
         const viewRoot = ui.getViewRoot();
         viewRoot.innerHTML = "";
         const root = document.createElement("div");
@@ -38,6 +29,7 @@ export let ui = {
         const dropdownCategoryRoot = document.getElementById("supplier-dropdown");
         const suppliers = response.suppliers;
         dropdownCategoryRoot.innerHTML = suppliers.map(template.supplierDropdownTemplate).join("");
+        ui.attachEventListeners();
     },
 
     attachEventListeners : function () {
@@ -49,7 +41,7 @@ export let ui = {
         const filterOptions = document.querySelectorAll(".category-dropdown-item");
         filterOptions.forEach(filterOption => filterOption.addEventListener("click", function () {
             const categoryId = this.dataset.id;
-            dataHandler.getProductsByCategory(categoryId, ui.createFilteredPage);
+            dataHandler.getProductsByCategory(categoryId, ui.createIndexPage);
         }))
     },
 
@@ -57,7 +49,7 @@ export let ui = {
         const filterOptions = document.querySelectorAll(".supplier-dropdown-item");
         filterOptions.forEach(filterOption => filterOption.addEventListener("click", function () {
             const supplierId = this.dataset.id;
-            dataHandler.getProductsBySupplier(supplierId, ui.createFilteredPage);
+            dataHandler.getProductsBySupplier(supplierId, ui.createIndexPage);
         }))
     }
 };
