@@ -1,75 +1,32 @@
 export let template = {
-    forIndexPageProduct: function(product) {
-        const rootNode = document.createElement("div");
-        rootNode.classList.add("col", "col-sm-12", "col-md-6", "col-lg-4");
 
-            const cardNode = document.createElement("div");
-            cardNode.classList.add("card", "card-container");
-
-                const imageNode = document.createElement("img");
-                imageNode.setAttribute("src", `/static/img/uploads/${product.id}.jpg`);
-                imageNode.setAttribute("alt", "Image of the product.");
-
-                const cardHeaderNode = document.createElement("div");
-                cardHeaderNode.classList.add("card-header");
-
-                    const cardTitleNode = document.createElement("h4");
-                    cardTitleNode.classList.add("card-title");
-                    cardTitleNode.innerHTML = product.name;
-
-                    const cardDescriptionNode = document.createElement("p");
-                    cardDescriptionNode.classList.add("card-text");
-                    cardDescriptionNode.innerHTML = product.description;
-
-                cardHeaderNode.appendChild(cardTitleNode);
-                cardHeaderNode.appendChild(cardDescriptionNode);
-
-                const cardBodyNode = document.createElement("div");
-                cardBodyNode.classList.add("card-body");
-
-                    const productPriceContainerNode = document.createElement("div")
-                    productPriceContainerNode.classList.add("card-text");
-
-                        const productPriceNode = document.createElement("p");
-                        productPriceNode.classList.add("lead");
-                        productPriceNode.innerHTML = product.price;
-
-                    productPriceContainerNode.appendChild(productPriceNode);
-
-                    const addToCartContainerNode = document.createElement("div")
-                    productPriceContainerNode.classList.add("card-text");
-
-                        const addToCartNode = document.createElement("a");
-                        addToCartNode.classList.add("btn", "btn-dark");
-                        addToCartNode.setAttribute("src", "#");
-                        addToCartNode.innerHTML = "Add to cart";
-
-                    addToCartContainerNode.appendChild(addToCartNode);
-
-                cardBodyNode.appendChild(productPriceContainerNode);
-                cardBodyNode.appendChild(addToCartContainerNode);
-
-            cardNode.appendChild(imageNode);
-            cardNode.appendChild(cardHeaderNode);
-            cardNode.appendChild(cardBodyNode);
-
-        rootNode.appendChild(cardNode);
-
-        return rootNode;
+    dropdownTemplate : function(filterOption) {
+        return `
+            <div class="dropdown-option">
+                <a class="dropdown-item" data-id="${filterOption.id}">${filterOption.name}</a>
+            </div>
+        `
     },
 
-    forDropdown: function(filterOption) {
-        const dropDownRoot = document.createElement("div");
-        dropDownRoot.classList.add("dropdown-option");
-
-
-        const dropDownItem = document.createElement("a");
-        dropDownItem.classList.add("dropdown-item");
-        dropDownItem.innerHTML = filterOption.name;
-        dropDownItem.dataset.id = filterOption.id;
-
-        dropDownRoot.appendChild(dropDownItem);
-
-        return dropDownRoot;
+    productTemplate : function (product) {
+        return `
+            <div class="col col-sm-12 col-md-6 col-lg-4">
+                <div class="card card-container">
+                    <img src="/static/img/uploads/${product.id}.jpg" alt="Image of the product">
+                    <div class="card-header">
+                        <h4 class="card-title">${product.name}</h4>
+                        <p class="card-text">${product.description}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <p class="lead">${product.price}</p>
+                            <div>
+                                <a class="btn btn-dark" href="#">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+            </div>
+        `
     }
 };

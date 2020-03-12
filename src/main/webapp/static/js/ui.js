@@ -1,6 +1,7 @@
 // Generates the needed HTML
 
 import { template } from "./templates.js";
+import { dataHandler } from "./data_handler.js";
 
 export let ui = {
     getViewRoot: function() {
@@ -11,27 +12,33 @@ export let ui = {
 
         const root = document.createElement("div");
         root.classList.add("row");
-
-        for (const product of response.products) {
-            root.appendChild(template.forIndexPageProduct(product));
-        }
-
+        const products = response.products;
+        root.innerHTML = products.map(template.productTemplate).join("");
         htmlRoot.appendChild(root);
+    },
+    createFilteredPage: function(response) {
+        console.log(response)
     },
     createCategoryDropdown: function(response) {
         const dropdownCategoryRoot = document.getElementById("category-dropdown");
-        for (const category of response.categories) {
-            dropdownCategoryRoot.appendChild(template.forDropdown(category))
-        }
+        const categories = response.categories;
+        dropdownCategoryRoot.innerHTML = categories.map(template.dropdownTemplate).join("");
+        ui.attachEventListeners();
     },
     createSupplierDropdown: function(response) {
         const dropdownCategoryRoot = document.getElementById("supplier-dropdown");
-        for (const supplier of response.suppliers) {
-            dropdownCategoryRoot.appendChild(template.forDropdown(supplier))
-        }
+        const suppliers = response.suppliers;
+        dropdownCategoryRoot.innerHTML = suppliers.map(template.dropdownTemplate).join("");
     },
     getCategoryDropdown: function() {
         const categoryDropdown = document.querySelectorAll("#category-dropdown");
         return categoryDropdown[0].children;
+    },
+
+    attachEventListeners : function () {
+        const filterOptions = document.querySelectorAll(".dropdown-item");
+        filterOptions.forEach(filterOption => filterOption.addEventListener("click", function () {
+            dataHandler.getProductsByCategory(this.dataset.id, ui.createFilteredPage);
+        }))
     }
 };
