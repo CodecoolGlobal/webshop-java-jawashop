@@ -9,7 +9,6 @@ export let ui = {
     },
     createIndexPage: function(response) {
         const htmlRoot = ui.getViewRoot();
-
         const root = document.createElement("div");
         root.classList.add("row");
         const products = response.products;
@@ -19,8 +18,11 @@ export let ui = {
     createFilteredPage: function(response) {
         const viewRoot = ui.getViewRoot();
         viewRoot.innerHTML = "";
+        const root = document.createElement("div");
+        root.classList.add("row");
         const products = response.products;
-        viewRoot.innerHTML = products.map(template.productTemplate).join("");
+        root.innerHTML = products.map(template.productTemplate).join("");
+        viewRoot.appendChild(root);
     },
     createCategoryDropdown: function(response) {
         const dropdownCategoryRoot = document.getElementById("category-dropdown");
