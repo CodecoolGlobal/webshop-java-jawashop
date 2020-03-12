@@ -59,12 +59,17 @@ export let template = {
     },
 
     forDropdown: function(filterOption) {
-        const categoryDropDownRoot = document.createElement("div");
+        const dropDownRoot = document.createElement("div");
+        dropDownRoot.classList.add("dropdown-option");
+
+
         const dropDownItem = document.createElement("a");
         dropDownItem.classList.add("dropdown-item");
-        dropDownItem.href = "products-by-category?id=" + filterOption.id;
         dropDownItem.innerHTML = filterOption.name;
-        categoryDropDownRoot.appendChild(dropDownItem);
-        return categoryDropDownRoot;
+        dropDownItem.dataset.id = filterOption.id;
+
+        dropDownRoot.appendChild(dropDownItem);
+
+        return dropDownRoot;
     }
 };

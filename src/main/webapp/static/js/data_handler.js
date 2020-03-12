@@ -37,8 +37,8 @@ export let dataHandler = {
             callback(response);
         });
     },
-    getProductsByCategory: function (callback) {
-        this._api_get('/products-by-category', (response) => {
+    getProductsByCategory: function (id, callback) {
+        this._api_get(`/products-by-category?id=${id}`, (response) => {
             callback(response);
         });
     }

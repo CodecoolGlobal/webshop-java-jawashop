@@ -29,5 +29,9 @@ export let ui = {
         for (const supplier of response.suppliers) {
             dropdownCategoryRoot.appendChild(template.forDropdown(supplier))
         }
+    },
+    getCategoryDropdown: function() {
+        const categoryDropdown = document.querySelectorAll("#category-dropdown");
+        return categoryDropdown[0].children;
     }
 };
