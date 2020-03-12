@@ -1,20 +1,32 @@
 // Generates the needed HTML
 
 import { template } from "./templates.js";
+import { dataHandler } from "./data_handler.js";
 
 export let ui = {
     getViewRoot: function() {
         return document.getElementById("content-container");
     },
-    createIndexPage: function(response) {
+    createIndexPage: function() {
         const htmlRoot = ui.getViewRoot();
 
         const root = document.createElement("div");
         root.classList.add("row");
-        const products = response.products;
-        root.innerHTML = products.map(template.productTemplate).join("");
+        // foo(bar) === foo(a => bar(a))
+        dataHandler.getIndexPage(response => {
+            const products = response.products;
+            root.innerHTML = products.map(template.productTemplate).join("");
+            dataHandler.getCategories(response => {
+                ui.createCategoryDropdown(response);
+                dataHandler.getSuppliers(response => {
+                    ui.createSupplierDropdown(response);
+                    ui.attachEventListeners();
+                });
+            })
+        })
         htmlRoot.appendChild(root);
     },
+    attachEventListeners: () => { console.log('Event listeners attached') },
     createFilteredPage: function(response) {
         console.log(response)
     },
