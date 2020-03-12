@@ -28,18 +28,14 @@ export let dataHandler = {
     },
 
     getCategories: function (callback) {
-        console.log("getCategories")
         this._api_get('/category', (response) => {
             callback(response);
         });
-        console.log("getCategories END")
     },
     getSuppliers: function (callback) {
-        console.log("getSuppliers")
         this._api_get('/supplier', (response) => {
             callback(response);
         });
-        console.log("getSuppliers END")
     },
     getProductsByCategory: function (id, callback) {
         this._api_get(`/products-by-category?id=${id}`, (response) => {

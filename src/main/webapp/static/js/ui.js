@@ -17,7 +17,10 @@ export let ui = {
         htmlRoot.appendChild(root);
     },
     createFilteredPage: function(response) {
-        console.log(response)
+        const viewRoot = ui.getViewRoot();
+        viewRoot.innerHTML = "";
+        const products = response.products;
+        viewRoot.innerHTML = products.map(template.productTemplate).join("");
     },
     createCategoryDropdown: function(response) {
         const dropdownCategoryRoot = document.getElementById("category-dropdown");
@@ -35,10 +38,15 @@ export let ui = {
         return categoryDropdown[0].children;
     },
 
-    attachEventListeners : function () {
+    addCategoryEventListener: function () {
         const filterOptions = document.querySelectorAll(".dropdown-item");
         filterOptions.forEach(filterOption => filterOption.addEventListener("click", function () {
-            dataHandler.getProductsByCategory(this.dataset.id, ui.createFilteredPage);
+            const categoryId = this.dataset.id;
+            dataHandler.getProductsByCategory(categoryId, ui.createFilteredPage);
         }))
+    },
+
+    attachEventListeners : function () {
+        ui.addCategoryEventListener();
     }
 };
