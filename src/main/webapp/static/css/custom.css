@@ -60,3 +60,20 @@
 {
     margin: 0 0 11px;
 }
+
+div#cart-button {
+    position: relative;
+}
+    div#cart-item-counter {
+        background: red;
+        position: absolute;
+        z-index: 15;
+        top: 0;
+        right: 0;
+        min-width: 50%;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px;
+        text-align: center;
+        padding: 3px;
+    }

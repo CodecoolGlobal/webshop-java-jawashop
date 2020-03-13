@@ -13,9 +13,11 @@ export let ui = {
         viewRoot.innerHTML = "";
         const root = document.createElement("div");
         root.classList.add("row");
+        console.log(response);
         const products = response.products;
         root.innerHTML = products.map(template.productTemplate).join("");
         viewRoot.appendChild(root);
+        ui.addToShoppingCartEventListener();
     },
 
     createCategoryDropdown: function(response) {
@@ -51,5 +53,24 @@ export let ui = {
             const supplierId = this.dataset.id;
             dataHandler.getProductsBySupplier(supplierId, ui.createIndexPage);
         }))
-    }
+    },
+  
+    addToShoppingCartEventListener : function() {
+        const buttons = document.querySelectorAll(".add-to-cart-btn");
+        buttons.forEach(button => button.addEventListener("click", function(){
+            const productId = this.dataset.id;
+            dataHandler.addToShoppingCart(productId, ui.updateCartButtonStats);
+        }))
+    },
+
+    updateCartButtonStats: function(response) {
+        const mobileNode = document.querySelector("#cart-item-total-value-mobile");
+        mobileNode.innerHTML = template.forShoppingCartButton(response.message);
+
+        const totalValueNode = document.querySelector("#cart-item-total-value");
+        totalValueNode.innerHTML = response.message.cart.total_value;
+
+        const cartItemCounterNode = document.querySelector("#cart-item-counter");
+        cartItemCounterNode.innerHTML = response.message.cart.item_count;
+    },
 };
