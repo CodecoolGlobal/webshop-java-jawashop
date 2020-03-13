@@ -28,5 +28,14 @@ export let template = {
                 </div>        
             </div>
         `
-    }
+    },
+
+    forShoppingCartButton : function(stats) {
+        if (0 < stats.cart.item_count) {
+            return `You have <span class="text-info">${stats.cart.item_count}</span> item in your cart.<br>
+                    Total price: <span class="text-info">${stats.cart.total_value}</span>.`
+        } else {
+            return `You have <span class="text-info">${stats.cart.item_count}</span> item in your cart.`
+        }
+    },
 };

@@ -16,15 +16,23 @@ import java.util.List;
 @WebServlet("/cart")
 public class ShoppingCartController extends JsonResponseController {
     private ShoppingCartDao shoppingCard = ShoppingCardDaoMem.getInstance();
+    private final ProductDaoMem products = ProductDaoMem.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = super.getIdFrom(req);
-        Product product = ProductDaoMem.getInstance().find(id);
+        Product product = products.find(id);
         if(product != null) {
             shoppingCard.add(product);
         }
-        List<Product> products = shoppingCard.getAll();
-        super.jsonify("{\"status\":200, \"message\": {\"shopping_cart_item_count\": " + products.size() + "}}", req, resp);
+        List<Product> shoppingCartProducts = shoppingCard.getAll();
+        float totalPrice = 0;
+        for (Product shoppingCartProduct : shoppingCartProducts) {
+            totalPrice += shoppingCartProduct.getDefaultPrice();
+        }
+
+        String totalValue = totalPrice + " " + products.getAll().get(0).getDefaultCurrency().toString();
+
+        super.jsonify("{\"status\":200, \"message\": {\"cart\": {\"item_count\": " + shoppingCartProducts.size() + ", \"total_value\": \"" + totalValue + "\"}}}", req, resp);
     }
 }

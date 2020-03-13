@@ -55,7 +55,18 @@ export let ui = {
         const buttons = document.querySelectorAll(".add-to-cart-btn");
         buttons.forEach(button => button.addEventListener("click", function(){
             const productId = this.dataset.id;
-            dataHandler.addToShoppingCart(productId, function(response){alert("You have " + response.message.shopping_cart_item_count + " items")});
+            dataHandler.addToShoppingCart(productId, ui.updateCartButtonStats);
         }))
+    },
+
+    updateCartButtonStats: function(response) {
+        const mobileNode = document.querySelector("#cart-item-total-value-mobile");
+        mobileNode.innerHTML = template.forShoppingCartButton(response.message);
+
+        const totalValueNode = document.querySelector("#cart-item-total-value");
+        totalValueNode.innerHTML = response.message.cart.total_value;
+
+        const cartItemCounterNode = document.querySelector("#cart-item-counter");
+        cartItemCounterNode.innerHTML = response.message.cart.item_count;
     }
 };
