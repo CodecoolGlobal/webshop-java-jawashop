@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Supplier;
 
 import java.util.ArrayList;
@@ -31,6 +32,16 @@ public class SupplierDaoMem implements SupplierDao {
     @Override
     public Supplier find(String id) {
         return data.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    public List<Product> getProductsBySupplierId(String id, List<Product> products) {
+        List<Product> productsBySupplier = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getSupplier().getId().equals(id)) {
+                productsBySupplier.add(product);
+            }
+        }
+        return productsBySupplier;
     }
 
     @Override

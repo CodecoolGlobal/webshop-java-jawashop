@@ -42,9 +42,14 @@ export let dataHandler = {
             callback(response);
         });
     },
+    getProductsBySupplier(id, callback) {
+        this._api_get(`/products-by-supplier?id=${id}`, (response) => {
+            callback(response);
+        });
+    },
     addToShoppingCart: function(id, callback){
         this._api_post(`/cart`, new Map([["id", id]]), (response) => {
             callback(response);
         })
-    }
+    },
 };
