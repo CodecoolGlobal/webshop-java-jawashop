@@ -16,7 +16,7 @@ export let ui = {
         console.log(response);
         const products = response.products;
         root.innerHTML = products.map(template.productTemplate).join("");
-        htmlRoot.appendChild(root);
+        viewRoot.appendChild(root);
         ui.addToShoppingCartEventListener();
     },
 
