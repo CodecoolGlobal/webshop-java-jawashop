@@ -52,4 +52,9 @@ export let dataHandler = {
             callback(response);
         })
     },
+    getShoppingCartProducts: function(callback) {
+        this._api_get('/cart', (response) => {
+            callback(response);
+        });
+    },
 };
