@@ -15,7 +15,7 @@ export let template = {
     productTemplate : function (product) {
         return `
             <div class="col col-sm-12 col-md-6 col-lg-4">
-                <div class="card card-container">
+                <div class="card card-container card-vertical">
                     <img src="/static/img/uploads/${product.id}.jpg" class="product-image" alt="Image of the product">
                     <div class="card-header">
                         <h4 class="card-title">${product.name}</h4>
