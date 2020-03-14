@@ -13,10 +13,7 @@ import java.util.List;
 public class JsonConverter {
 
     public String productToString(List<Product> products) {
-        String category = products.get(0).getProductCategory().getName();
-        String supplier = products.get(0).getSupplier().getName();
         JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
-
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
         for (Product product : products) {
@@ -32,7 +29,18 @@ public class JsonConverter {
 
             arrayBuilder.add(productJson);
         }
-        JsonObject root = rootBuilder.add("category_name", category).add("supplier_name", supplier).add("products", arrayBuilder).build();
+
+        JsonObject root = null;
+
+        if (products.size() == 0) {
+            root = rootBuilder.add("products", arrayBuilder).build();
+        } else {
+            String category = products.get(0).getProductCategory().getName();
+            String supplier = products.get(0).getSupplier().getName();
+
+            root = rootBuilder.add("category_name", category).add("supplier_name", supplier).add("products", arrayBuilder).build();
+        }
+
         return root.toString();
     }
 

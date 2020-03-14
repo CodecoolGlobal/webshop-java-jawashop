@@ -17,6 +17,12 @@ import java.util.List;
 public class ShoppingCartController extends JsonResponseController {
     private ShoppingCartDao shoppingCard = ShoppingCardDaoMem.getInstance();
     private final ProductDaoMem products = ProductDaoMem.getInstance();
+    private final JsonConverter jsonConverter = new JsonConverter();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        super.jsonify(jsonConverter.productToString(shoppingCard.getAll()), req, resp);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

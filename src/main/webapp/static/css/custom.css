@@ -64,6 +64,10 @@
 div#cart-button {
     position: relative;
 }
+    div#cart-button:hover {
+        text-shadow: 0px 5px 5px black;
+    }
+
     div#cart-item-counter {
         background: red;
         position: absolute;

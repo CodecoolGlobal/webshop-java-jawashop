@@ -2,6 +2,7 @@
 
 import { template } from "./templates.js";
 import { dataHandler } from "./data_handler.js";
+import NumberPicker from "./ui/components/number-picker.js";
 
 export let ui = {
     getViewRoot: function() {
@@ -18,6 +19,7 @@ export let ui = {
         root.innerHTML = products.map(template.productTemplate).join("");
         viewRoot.appendChild(root);
         ui.addToShoppingCartEventListener();
+        ui.registerShoppingCartEventLister();
     },
 
     createCategoryDropdown: function(response) {
@@ -72,5 +74,37 @@ export let ui = {
 
         const cartItemCounterNode = document.querySelector("#cart-item-counter");
         cartItemCounterNode.innerHTML = response.message.cart.item_count;
+    },
+
+    registerShoppingCartEventLister: function() {
+        const cartButton = document.querySelector("#cart-button");
+        cartButton.addEventListener("click", function() {
+            dataHandler.getShoppingCartProducts(ui.renderShoppingCartMenu);
+        });
+    },
+
+    renderShoppingCartMenu: function(response) {
+        const htmlRoot = ui.getViewRoot()
+        htmlRoot.innerHTML = response.products.map(template.forCartProduct).join("");
+
+        const numberPickerNodes = document.querySelectorAll(".number-picker");
+
+        numberPickerNodes.forEach(function(numberPickerNode, i) {
+            const product = response.products[i];
+            let numberPicker = new NumberPicker();
+            numberPicker.drawInto(numberPickerNode);
+
+            const priceNode = numberPickerNode.parentNode.parentNode.querySelector("div");
+            priceNode.textContent = `${product.price} / count`;
+
+            const totalValueNode = numberPickerNode.parentNode.parentNode.querySelector("div.text-center:last-child");
+            totalValueNode.textContent = `total: ${numberPicker.currentValue * parseFloat(product.price)} ${product.currency}`;
+            numberPicker.onValueChangedEvent(function() {
+                totalValueNode.textContent = `total: ${numberPicker.currentValue * parseFloat(product.price)} ${product.currency}`;
+            });
+
+            numberPicker.onValueIncreasedEvent(function() { console.log("+1"); });
+            numberPicker.onValueDecreasedEvent(function() { console.log("-1"); });
+        });
     },
 };
