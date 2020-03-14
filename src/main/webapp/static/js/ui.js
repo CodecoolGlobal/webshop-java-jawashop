@@ -10,34 +10,32 @@ export let ui = {
     },
 
     createIndexPage: function(response) {
+        ui.createProductsPage(response);
+        ui.registerShoppingCartEventLister();
+    },
+
+    createProductsPage: function(response) {
         const viewRoot = ui.getViewRoot();
         viewRoot.innerHTML = "";
         const root = document.createElement("div");
         root.classList.add("row");
-        console.log(response);
         const products = response.products;
         root.innerHTML = products.map(template.productTemplate).join("");
         viewRoot.appendChild(root);
         ui.addToShoppingCartEventListener();
-        ui.registerShoppingCartEventLister();
     },
 
     createCategoryDropdown: function(response) {
         const dropdownCategoryRoot = document.getElementById("category-dropdown");
         const categories = response.categories;
         dropdownCategoryRoot.innerHTML = categories.map(template.categoryDropdownTemplate).join("");
-        ui.attachEventListeners();
+        ui.addCategoryEventListener();
     },
 
     createSupplierDropdown: function(response) {
         const dropdownCategoryRoot = document.getElementById("supplier-dropdown");
         const suppliers = response.suppliers;
         dropdownCategoryRoot.innerHTML = suppliers.map(template.supplierDropdownTemplate).join("");
-        ui.attachEventListeners();
-    },
-
-    attachEventListeners : function () {
-        ui.addCategoryEventListener();
         ui.addSupplierEventListener();
     },
 
@@ -45,7 +43,7 @@ export let ui = {
         const filterOptions = document.querySelectorAll(".category-dropdown-item");
         filterOptions.forEach(filterOption => filterOption.addEventListener("click", function () {
             const categoryId = this.dataset.id;
-            dataHandler.getProductsByCategory(categoryId, ui.createIndexPage);
+            dataHandler.getProductsByCategory(categoryId, ui.createProductsPage);
         }))
     },
 
@@ -53,7 +51,7 @@ export let ui = {
         const filterOptions = document.querySelectorAll(".supplier-dropdown-item");
         filterOptions.forEach(filterOption => filterOption.addEventListener("click", function () {
             const supplierId = this.dataset.id;
-            dataHandler.getProductsBySupplier(supplierId, ui.createIndexPage);
+            dataHandler.getProductsBySupplier(supplierId, ui.createProductsPage);
         }))
     },
   
