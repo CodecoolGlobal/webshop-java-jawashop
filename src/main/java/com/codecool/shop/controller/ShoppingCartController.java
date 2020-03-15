@@ -1,14 +1,14 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.JsonConverter;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.ShoppingCardDaoMem;
+import com.codecool.shop.jsonbuilder.CurrencyJsonBuilder;
+import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
+import com.codecool.shop.jsonbuilder.SupplierJsonBuilder;
 import com.codecool.shop.model.Product;
 
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,50 +20,30 @@ import java.util.List;
 public class ShoppingCartController extends JsonResponseController {
     private ShoppingCartDao shoppingCard = ShoppingCardDaoMem.getInstance();
     private final ProductDaoMem products = ProductDaoMem.getInstance();
-    private final JsonConverter jsonConverter = new JsonConverter();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         List<Product> shoppingCartProducts = shoppingCard.getAll();
-        float totalPrice = 0;
 
-        JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
-        JsonObjectBuilder messageBuilder = Json.createObjectBuilder();
-        JsonObjectBuilder cartBuilder = Json.createObjectBuilder();
-        JsonArrayBuilder productsBuilder = Json.createArrayBuilder();
-
-        for (Product product : shoppingCartProducts) {
-            JsonObjectBuilder productBuilder = Json.createObjectBuilder();
-            JsonObject productJson = productBuilder
-                    .add("id", product.getId())
-                    .add("name", product.getName())
-                    .add("description", product.getDescription())
-                    .add("price", product.getPrice())
-                    .add("currency", product.getDefaultCurrency().getSymbol())
-                    .add("supplier_name", product.getSupplier().getName())
-                    .build();
-
-            productsBuilder.add(productJson);
-            totalPrice += product.getDefaultPrice();
-        }
-
-        String totalValue = totalPrice + " " + products.getAll().get(0).getDefaultCurrency().toString();
-
-        cartBuilder
-                .add("item_count", shoppingCartProducts.size())
-                .add("total_value", totalValue);
+        JsonObjectBuilder cartBuilder = calculateCartStats(shoppingCartProducts);
 
         if (req.getParameter("list") != null) {
-            cartBuilder.add("products", productsBuilder);
+            cartBuilder.add(
+                    "products",
+                    ProductJsonBuilder.create()
+                            .addId()
+                            .addName()
+                            .addDescription()
+                            .addPrice()
+                            .addCurrency(CurrencyJsonBuilder.create()
+                                    .addSymbol()
+                                    .addDisplayName())
+                            .addSupplier(SupplierJsonBuilder.create()
+                                    .addName())
+                            .runOn(shoppingCartProducts));
         }
 
-        messageBuilder.add("cart", cartBuilder);
-
-        rootBuilder
-                .add("status", 200)
-                .add("message" , messageBuilder);
-
-        super.jsonify(rootBuilder.build().toString(), req, resp);
+        super.jsonify(cartBuilder.build(), req, resp);
     }
 
     @Override
@@ -74,13 +54,25 @@ public class ShoppingCartController extends JsonResponseController {
             shoppingCard.add(product);
         }
         List<Product> shoppingCartProducts = shoppingCard.getAll();
+
+        JsonObjectBuilder rootObject = calculateCartStats(shoppingCartProducts);
+
+        super.jsonify(rootObject.build(), req, resp);
+    }
+
+    private JsonObjectBuilder calculateCartStats(List<Product> shoppingCartProducts) {
         float totalPrice = 0;
-        for (Product shoppingCartProduct : shoppingCartProducts) {
-            totalPrice += shoppingCartProduct.getDefaultPrice();
+
+        for (Product product : shoppingCartProducts) {
+            totalPrice += product.getDefaultPrice();
         }
 
         String totalValue = totalPrice + " " + products.getAll().get(0).getDefaultCurrency().toString();
 
-        super.jsonify("{\"status\":200, \"message\": {\"cart\": {\"item_count\": " + shoppingCartProducts.size() + ", \"total_value\": \"" + totalValue + "\"}}}", req, resp);
+        JsonObjectBuilder cartBuilder = Json.createObjectBuilder();
+        cartBuilder
+                .add("item_count", shoppingCartProducts.size())
+                .add("total_value", totalValue);
+        return cartBuilder;
     }
 }

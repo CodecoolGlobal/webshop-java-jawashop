@@ -14,9 +14,9 @@ export let navbar = {
             dataHandler.getShoppingCartStats(),
         ]);
 
-        ui.renderCategoryDropdown(categoriesJson.categories);
-        ui.renderSupplierDropdown(suppliersJson.suppliers);
-        ui.updateCartButtonStats(shoppingCartJson.message.cart);
+        ui.renderCategoryDropdown(categoriesJson.message);
+        ui.renderSupplierDropdown(suppliersJson.message);
+        ui.updateCartButtonStats(shoppingCartJson.message);
 
         navbar.__addClickEventToMenus();
     },

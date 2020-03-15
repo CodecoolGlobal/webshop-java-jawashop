@@ -17,12 +17,12 @@ export let ui = {
             numberPicker.drawInto(numberPickerNode);
 
             const priceNode = numberPickerNode.parentNode.parentNode.querySelector("div");
-            priceNode.textContent = `${product.price} / count`;
+            priceNode.textContent = `${product.price.toFixed(1)} ${product.currency.code} / count`;
 
             const totalValueNode = numberPickerNode.parentNode.parentNode.querySelector("div.text-center:last-child");
-            totalValueNode.textContent = `total: ${numberPicker.currentValue * parseFloat(product.price)} ${product.currency}`;
+            totalValueNode.textContent = `total: ${(numberPicker.currentValue * parseFloat(product.price)).toFixed(1)} ${product.currency.symbol}`;
             numberPicker.onValueChangedEvent(function() {
-                totalValueNode.textContent = `total: ${numberPicker.currentValue * parseFloat(product.price)} ${product.currency}`;
+                totalValueNode.textContent = `total: ${(numberPicker.currentValue * product.price).toFixed(1)} ${product.currency.symbol}`;
             });
 
             numberPicker.onValueIncreasedEvent(function() { console.log("+1"); });

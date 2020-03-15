@@ -10,7 +10,7 @@ export let template = {
                     </div>
                     <div class="card-body">
                         <div class="card-text">
-                            <p class="lead">${product.price}</p>
+                            <p class="lead">${product.price.toFixed(1)} ${product.currency.code}</p>
                             <div>
                                 <a class="btn btn-dark add-to-cart-btn" data-id="${product.id}">Add to cart</a>
                             </div>
