@@ -6,22 +6,28 @@ export let logic = {
 
         ui.init();
 
-        dataHandler.getAllProduct(ui.renderProductsPage)
-        logic.__addClickEventToAddToCartButtons();
+        dataHandler.getAllProduct(function(response) {
+            ui.renderProductsPage(response);
+            logic.__addClickEventToAddToCartButtons();
+        });
     },
 
     filterByCategory: function(categoryId) {
-        dataHandler.getProductsByCategory(categoryId, ui.renderProductsPage);
-        logic.__addClickEventToAddToCartButtons();
+        dataHandler.getProductsByCategory(categoryId, function(response) {
+            ui.renderProductsPage(response);
+            logic.__addClickEventToAddToCartButtons();
+        });
     },
 
-    filterBySupplier: async function(supplierId) {
-        dataHandler.getProductsBySupplier(supplierId, ui.renderProductsPage);
-        logic.__addClickEventToAddToCartButtons();
+    filterBySupplier: function(supplierId) {
+        dataHandler.getProductsBySupplier(supplierId, function(response) {
+            ui.renderProductsPage(response);
+            logic.__addClickEventToAddToCartButtons();
+        });
     },
 
     __addClickEventToAddToCartButtons: function() {
-        ui.addClickEventToAddToCartButtons(async function(productId) {
+        ui.addClickEventToAddToCartButtons(function(productId) {
             dataHandler.addToShoppingCart(productId, ui.updateCartStats);
         });
     },

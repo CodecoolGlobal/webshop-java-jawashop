@@ -9,25 +9,26 @@ export let navbar = {
         ui.init();
 
         let [categoriesJson, suppliersJson, shoppingCartJson] = await Promise.all([
-            dataHandler.getCategories(ui.renderCategoryDropdown),
-            dataHandler.getSuppliers(ui.renderSupplierDropdown),
-            dataHandler.getShoppingCartStats(ui.updateCartButtonStats),
+            dataHandler.getCategories(function(response) {
+                ui.renderCategoryDropdown(response);
+                ui.addClickEventToCategoriesFilter(function(categoryId) {
+                    homepage.filterByCategory(categoryId);
+                });
+            }),
+
+            dataHandler.getSuppliers(function(response) {
+                ui.renderSupplierDropdown(response);
+                ui.addClickEventToSuppliersFilter(function(supplierId) {
+                    homepage.filterBySupplier(supplierId);
+                });
+            }),
+
+            dataHandler.getShoppingCartStats(function(response) {
+                ui.updateCartButtonStats(response);
+                ui.addClickEventToShoppingCart(function() {
+                    shoppingCart.navigate();
+                });
+            }),
         ]);
-
-        navbar.__addClickEventToMenus();
     },
-
-    __addClickEventToMenus: function() {
-        ui.addClickEventToCategoriesFilter(function(categoryId) {
-            homepage.filterByCategory(categoryId);
-        });
-
-        ui.addClickEventToSuppliersFilter(function(supplierId) {
-            homepage.filterBySupplier(supplierId);
-        });
-
-        ui.addClickEventToShoppingCart(function() {
-            shoppingCart.navigate();
-        });
-    }
 }

@@ -32,7 +32,7 @@ public class FilterByCategoryController extends JsonResponseController {
                         .addDescription()
                         .addPrice()
                         .addCurrency(CurrencyJsonBuilder.create()
-                                .addSymbol())
+                                .addDisplayName())
                         .addSupplier(SupplierJsonBuilder.create()
                                 .addName())
                         .runOn(productsByCategoryId),

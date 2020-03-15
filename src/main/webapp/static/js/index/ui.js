@@ -16,7 +16,7 @@ export let ui = {
 
     addClickEventToAddToCartButtons: function(callback) {
         const buttons = ui.__rootNode.querySelectorAll(".card-text div a.btn");
-        buttons.forEach(button => button.addEventListener("click", function(){
+        buttons.forEach(button => button.addEventListener("click", function() {
             callback(this.dataset.id);
         }));
     },
