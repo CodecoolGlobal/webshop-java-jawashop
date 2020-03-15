@@ -2,15 +2,15 @@ import { dataHandler as web } from "./../data_handler.js";
 import { dataHandler as shoppingCartDAL } from "./../shopping-cart/data_handler.js";
 
 export let dataHandler = {
-    getCategories: function() {
-        return web.get('/category');
+    getCategories: function(callback) {
+        return web.get('/category', callback);
     },
 
-    getSuppliers: function() {
-        return web.get('/supplier');
+    getSuppliers: function(callback) {
+        return web.get('/supplier', callback);
     },
 
-    getShoppingCartStats: function() {
-        return shoppingCartDAL.getStats();
+    getShoppingCartStats: function(callback) {
+        return shoppingCartDAL.getStats(callback);
     },
 }

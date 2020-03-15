@@ -9,14 +9,10 @@ export let navbar = {
         ui.init();
 
         let [categoriesJson, suppliersJson, shoppingCartJson] = await Promise.all([
-            dataHandler.getCategories(),
-            dataHandler.getSuppliers(),
-            dataHandler.getShoppingCartStats(),
+            dataHandler.getCategories(ui.renderCategoryDropdown),
+            dataHandler.getSuppliers(ui.renderSupplierDropdown),
+            dataHandler.getShoppingCartStats(ui.updateCartButtonStats),
         ]);
-
-        ui.renderCategoryDropdown(categoriesJson.message);
-        ui.renderSupplierDropdown(suppliersJson.message);
-        ui.updateCartButtonStats(shoppingCartJson.message);
 
         navbar.__addClickEventToMenus();
     },

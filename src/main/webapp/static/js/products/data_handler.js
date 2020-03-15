@@ -1,19 +1,19 @@
 import { dataHandler as web } from "./../data_handler.js";
 
 export let dataHandler = {
-    getAll: function() {
-        return web.get('/product');
+    getAll: function(callback) {
+        return web.get('/product', callback);
     },
 
-    addToShoppingCart: function(id) {
-        return web.post(`/cart`, new Map([["id", id]]));
+    addToShoppingCart: function(id, callback) {
+        return web.post(`/cart`, new Map([["id", id]]), callback);
     },
 
-    getProductsByCategory: function (id) {
-        return web.get(`/products-by-category?id=${id}`);
+    getProductsByCategory: function (id, callback) {
+        return web.get(`/products-by-category?id=${id}`, callback);
     },
 
-    getProductsBySupplier(id) {
-        return web.get(`/products-by-supplier?id=${id}`);
+    getProductsBySupplier(id, callback) {
+        return web.get(`/products-by-supplier?id=${id}`, callback);
     },
 }

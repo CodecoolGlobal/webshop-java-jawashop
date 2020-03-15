@@ -1,15 +1,15 @@
 import { dataHandler as web } from "./../data_handler.js";
 
 export let dataHandler = {
-    getProducts: async function() {
-        return web.get('/cart?list=true');
+    getProducts: function(callback) {
+        web.get('/cart?list=true', callback);
     },
 
-    getStats: function() {
-        return web.get('/cart');
+    getStats: function(callback) {
+        web.get('/cart', callback);
     },
 
     addProduct: function(id){
-        return web.post(`/cart`, new Map([["id", id]]));
+        web.post(`/cart`, new Map([["id", id]]), callback);
     },
 };

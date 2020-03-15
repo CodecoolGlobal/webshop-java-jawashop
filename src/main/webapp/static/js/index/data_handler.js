@@ -1,19 +1,19 @@
 import { dataHandler as productsDAL } from "./../products/data_handler.js";
 
 export let dataHandler = {
-    getAllProduct: function() {
-        return productsDAL.getAll();
+    getAllProduct: function(callback) {
+        return productsDAL.getAll(callback);
     },
 
-    addToShoppingCart: function(productId) {
-        return productsDAL.addToShoppingCart(productId);
+    addToShoppingCart: function(productId, callback) {
+        return productsDAL.addToShoppingCart(productId, callback);
     },
 
-    getProductsByCategory: function (id) {
-        return productsDAL.getProductsByCategory(id);
+    getProductsByCategory: function (id, callback) {
+        return productsDAL.getProductsByCategory(id, callback);
     },
 
-    getProductsBySupplier(id) {
-        return productsDAL.getProductsBySupplier(id);
+    getProductsBySupplier(id, callback) {
+        return productsDAL.getProductsBySupplier(id, callback);
     },
 }

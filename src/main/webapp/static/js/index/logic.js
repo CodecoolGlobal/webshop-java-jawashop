@@ -2,31 +2,27 @@ import { dataHandler } from "./data_handler.js";
 import { ui } from "./ui.js";
 
 export let logic = {
-    init: async function() {
+    init: function() {
 
         ui.init();
 
-        const json = await dataHandler.getAllProduct();
-        ui.renderProductsPage(json.message);
+        dataHandler.getAllProduct(ui.renderProductsPage)
         logic.__addClickEventToAddToCartButtons();
     },
 
-    filterByCategory: async function(categoryId) {
-        const json = await dataHandler.getProductsByCategory(categoryId);
-        ui.renderProductsPage(json.message);
+    filterByCategory: function(categoryId) {
+        dataHandler.getProductsByCategory(categoryId, ui.renderProductsPage);
         logic.__addClickEventToAddToCartButtons();
     },
 
     filterBySupplier: async function(supplierId) {
-        const json = await dataHandler.getProductsBySupplier(supplierId);
-        ui.renderProductsPage(json.message);
+        dataHandler.getProductsBySupplier(supplierId, ui.renderProductsPage);
         logic.__addClickEventToAddToCartButtons();
     },
 
     __addClickEventToAddToCartButtons: function() {
         ui.addClickEventToAddToCartButtons(async function(productId) {
-            const json = await dataHandler.addToShoppingCart(productId);
-            ui.updateCartStats(json.message);
+            dataHandler.addToShoppingCart(productId, ui.updateCartStats);
         });
     },
 }
