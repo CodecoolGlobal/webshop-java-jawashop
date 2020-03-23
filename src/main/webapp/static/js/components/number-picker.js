@@ -1,4 +1,4 @@
-import { template } from "../../templates.js"
+import { template } from "./templates.js"
 
 export default class NumberPicker {
     minimumValue = 0;

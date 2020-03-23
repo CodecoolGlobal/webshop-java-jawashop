@@ -1,14 +1,18 @@
 export let dataHandler = {
-    _api_get: function (url, callback) {
+    __jsonParser: null,
+    __errorChecker: null,
+
+    get: function (url, callback) {
         fetch(url, {
             method: 'GET',
             credentials: 'same-origin'
         })
-        .then(response => response.json())
-        .then(json_response => callback(json_response));
+        .then(response => dataHandler.__jsonParser(response))
+        .then(jsonResponse => callback(jsonResponse))
+        .catch(err => dataHandler.__errorChecker(url, err));
     },
 
-    _api_post: function (url, data, callback) {
+    post: function (url, data, callback) {
         fetch(url, {
             method: 'POST',
             credentials: 'same-origin',
@@ -17,44 +21,13 @@ export let dataHandler = {
                 'Content-Type': 'application/json'
             }
         })
-        .then(response => response.json())
-        .then(json_response => callback(json_response));
+        .then(response => dataHandler.__jsonParser(response))
+        .then(jsonResponse => callback(jsonResponse))
+        .catch(err => dataHandler.__errorChecker(url, err));
     },
 
-    getIndexPage: function (callback) {
-        this._api_get('/product', (response) => {
-            callback(response);
-        });
-    },
-
-    getCategories: function (callback) {
-        this._api_get('/category', (response) => {
-            callback(response);
-        });
-    },
-    getSuppliers: function (callback) {
-        this._api_get('/supplier', (response) => {
-            callback(response);
-        });
-    },
-    getProductsByCategory: function (id, callback) {
-        this._api_get(`/products-by-category?id=${id}`, (response) => {
-            callback(response);
-        });
-    },
-    getProductsBySupplier(id, callback) {
-        this._api_get(`/products-by-supplier?id=${id}`, (response) => {
-            callback(response);
-        });
-    },
-    addToShoppingCart: function(id, callback){
-        this._api_post(`/cart`, new Map([["id", id]]), (response) => {
-            callback(response);
-        })
-    },
-    getShoppingCartProducts: function(callback) {
-        this._api_get('/cart', (response) => {
-            callback(response);
-        });
-    },
-};
+    setPostMiddleware(jsonParser, errorCheckerCallback) {
+        dataHandler.__jsonParser = jsonParser;
+        dataHandler.__errorChecker = errorCheckerCallback;
+    }
+}

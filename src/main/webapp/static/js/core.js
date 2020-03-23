@@ -1,13 +1,20 @@
-// Has access for buttons and adds event-listeners
-// Core can access the data-handler and the ui as well
+// Glue between the bigger modules
 
-import { dataHandler } from "./data_handler.js";
-import { ui } from "./ui.js";
+import { logic as errorHandler } from "./error/logic.js";
+import { navbar } from "./navbar/logic.js";
+import { logic as homepage } from "./index/logic.js";
 
-function init() {
-    dataHandler.getIndexPage(ui.createIndexPage);
-    dataHandler.getCategories(ui.createCategoryDropdown);
-    dataHandler.getSuppliers(ui.createSupplierDropdown);
-}
+async function init() {
+
+    errorHandler.init();
+
+    navbar.init();
+    homepage.init();
+
+    /*await Promise.all([
+        navbar.init(),
+        homepage.init(),
+    ]);*/
+};
 
 init();
