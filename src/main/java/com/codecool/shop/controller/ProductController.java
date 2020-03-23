@@ -20,12 +20,12 @@ import java.util.List;
 public class ProductController extends JsonResponseController {
     ProductDao productDao;
     private final JsonConverter jsonConverter = new JsonConverter();
-    private final ProductDao productDataStore = ProductDaoMem.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            DataSource dataSource = new DbConnection().getConnection();
+
+            DataSource dataSource =  DbConnection.getConnection();
             productDao = new ProductDaoJDBC(dataSource);
         } catch (SQLException e) {
             e.printStackTrace();
