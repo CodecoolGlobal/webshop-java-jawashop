@@ -4,10 +4,7 @@ import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class SupplierDaoJDBC implements SupplierDao {
@@ -19,6 +16,17 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {
+        String query = "INSERT INTO supplier (id, name, description) " +
+                "VALUES (?,?,?)";
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1,supplier.getId());
+            statement.setString(2,supplier.getName());
+            statement.setString(3,supplier.getDescription());
+            statement.executeQuery();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -50,6 +58,19 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public List<Supplier> getAll() {
+        Supplier tempSupplier = null;
+        String query = "SELECT * FROM supplier";
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                tempSupplier = new Supplier(resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 }
