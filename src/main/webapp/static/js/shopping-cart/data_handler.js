@@ -9,7 +9,7 @@ export let dataHandler = {
         web.get('/cart', callback);
     },
 
-    addProduct: function(id){
+    addProduct: function(id, callback) {
         web.post(`/cart`, new Map([["id", id]]), callback);
     },
 };
