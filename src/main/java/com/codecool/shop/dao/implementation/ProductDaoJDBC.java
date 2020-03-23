@@ -1,5 +1,6 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -16,9 +17,15 @@ import java.util.List;
 public class ProductDaoJDBC implements ProductDao {
     private DataSource datasource;
 
+    public ProductDaoJDBC() throws SQLException {
+        this(DbConnection.getConnection());
+    }
+
     public ProductDaoJDBC(DataSource dataSource){
         this.datasource = dataSource;
     }
+
+
     @Override
     public void add(Product product) {
 

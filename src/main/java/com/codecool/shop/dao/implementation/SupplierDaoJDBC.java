@@ -1,14 +1,21 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoJDBC implements SupplierDao {
     private DataSource dataSource;
+
+    public SupplierDaoJDBC() throws SQLException {
+        this(DbConnection.getConnection());
+    }
+
 
     public SupplierDaoJDBC(DataSource dataSource){
         this.dataSource = dataSource;
@@ -59,6 +66,7 @@ public class SupplierDaoJDBC implements SupplierDao {
     @Override
     public List<Supplier> getAll() {
         Supplier tempSupplier = null;
+        List<Supplier> suppliers = new ArrayList<>();
         String query = "SELECT * FROM supplier";
         try(Connection connection = dataSource.getConnection()){
             PreparedStatement statement = connection.prepareStatement(query);
@@ -67,10 +75,11 @@ public class SupplierDaoJDBC implements SupplierDao {
                 tempSupplier = new Supplier(resultSet.getString("id"),
                         resultSet.getString("name"),
                         resultSet.getString("description"));
+                suppliers.add(tempSupplier);
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return suppliers;
     }
 }
