@@ -1,16 +1,21 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 
 import javax.sql.DataSource;
 import javax.xml.crypto.Data;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     private DataSource dataSource;
 
+    public ProductCategoryDaoJDBC() throws SQLException {
+        this(DbConnection.getConnection());
+    }
     public ProductCategoryDaoJDBC(DataSource dataSource){
         this.dataSource = dataSource;
     }
@@ -46,6 +51,23 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public List<ProductCategory> getAll() {
-        return null;
+        ProductCategory tempProductCategory = null;
+        List<ProductCategory> productCategories = new ArrayList<>();
+        String query = "SELECT * FROM category";
+        try(Connection connection =dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                tempProductCategory = new ProductCategory(resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("department"),
+                        resultSet.getString("description"));
+                productCategories.add(tempProductCategory);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return productCategories;
     }
 }

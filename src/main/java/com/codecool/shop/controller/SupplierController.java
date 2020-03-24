@@ -20,7 +20,7 @@ public class SupplierController extends JsonResponseController {
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         try {
             SupplierDao supplierDao = new SupplierDaoJDBC();
             List<Supplier> suppliers = supplierDao.getAll();
