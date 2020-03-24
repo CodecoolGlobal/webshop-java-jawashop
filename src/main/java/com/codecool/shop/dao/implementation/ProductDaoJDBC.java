@@ -30,25 +30,8 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public Product find(String id) {
-        Product product = null;
-        String query = "SELECT * FROM supplier WHERE id = '" + id + "'";
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-        ){
-            if(resultSet.next()){
-                product = new Product(resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getFloat("default_price"),
-                        resultSet.getString("default_currency"),
-                        resultSet.getString("description"),
-                        new ProductCategoryDaoJDBC(dataSource).find(resultSet.getString("category_id")),
-                        new SupplierDaoJDBC(dataSource).find(resultSet.getString("supplier_id")));
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return product;
+        String query = "SELECT * FROM product WHERE id = '" + id + "'";
+        return executeGetQueries(query).get(0);
     }
 
     @Override

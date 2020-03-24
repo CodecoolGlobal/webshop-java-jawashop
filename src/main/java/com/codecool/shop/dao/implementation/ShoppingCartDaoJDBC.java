@@ -28,7 +28,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
         String query = "INSERT INTO cart (id, product_id, quantity) VALUES ('"+ uuid +"', '" + product.getId() + "', '1')";
         try(Connection connection = dataSource.getConnection();){
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.executeQuery();
+            statement.execute();
         }catch (SQLException e){
             e.printStackTrace();
         }
