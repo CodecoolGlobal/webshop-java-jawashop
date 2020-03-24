@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
+DROP TABLE IF EXISTS cart;
 
 CREATE TABLE category (
     id uuid PRIMARY KEY,
@@ -23,6 +24,12 @@ CREATE TABLE product (
     default_currency VARCHAR(3),
     category_id uuid REFERENCES category(id),
     supplier_id uuid REFERENCES  supplier(id)
+);
+
+CREATE TABLE cart (
+    id uuid PRIMARY KEY,
+    product_id uuid REFERENCES product(id),
+    quantity INTEGER
 );
 
 INSERT INTO category (id, name, description, department)

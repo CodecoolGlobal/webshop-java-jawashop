@@ -6,7 +6,6 @@ import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.ShoppingCardDaoMem;
 import com.codecool.shop.model.Product;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

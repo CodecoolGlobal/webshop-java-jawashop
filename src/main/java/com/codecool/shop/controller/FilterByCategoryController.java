@@ -17,8 +17,7 @@ public class FilterByCategoryController extends JsonResponseController {
     private final JsonConverter jsonConverter = new JsonConverter();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         ProductCategory productCategory = new ProductCategoryDaoJDBC().find(req.getParameter("id"));
         List<Product> productsByCategoryId = new ProductDaoJDBC().getBy(productCategory);
         super.jsonify(jsonConverter.productToString(productsByCategoryId), req, resp);

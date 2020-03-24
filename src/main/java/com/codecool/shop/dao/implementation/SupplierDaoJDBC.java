@@ -15,8 +15,6 @@ public class SupplierDaoJDBC implements SupplierDao {
     public SupplierDaoJDBC(){
         this(DbConnection.getConnection());
     }
-
-
     public SupplierDaoJDBC(DataSource dataSource){
         this.dataSource = dataSource;
     }
