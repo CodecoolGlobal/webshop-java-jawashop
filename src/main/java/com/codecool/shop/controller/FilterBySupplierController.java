@@ -2,9 +2,13 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.JsonConverter;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.codecool.shop.dao.implementation.SupplierDaoJDBC;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.Supplier;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +26,8 @@ public class FilterBySupplierController extends JsonResponseController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        List<Product> productsBySupplierId = supplierDaoMem.getProductsBySupplierId(id, products);
+        Supplier supplier = new SupplierDaoJDBC().find(req.getParameter("id"));
+        List<Product> productsBySupplierId = new ProductDaoJDBC().getBy(supplier);
         super.jsonify(jsonConverter.productToString(productsBySupplierId), req, resp);
     }
 }
