@@ -43,36 +43,26 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        Product tempProduct = null;
-        List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM product";
-        try(Connection connection = datasource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-        ) {
-            while(resultSet.next()){
-                tempProduct = new Product(resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getFloat("default_price"),
-                        resultSet.getString("default_currency"),
-                        resultSet.getString("description"),
-                        new ProductCategoryDaoJDBC(datasource).find(resultSet.getString("category_id")),
-                        new SupplierDaoJDBC(datasource).find(resultSet.getString("supplier_id")));
-                products.add(tempProduct);
-            }
-
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return products;
+        return executeGetQueries(query);
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-
-        Product tempProduct = null;
-        List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM product WHERE supplier_id = '"+ supplier.getId() +"'";
+        return executeGetQueries(query);
+    }
+
+    @Override
+    public List<Product> getBy(ProductCategory productCategory) {
+        String query = "SELECT * FROM product WHERE category_id = '"+ productCategory.getId() +"'";
+        return executeGetQueries(query);
+    }
+
+
+    private List<Product> executeGetQueries(String query){
+        Product tempProduct;
+        List<Product> products = new ArrayList<>();
         try(Connection connection = datasource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
@@ -92,10 +82,5 @@ public class ProductDaoJDBC implements ProductDao {
             e.printStackTrace();
         }
         return products;
-    }
-
-    @Override
-    public List<Product> getBy(ProductCategory productCategory) {
-        return null;
     }
 }
