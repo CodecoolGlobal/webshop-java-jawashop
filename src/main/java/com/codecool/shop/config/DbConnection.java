@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class DbConnection {
 
-    public static DataSource getConnection() throws SQLException {
+    public static DataSource getConnection() {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setDatabaseName("coolshop_db");
         dataSource.setUser("postgres");

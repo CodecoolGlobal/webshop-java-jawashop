@@ -12,7 +12,7 @@ import java.util.List;
 public class SupplierDaoJDBC implements SupplierDao {
     private DataSource dataSource;
 
-    public SupplierDaoJDBC() throws SQLException {
+    public SupplierDaoJDBC(){
         this(DbConnection.getConnection());
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 public class ProductDaoJDBC implements ProductDao {
     private DataSource datasource;
 
-    public ProductDaoJDBC() throws SQLException {
+    public ProductDaoJDBC(){
         this(DbConnection.getConnection());
     }
 

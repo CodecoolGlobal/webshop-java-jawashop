@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     private DataSource dataSource;
 
-    public ProductCategoryDaoJDBC() throws SQLException {
+    public ProductCategoryDaoJDBC() {
         this(DbConnection.getConnection());
     }
     public ProductCategoryDaoJDBC(DataSource dataSource){
