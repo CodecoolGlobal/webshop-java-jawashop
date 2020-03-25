@@ -1,14 +1,6 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import java.util.Currency;
-import java.util.List;
 
 public class Product extends BaseModel {
 
