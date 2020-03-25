@@ -3,6 +3,8 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -47,12 +49,44 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     @Override
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM cart";
+//        String query = "SELECT * FROM cart";
+        String query = "SELECT cart.id, " +
+                "       product_id, " +
+                "       quantity, " +
+                "       p.name AS product_name, " +
+                "       p.description AS product_description, " +
+                "       default_price, " +
+                "       default_currency, " +
+                "       c.id AS category_id, " +
+                "       c.name AS category_name, " +
+                "       c.description AS category_description, " +
+                "       department, " +
+                "       s.id AS supplier_id, " +
+                "       s.name AS supplier_name, " +
+                "       s.description AS supplier_description " +
+                "FROM cart " +
+                "JOIN product p on cart.product_id = p.id " +
+                "JOIN category c on p.category_id = c.id " +
+                "JOIN supplier s on p.supplier_id = s.id;";
         try(Connection connection = dataSource.getConnection();){
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
-                products.add(new ProductDaoJDBC().find(resultSet.getString("product_id")));
+                products.add(new Product(
+                   resultSet.getString("product_id"),
+                   resultSet.getString("product_name"),
+                   resultSet.getFloat("default_price"),
+                   resultSet.getString("default_currency"),
+                   resultSet.getString("product_description"),
+                   new ProductCategory( resultSet.getString("category_id"),
+                                        resultSet.getString("category_name"),
+                                        resultSet.getString("department"),
+                                        resultSet.getString("category_description")
+                                        ),
+                   new Supplier(        resultSet.getString("supplier_id"),
+                                        resultSet.getString("supplier_name"),
+                                        resultSet.getString("supplier_description"))
+                ));
             }
 
         }catch (SQLException e){

@@ -30,7 +30,24 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public Product find(String id) {
-        String query = "SELECT * FROM product WHERE id = '" + id + "'";
+        String query = "SELECT " +
+                "       product.id AS product_id, " +
+                "       product.name AS product_name, " +
+                "       product.description AS product_description, " +
+                "       default_price, " +
+                "       default_currency, " +
+                "       category_id, " +
+                "       c.name AS category_name, " +
+                "       c.description AS category_description, " +
+                "       department, " +
+                "       supplier_id, " +
+                "       s.name AS supplier_name, " +
+                "       s.description AS supplier_description " +
+                "FROM product " +
+                "JOIN category c on product.category_id = c.id " +
+                "JOIN supplier s on product.supplier_id = s.id " +
+                "WHERE product.id = '" + id + "'";
+
         return executeGetQueries(query).get(0);
     }
 
@@ -41,39 +58,92 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        String query = "SELECT * FROM product";
+        String query = "SELECT " +
+                "       product.id AS product_id, " +
+                "       product.name AS product_name, " +
+                "       product.description AS product_description, " +
+                "       default_price, " +
+                "       default_currency, " +
+                "       category_id, " +
+                "       c.name AS category_name, " +
+                "       c.description AS category_description, " +
+                "       department, " +
+                "       supplier_id, " +
+                "       s.name AS supplier_name, " +
+                "       s.description AS supplier_description " +
+                "FROM product " +
+                "JOIN category c on product.category_id = c.id " +
+                "JOIN supplier s on product.supplier_id = s.id;";
         return executeGetQueries(query);
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        String query = "SELECT * FROM product WHERE supplier_id = '"+ supplier.getId() +"'";
+        String query = "SELECT " +
+                "       product.id AS product_id, " +
+                "       product.name AS product_name, " +
+                "       product.description AS product_description, " +
+                "       default_price, " +
+                "       default_currency, " +
+                "       category_id, " +
+                "       c.name AS category_name, " +
+                "       c.description AS category_description, " +
+                "       department, " +
+                "       supplier_id, " +
+                "       s.name AS supplier_name, " +
+                "       s.description AS supplier_description " +
+                "FROM product " +
+                "JOIN category c on product.category_id = c.id " +
+                "JOIN supplier s on product.supplier_id = s.id " +
+                "WHERE supplier_id = '" + supplier.getId() + "'";
         return executeGetQueries(query);
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        String query = "SELECT * FROM product WHERE category_id = '"+ productCategory.getId() +"'";
+        String query = "SELECT " +
+                "       product.id AS product_id, " +
+                "       product.name AS product_name, " +
+                "       product.description AS product_description, " +
+                "       default_price, " +
+                "       default_currency, " +
+                "       category_id, " +
+                "       c.name AS category_name, " +
+                "       c.description AS category_description, " +
+                "       department, " +
+                "       supplier_id, " +
+                "       s.name AS supplier_name, " +
+                "       s.description AS supplier_description " +
+                "FROM product " +
+                "JOIN category c on product.category_id = c.id " +
+                "JOIN supplier s on product.supplier_id = s.id " +
+                "WHERE category_id = '" + productCategory.getId() + "'";
         return executeGetQueries(query);
     }
 
 
     private List<Product> executeGetQueries(String query){
-        Product tempProduct;
         List<Product> products = new ArrayList<>();
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
         ) {
             while(resultSet.next()){
-                tempProduct = new Product(resultSet.getString("id"),
-                        resultSet.getString("name"),
+                Product product = new Product(resultSet.getString("product_id"),
+                        resultSet.getString("product_name"),
                         resultSet.getFloat("default_price"),
                         resultSet.getString("default_currency"),
-                        resultSet.getString("description"),
-                        new ProductCategoryDaoJDBC(dataSource).find(resultSet.getString("category_id")),
-                        new SupplierDaoJDBC(dataSource).find(resultSet.getString("supplier_id")));
-                products.add(tempProduct);
+                        resultSet.getString("product_description"),
+                        new ProductCategory(    resultSet.getString("category_id"),
+                                                resultSet.getString("category_name"),
+                                                resultSet.getString("department"),
+                                                resultSet.getString("category_description")
+                        ),
+                        new Supplier(   resultSet.getString("supplier_id"),
+                                        resultSet.getString("supplier_name"),
+                                        resultSet.getString("supplier_description"))
+                        );
+                products.add(product);
             }
 
         }catch (SQLException e){
