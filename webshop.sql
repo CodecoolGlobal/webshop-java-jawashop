@@ -1,7 +1,7 @@
+DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
-DROP TABLE IF EXISTS cart;
 
 CREATE TABLE category (
     id uuid PRIMARY KEY,
