@@ -7,10 +7,7 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,9 +24,12 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     @Override
     public void add(Product product) {
         UUID uuid = UUID.randomUUID();
-        String query = "INSERT INTO cart (id, product_id, quantity) VALUES ('"+ uuid +"', '" + product.getId() + "', '1')";
+        String query = "INSERT INTO cart (id, product_id, quantity) VALUES (?,?,?)";
         try(Connection connection = dataSource.getConnection();){
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, uuid, Types.OTHER);
+            statement.setObject(2,product.getId(), Types.OTHER);
+            statement.setInt(3,1);
             statement.execute();
         }catch (SQLException e){
             e.printStackTrace();
@@ -49,7 +49,6 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     @Override
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
-//        String query = "SELECT * FROM cart";
         String query = "SELECT cart.id, " +
                 "       product_id, " +
                 "       quantity, " +

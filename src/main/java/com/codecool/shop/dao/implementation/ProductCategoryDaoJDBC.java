@@ -27,11 +27,11 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     @Override
     public ProductCategory find(String id) {
         ProductCategory tempProductCategory = null;
-        String query = "SELECT * FROM category WHERE id = '" + id + "'";
-//        String query = "SELECT * FROM category WHERE id = ?;";
+//        String query = "SELECT * FROM category WHERE id = '" + id + "'";
+        String query = "SELECT * FROM category WHERE id = ?;";
         try(Connection connection = dataSource.getConnection()){
             PreparedStatement statement = connection.prepareStatement(query);
-//            statement.setString(1,id);
+            statement.setObject(1,id, Types.OTHER);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){
                 tempProductCategory = new ProductCategory(resultSet.getString("id"),

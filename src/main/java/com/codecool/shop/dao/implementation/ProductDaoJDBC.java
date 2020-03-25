@@ -11,6 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ProductDaoJDBC implements ProductDao {
     private DataSource dataSource;
 
@@ -46,9 +47,9 @@ public class ProductDaoJDBC implements ProductDao {
                 "FROM product " +
                 "JOIN category c on product.category_id = c.id " +
                 "JOIN supplier s on product.supplier_id = s.id " +
-                "WHERE product.id = '" + id + "'";
+                "WHERE product.id = ?";
 
-        return executeGetQueries(query).get(0);
+        return executeGetQueries(query, id).get(0);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class ProductDaoJDBC implements ProductDao {
                 "FROM product " +
                 "JOIN category c on product.category_id = c.id " +
                 "JOIN supplier s on product.supplier_id = s.id;";
-        return executeGetQueries(query);
+        return executeGetQueries(query, "");
     }
 
     @Override
@@ -95,8 +96,8 @@ public class ProductDaoJDBC implements ProductDao {
                 "FROM product " +
                 "JOIN category c on product.category_id = c.id " +
                 "JOIN supplier s on product.supplier_id = s.id " +
-                "WHERE supplier_id = '" + supplier.getId() + "'";
-        return executeGetQueries(query);
+                "WHERE supplier_id = ?";
+        return executeGetQueries(query, supplier.getId());
     }
 
     @Override
@@ -117,17 +118,19 @@ public class ProductDaoJDBC implements ProductDao {
                 "FROM product " +
                 "JOIN category c on product.category_id = c.id " +
                 "JOIN supplier s on product.supplier_id = s.id " +
-                "WHERE category_id = '" + productCategory.getId() + "'";
-        return executeGetQueries(query);
+                "WHERE category_id = ?";
+        return executeGetQueries(query, productCategory.getId());
     }
 
 
-    private List<Product> executeGetQueries(String query){
+    private List<Product> executeGetQueries(String query, String id){
         List<Product> products = new ArrayList<>();
-        try(Connection connection = dataSource.getConnection();
+        try(Connection connection = dataSource.getConnection();){
             PreparedStatement statement = connection.prepareStatement(query);
+            if(!id.equals("")){
+                statement.setObject(1, id, Types.OTHER);
+            }
             ResultSet resultSet = statement.executeQuery();
-        ) {
             while(resultSet.next()){
                 Product product = new Product(resultSet.getString("product_id"),
                         resultSet.getString("product_name"),

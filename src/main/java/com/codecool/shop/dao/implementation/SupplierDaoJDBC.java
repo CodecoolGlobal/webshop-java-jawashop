@@ -25,7 +25,7 @@ public class SupplierDaoJDBC implements SupplierDao {
                 "VALUES (?,?,?)";
         try(Connection connection = dataSource.getConnection()){
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1,supplier.getId());
+            statement.setObject(1,supplier.getId(), Types.OTHER);
             statement.setString(2,supplier.getName());
             statement.setString(3,supplier.getDescription());
             statement.executeQuery();
@@ -38,11 +38,11 @@ public class SupplierDaoJDBC implements SupplierDao {
     @Override
     public Supplier find(String id) {
         Supplier tempSupplier = null;
-        String query = "SELECT * FROM supplier WHERE id = '" + id + "'";
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-        ){
+        String query = "SELECT * FROM supplier WHERE id = ?";
+        try(Connection connection = dataSource.getConnection();){
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1,id,Types.OTHER);
+            ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){
                 tempSupplier = new Supplier(resultSet.getString("id"),
                         resultSet.getString("name"),
