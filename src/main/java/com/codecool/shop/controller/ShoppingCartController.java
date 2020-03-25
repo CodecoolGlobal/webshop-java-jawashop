@@ -1,8 +1,7 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.ShoppingCardDaoMem;
+import com.codecool.shop.dao.implementation.ProductDaoJDBC;
+import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
 import com.codecool.shop.jsonbuilder.CurrencyJsonBuilder;
 import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
 import com.codecool.shop.jsonbuilder.SupplierJsonBuilder;
@@ -18,12 +17,10 @@ import java.util.List;
 
 @WebServlet("/cart")
 public class ShoppingCartController extends JsonResponseController {
-    private ShoppingCartDao shoppingCard = ShoppingCardDaoMem.getInstance();
-    private final ProductDaoMem products = ProductDaoMem.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<Product> shoppingCartProducts = shoppingCard.getAll();
+        List<Product> shoppingCartProducts = new ShoppingCartDaoJDBC().getAll();
 
         JsonObjectBuilder cartBuilder = calculateCartStats(shoppingCartProducts);
 
@@ -49,11 +46,13 @@ public class ShoppingCartController extends JsonResponseController {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = super.getIdFrom(req);
-        Product product = products.find(id);
+        Product product = new ProductDaoJDBC().find(id);
+
         if(product != null) {
-            shoppingCard.add(product);
+            new ShoppingCartDaoJDBC().add(product);
         }
-        List<Product> shoppingCartProducts = shoppingCard.getAll();
+
+        List<Product> shoppingCartProducts = new ShoppingCartDaoJDBC().getAll();
 
         JsonObjectBuilder rootObject = calculateCartStats(shoppingCartProducts);
 
@@ -67,12 +66,13 @@ public class ShoppingCartController extends JsonResponseController {
             totalPrice += product.getDefaultPrice();
         }
 
-        String totalValue = totalPrice + " " + products.getAll().get(0).getDefaultCurrency().toString();
+        String totalValue = totalPrice + " " + new ProductDaoJDBC().getAll().get(0).getDefaultCurrency().toString();
 
         JsonObjectBuilder cartBuilder = Json.createObjectBuilder();
         cartBuilder
                 .add("item_count", shoppingCartProducts.size())
                 .add("total_value", totalValue);
+
         return cartBuilder;
     }
 }
