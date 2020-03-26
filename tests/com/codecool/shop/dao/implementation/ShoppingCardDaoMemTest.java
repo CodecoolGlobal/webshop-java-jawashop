@@ -80,11 +80,11 @@ class ShoppingCardDaoMemTest {
     }
 
     private ProductCategory makeCategory(){
-        return new ProductCategory(null, null, null, null);
+        return new ProductCategory(UUID.randomUUID().toString(), null, null, null);
     }
 
     private Supplier makeSupplier(){
-        return new Supplier(null, null, null);
+        return new Supplier(UUID.randomUUID().toString(), null, null);
     }
 
 }
