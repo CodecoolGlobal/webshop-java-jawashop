@@ -46,7 +46,7 @@ class ShoppingCardDaoMemTest {
     }
 
     @Test
-    public void removeTest(){
+    public void removeProductReturnNull(){
         Product product = makeProduct();
 
         shoppingCartDao.add(makeProduct());
