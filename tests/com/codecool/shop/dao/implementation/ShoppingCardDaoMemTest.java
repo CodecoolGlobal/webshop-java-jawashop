@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -11,46 +12,23 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductDaoMemTest {
-    ProductDao productDao;
+class ShoppingCardDaoMemTest {
+    ShoppingCartDao shoppingCartDao;
+
     @BeforeEach
     public void init(){
-        productDao = ProductDaoMem.getInstance();
+        shoppingCartDao = ShoppingCardDaoMem.getInstance();
     }
 
     @Test
     public void addTest(){
         Product product = makeProduct();
 
-        productDao.add(makeProduct());
-        productDao.add(product);
-        productDao.add(makeProduct());
+        shoppingCartDao.add(makeProduct());
+        shoppingCartDao.add(product);
+        shoppingCartDao.add(makeProduct());
 
-        assertSame(product, productDao.find(product.getId()));
-    }
-
-    @Test
-    public void findTestNull(){
-        Product product = makeProduct();
-
-        productDao.add(makeProduct());
-        productDao.add(makeProduct());
-        productDao.add(makeProduct());
-
-        assertSame(null, productDao.find(product.getId()));
-    }
-
-    @Test
-    public void removeTest(){
-        Product product = makeProduct();
-
-        productDao.add(makeProduct());
-        productDao.add(product);
-        productDao.add(makeProduct());
-
-        productDao.remove(product.getId());
-        assertSame(null, productDao.find(product.getId()));
-
+        assertSame(product, shoppingCartDao.find(product.getId()));
     }
 
     private Product makeProduct(){
@@ -64,6 +42,5 @@ class ProductDaoMemTest {
     private Supplier makeSupplier(){
         return new Supplier(null, null, null);
     }
-
 
 }
