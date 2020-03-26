@@ -7,6 +7,8 @@ import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +21,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void addTest(){
+    public void findReturnProductIfExists(){
         Product product = makeProduct();
 
         productDao.add(makeProduct());
@@ -30,7 +32,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void findTestNull(){
+    public void findReturnNullIfProductNotExists(){
         Product product = makeProduct();
 
         productDao.add(makeProduct());
@@ -41,7 +43,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void removeTest(){
+    public void removeProductReturnNull(){
         Product product = makeProduct();
 
         productDao.add(makeProduct());
@@ -52,6 +54,56 @@ class ProductDaoMemTest {
         assertSame(null, productDao.find(product.getId()));
 
     }
+
+    @Test
+    public void getReturnsAllProductsIfProductListNotNull(){
+        List<Product> products = new ArrayList<>();
+
+        products.add(makeProduct());
+        products.add(makeProduct());
+        products.add(makeProduct());
+        for (Product product: products) {
+            productDao.add(product);
+        }
+
+        assertEquals(products, productDao.getAll());
+    }
+
+    @Test
+    public void getByReturnsAllProductsFromOneSupplierIfProductListNotNull(){
+        Supplier supplier = makeSupplier();
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Product product = makeProduct();
+            product.setSupplier(supplier);
+            products.add(product);
+        }
+
+        for (Product product: products) {
+            productDao.add(product);
+        }
+
+        assertEquals(products, productDao.getBy(supplier));
+    }
+
+
+    @Test
+    public void getByReturnsAllProductsFromOneCategoryIfProductListNotNull(){
+        ProductCategory productCategory = makeCategory();
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Product product = makeProduct();
+            product.setProductCategory(productCategory);
+            products.add(product);
+        }
+
+        for (Product product: products) {
+            productDao.add(product);
+        }
+
+        assertEquals(products, productDao.getBy(productCategory));
+    }
+
 
     private Product makeProduct(){
         return new Product(UUID.randomUUID().toString(), "name",12.12f, "USD", "desc",makeCategory(),makeSupplier() );
