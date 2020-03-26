@@ -1,12 +1,9 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +37,7 @@ class ProductCategoryDaoMemTest {
         productCategoryDao.add(makeCategory());
         productCategoryDao.add(makeCategory());
 
-        assertSame(null, productCategoryDao.find(productCategory.getId()));
+        assertNull(productCategoryDao.find(productCategory.getId()));
     }
 
 
@@ -53,7 +50,7 @@ class ProductCategoryDaoMemTest {
         productCategoryDao.add(makeCategory());
 
         productCategoryDao.remove(productCategory.getId());
-        assertSame(null, productCategoryDao.find(productCategory.getId()));
+        assertNull(productCategoryDao.find(productCategory.getId()));
 
     }
 

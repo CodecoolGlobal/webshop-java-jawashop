@@ -1,11 +1,9 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +18,7 @@ class ShoppingCardDaoMemTest {
 
     @BeforeEach
     public void init(){
-        shoppingCartDao = ShoppingCardDaoMem.getInstance();
+        shoppingCartDao = ShoppingCardDaoMem.create();
     }
 
     @Test
@@ -42,7 +40,7 @@ class ShoppingCardDaoMemTest {
         shoppingCartDao.add(makeProduct());
         shoppingCartDao.add(makeProduct());
 
-        assertSame(null, shoppingCartDao.find(product.getId()));
+        assertNull(shoppingCartDao.find(product.getId()));
     }
 
     @Test
@@ -54,7 +52,7 @@ class ShoppingCardDaoMemTest {
         shoppingCartDao.add(makeProduct());
 
         shoppingCartDao.remove(product.getId());
-        assertSame(null, shoppingCartDao.find(product.getId()));
+        assertNull(shoppingCartDao.find(product.getId()));
 
     }
 
@@ -70,8 +68,6 @@ class ShoppingCardDaoMemTest {
         }
 
         assertEquals(products, shoppingCartDao.getAll());
-
-
     }
 
 

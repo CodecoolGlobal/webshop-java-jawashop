@@ -6,7 +6,6 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +16,7 @@ class ProductDaoMemTest {
     ProductDao productDao;
     @BeforeEach
     public void init(){
-        productDao = ProductDaoMem.getInstance();
+        productDao = ProductDaoMem.create();
     }
 
     @Test
@@ -39,7 +38,7 @@ class ProductDaoMemTest {
         productDao.add(makeProduct());
         productDao.add(makeProduct());
 
-        assertSame(null, productDao.find(product.getId()));
+        assertNull( productDao.find(product.getId()));
     }
 
     @Test
@@ -51,7 +50,8 @@ class ProductDaoMemTest {
         productDao.add(makeProduct());
 
         productDao.remove(product.getId());
-        assertSame(null, productDao.find(product.getId()));
+        assertNull(productDao.find(product.getId()));
+
 
     }
 

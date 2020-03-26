@@ -1,11 +1,9 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -68,8 +66,6 @@ class SupplierDaoMemTest {
         }
 
         assertEquals(suppliers, supplierDao.getAll());
-
-
     }
 
 
@@ -77,6 +73,4 @@ class SupplierDaoMemTest {
     private Supplier makeSupplier(){
         return new Supplier(UUID.randomUUID().toString(), null, null);
     }
-
-
 }
