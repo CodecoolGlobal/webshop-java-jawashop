@@ -21,7 +21,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void findReturnProductIfExists(){
+    public void findReturnSupplierIfExists(){
         Supplier supplier = makeSupplier();
 
         supplierDao.add(makeSupplier());
@@ -32,7 +32,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void findReturnNullIfProductNotExists(){
+    public void findReturnNullIfSupplierNotExists(){
         Supplier supplier = makeSupplier();
 
         supplierDao.add(makeSupplier());
@@ -44,7 +44,7 @@ class SupplierDaoMemTest {
 
 
     @Test
-    public void removeProductReturnNull(){
+    public void removeSupplierReturnNull(){
         Supplier supplier = makeSupplier();
 
         supplierDao.add(makeSupplier());
@@ -57,7 +57,7 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void getReturnsAllProductsIfProductListNotNull(){
+    public void getReturnsAllSuppliersIfProductListNotNull(){
         List<Supplier> suppliers = new ArrayList<>();
 
         suppliers.add(makeSupplier());
