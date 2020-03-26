@@ -1,13 +1,14 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ShoppingCartDao;
+import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCardDaoMem implements ShoppingCartDao {
-    private List<Product> data = new ArrayList<>();
+    private List<CartItem> data = new ArrayList<>();
     private static ShoppingCardDaoMem instance = null;
 
     private ShoppingCardDaoMem(){}
@@ -19,25 +20,28 @@ public class ShoppingCardDaoMem implements ShoppingCartDao {
         return instance;
     }
 
-
-
     @Override
     public void add(Product product) {
-        this.data.add(product);
+        CartItem foundCartItem = find(product);
+
+        if (foundCartItem != null) {
+            foundCartItem.changeQuantity(+1);
+        } else {
+            this.data.add(new CartItem(product, 1));
+        }
     }
 
     @Override
-    public Product find(String id) {
-        return data.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
+    public CartItem find(Product product) {
+        return data.stream().filter(t -> t.getProduct().getId().equals(product.getId())).findFirst().orElse(null);
     }
 
     @Override
     public void remove(String id) {
-        data.remove(find(id));
     }
 
     @Override
-    public List<Product> getAll() {
+    public List<CartItem> getAll() {
         return data;
     }
 }

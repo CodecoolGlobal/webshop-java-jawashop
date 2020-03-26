@@ -8,12 +8,13 @@ export let ui = {
 
     renderProducts: function(cart) {
         ui.__rootNode = getViewRoot();
-        ui.__rootNode.innerHTML = cart.products.map(template.forProduct).join("");
+        ui.__rootNode.innerHTML = cart.items.map(template.forProduct).join("");
 
         const numberPickerNodes = document.querySelectorAll(".number-picker");
         numberPickerNodes.forEach(function(numberPickerNode, i) {
-            const product = cart.products[i];
+            const product = cart.items[i].product;
             let numberPicker = new NumberPicker();
+            numberPicker.currentValue = cart.items[i].quantity;
             numberPicker.drawInto(numberPickerNode);
 
             const priceNode = numberPickerNode.parentNode.parentNode.querySelector("div");

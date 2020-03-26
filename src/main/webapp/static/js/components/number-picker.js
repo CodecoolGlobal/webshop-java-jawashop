@@ -19,6 +19,7 @@ export default class NumberPicker {
         this.__decreaseButton.addEventListener("click", event => { this.__decreaseFunction(); });
 
         this.__numberDisplayer = container.querySelector("input");
+        this.__numberDisplayer.setAttribute("value", this.currentValue);
 
         this.__increaseButton = container.querySelectorAll("button").item(1);
         this.__increaseButton.addEventListener("click", event => { this.__increaseFunction(); });
