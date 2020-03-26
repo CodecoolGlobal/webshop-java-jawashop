@@ -31,6 +31,31 @@ class ShoppingCardDaoMemTest {
         assertSame(product, shoppingCartDao.find(product.getId()));
     }
 
+    @Test
+    public void findTestNull(){
+        Product product = makeProduct();
+
+        shoppingCartDao.add(makeProduct());
+        shoppingCartDao.add(makeProduct());
+        shoppingCartDao.add(makeProduct());
+
+        assertSame(null, shoppingCartDao.find(product.getId()));
+    }
+
+    @Test
+    public void removeTest(){
+        Product product = makeProduct();
+
+        shoppingCartDao.add(makeProduct());
+        shoppingCartDao.add(product);
+        shoppingCartDao.add(makeProduct());
+
+        shoppingCartDao.remove(product.getId());
+        assertSame(null, shoppingCartDao.find(product.getId()));
+
+    }
+
+
     private Product makeProduct(){
         return new Product(UUID.randomUUID().toString(), "name",12.12f, "USD", "desc",makeCategory(),makeSupplier() );
     }
