@@ -33,4 +33,8 @@ public class CartItem {
     public void changeQuantity(int volume) {
         this.quantity += volume;
     }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

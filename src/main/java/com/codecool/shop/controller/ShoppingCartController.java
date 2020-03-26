@@ -1,5 +1,6 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
 import com.codecool.shop.jsonbuilder.CartItemJsonBuilder;
@@ -10,6 +11,7 @@ import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,14 +53,47 @@ public class ShoppingCartController extends JsonResponseController {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
+        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
 
-        if(product != null) {
-            new ShoppingCartDaoJDBC().add(product);
+        if(product == null) {
+            throw new IllegalArgumentException("There is no Product { ID = " + id + "}");
         }
 
-        List<CartItem> cartItems = new ShoppingCartDaoJDBC().getAll();
+        shoppingCartDao.add(product);
+
+        List<CartItem> cartItems = shoppingCartDao.getAll();
 
         JsonObjectBuilder rootObject = calculateCartStats(cartItems);
+        appendCartItem(product, cartItems, rootObject);
+
+        super.jsonify(rootObject.build(), req, resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = super.getIdFrom(req);
+        Product product = new ProductDaoJDBC().find(id);
+        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
+
+        if(product == null) {
+            throw new IllegalArgumentException("There is no Product { ID = " + id + "}");
+        }
+
+        CartItem cartItem = shoppingCartDao.find(product);
+
+        if (0 < cartItem.getQuantity()) {
+            cartItem.changeQuantity(-1);
+            shoppingCartDao.update(cartItem);
+        }
+
+        if (cartItem.getQuantity() == 0) {
+            shoppingCartDao.remove(cartItem);
+        }
+
+        List<CartItem> cartItems = shoppingCartDao.getAll();
+
+        JsonObjectBuilder rootObject = calculateCartStats(cartItems);
+        appendCartItem(product, cartItems, rootObject);
 
         super.jsonify(rootObject.build(), req, resp);
     }
@@ -72,13 +107,31 @@ public class ShoppingCartController extends JsonResponseController {
             itemCount += cartItem.getQuantity();
         }
 
-        String totalValue = totalPrice + " " + new ProductDaoJDBC().getAll().get(0).getDefaultCurrency().toString();
+        String totalValue = totalPrice + " JPY";
 
-        JsonObjectBuilder cartBuilder = Json.createObjectBuilder();
-        cartBuilder
+        JsonObjectBuilder cartBuilder = Json.createObjectBuilder()
                 .add("item_count", itemCount)
                 .add("total_value", totalValue);
-
         return cartBuilder;
+    }
+
+    private void appendCartItem(Product product, List<CartItem> cartItems, JsonObjectBuilder rootObject) {
+        CartItem cartItem = findCurrent(product, cartItems);
+
+        if (cartItem == null) {
+            cartItem = new CartItem(product, 0);
+        }
+
+        JsonObject quantityObject = CartItemJsonBuilder.create()
+                .addProducts(ProductJsonBuilder.create()
+                    .addId())
+                .addQuantity()
+                .runOn(cartItem);
+
+        rootObject.add("cart_item", quantityObject);
+    }
+
+    private CartItem findCurrent(Product product, List<CartItem> cartItems) {
+        return cartItems.stream().filter(t -> t.getProduct().getId().equals(product.getId())).findFirst().orElse(null);
     }
 }

@@ -47,7 +47,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+         }
     }
 
     @Override
@@ -59,6 +59,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return new CartItem(
+                        resultSet.getString("id"),
                         new Product(
                                 resultSet.getString("product_id"),
                                 null,
@@ -77,8 +78,28 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     }
 
     @Override
-    public void remove(String id) {
+    public void remove(CartItem cartItem) {
+        String query = "DELETE FROM cart WHERE id = ?;";
+        try (Connection connection = dataSource.getConnection();) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, cartItem.getId(), Types.OTHER);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void update(CartItem cartItem) {
+        String query = "UPDATE cart SET quantity = ? WHERE id = ?";
+        try (Connection connection = dataSource.getConnection();) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, cartItem.getQuantity());
+            statement.setObject(2, cartItem.getId(), Types.OTHER);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

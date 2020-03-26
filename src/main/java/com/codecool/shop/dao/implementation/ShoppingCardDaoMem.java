@@ -37,7 +37,25 @@ public class ShoppingCardDaoMem implements ShoppingCartDao {
     }
 
     @Override
-    public void remove(String id) {
+    public void remove(CartItem cartItem) {
+        CartItem foundCartItem = find(cartItem.getProduct());
+
+        if (foundCartItem == null) {
+            throw new IllegalStateException("There is no Product in the Cart with ID " + cartItem.getProduct().getId());
+        }
+
+        foundCartItem.changeQuantity(-1);
+
+        if (foundCartItem.getQuantity() == 0) {
+            this.data.remove(foundCartItem);
+        }
+    }
+
+    @Override
+    public void update(CartItem cartItem) {
+        CartItem foundCartItem = find(cartItem.getProduct());
+
+        foundCartItem.setQuantity(cartItem.getQuantity());
     }
 
     @Override

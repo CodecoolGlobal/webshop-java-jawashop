@@ -4,7 +4,7 @@ export default class NumberPicker {
     minimumValue = 0;
     maximumValue = 99;
     step = 1;
-    currentValue = 0;
+    __currentValue = 0;
     __valueChangedCallback = null;
     __valueIncreasedCallback = null;
     __valueDecreasedCallback = null;
@@ -37,6 +37,11 @@ export default class NumberPicker {
 
     onValueDecreasedEvent(callback) {
         this.__valueDecreasedCallback = callback;
+    }
+
+    setValue(value) {
+        this.__currentValue = value;
+        this.__numberDisplayer.setAttribute("value", this.__currentValue);
     }
 
     __decreaseFunction() {
