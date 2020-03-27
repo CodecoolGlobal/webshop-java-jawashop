@@ -72,7 +72,7 @@ class ShoppingCardDaoMemTest {
 
 
     private Product makeProduct(){
-        return new Product(UUID.randomUUID().toString(), "name",12.12f, "USD", "desc",makeCategory(),makeSupplier() );
+        return new Product(UUID.randomUUID().toString(), null,0.0f, "HUF", null, makeCategory(), makeSupplier() );
     }
 
     private ProductCategory makeCategory(){
