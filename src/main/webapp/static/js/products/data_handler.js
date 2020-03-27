@@ -5,10 +5,6 @@ export let dataHandler = {
         return web.get('/product', callback);
     },
 
-    addToShoppingCart: function(id, callback) {
-        return web.post(`/cart`, new Map([["id", id]]), callback);
-    },
-
     getProductsByCategory: function (id, callback) {
         return web.get(`/products-by-category?id=${id}`, callback);
     },
