@@ -1,11 +1,16 @@
 import { dataHandler } from "./data_handler.js";
 import { ui as navbar } from "./../navbar/ui.js";
 import { ui } from "./ui.js";
+import {logic as checkout} from "../checkout/logic.js";
 
 export let logic = {
+
     navigate: function () {
         dataHandler.getProducts(function (response) {
             ui.renderProducts(response, logic.__addProductCallback, logic.__removeProductCallback);
+            ui.addClickEventToCheckoutButtons(function() {
+                checkout.navigate();
+            });
         });
     },
 

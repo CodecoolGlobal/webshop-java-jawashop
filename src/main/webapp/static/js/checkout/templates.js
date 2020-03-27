@@ -1,0 +1,127 @@
+export let template = {
+    forPage: function() {
+        return `
+            <div class="row card-container m-3 p-3 rounded">
+                <form class="mx-auto" onsubmit="return false;">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputName">Name</label>
+                            <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. John Doe"></i>
+                            <input type="text" name="name" class="form-control" id="inputName" placeholder="Your full name" required>
+                            <small class="form-text text-muted d-inline d-sm-none">
+                                e.g. John Doe
+                            </small>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail">Email</label>
+                            <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. john@doe.com"></i>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">@</div>
+                                </div>
+                                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email address" required>
+                            </div>
+                            <small class="form-text text-muted d-inline d-sm-none">
+                                e.g. john@doe.com
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputPhone">Phone number</label>
+                            <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. +36/30 123 4523"></i>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                </div>
+                                <input type="text" name="phoneNumber" class="form-control" id="inputPhone" placeholder="+36/30 123 4523" required>
+                            </div>
+                            <small class="form-text text-muted d-inline d-sm-none">
+                                e.g. +36/30 123 4523
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="p-1">Billing address</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="sr-only" for="inputCountry">Country</label>
+                            <input type="text" name="billingCountry" class="form-control" id="inputCountry" placeholder="Country" required>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Hungary"></i>
+                                <span class="d-inline d-sm-none">e.g. Hungary</span>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="sr-only" for="inputCity">City</label>
+                            <input type="text" name="billingCity" class="form-control" id="inputCity" placeholder="City" required>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Budapest"></i>
+                                <span class="d-inline d-sm-none">e.g. Budapest</span>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="sr-only" for="inputZip">Zip</label>
+                            <input type="text" name="billingZip" class="form-control" id="inputZip" placeholder="Zip code" required>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 1065"></i>
+                                <span class="d-inline d-sm-none">e.g. 1065</span>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="sr-only" for="inputAddress">Address</label>
+                            <input type="text" name="billingAddress" class="form-control" id="inputAddress" placeholder="Address" required>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 44 Nagymező str."></i>
+                                <span class="d-inline d-sm-none">e.g. 44 Nagymező str.</span>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="p-1">Shipping address</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="sr-only" for="inputCountry">Country</label>
+                            <input type="text" name="shippingCountry" class="form-control" id="inputCountry" placeholder="Country">
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Hungary"></i>
+                                <span class="d-inline d-sm-none">e.g. Hungary</span>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="sr-only" for="inputCity">City</label>
+                            <input type="text" name="shippingCity" class="form-control" id="inputCity" placeholder="City">
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Budapest"></i>
+                                <span class="d-inline d-sm-none">e.g. Budapest</span>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="sr-only" for="inputZip">Zip</label>
+                            <input type="text" name="shippingZip" class="form-control" id="inputZip" placeholder="Zip code">
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 1065"></i>
+                                <span class="d-inline d-sm-none">e.g. 1065</span>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="sr-only" for="inputAddress">Address</label>
+                            <input type="text" name="shippingAddress" class="form-control" id="inputAddress" placeholder="Address">
+                            <small class="form-text text-muted">
+                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 44 Nagymező str."></i>
+                                <span class="d-inline d-sm-none">e.g. 44 Nagymező str.</span>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <button class="btn btn-primary mx-auto">Submit</button>
+                    </div>
+                </form>
+            </div>
+        `
+    },
+};

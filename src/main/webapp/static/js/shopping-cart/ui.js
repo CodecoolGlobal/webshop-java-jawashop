@@ -5,9 +5,15 @@ import { template } from "./templates.js";
 export let ui = {
     __rootNode: null,
 
-    renderProducts: function (cart, addProductCallback, removeProductCallback) {
+    renderProducts: function(cart, addProductCallback, removeProductCallback) {
         ui.__rootNode = getViewRoot();
-        ui.__rootNode.innerHTML = cart.items.map(template.forProduct).join("");
+        console.log(cart)
+        ui.__rootNode.innerHTML = template.forCheckoutButton(cart.item_count);
+        ui.__rootNode.innerHTML += cart.items.map(template.forProduct).join("");
+
+        if (0 < cart.item_count) {
+            ui.__rootNode.innerHTML += template.forCheckoutButton(cart.item_count);
+        }
 
         const numberPickerNodes = document.querySelectorAll(".number-picker");
         numberPickerNodes.forEach(function (numberPickerNode, i) {
@@ -42,5 +48,12 @@ export let ui = {
                 });
             });
         });
+    },
+
+    addClickEventToCheckoutButtons: function(callback) {
+        const checkoutBtns = ui.__rootNode.querySelectorAll(".checkout-btn");
+        checkoutBtns.forEach(checkoutBtn => checkoutBtn.addEventListener("click", function() {
+            callback();
+        }));
     },
 };
