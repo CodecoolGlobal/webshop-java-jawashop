@@ -20,6 +20,10 @@ public class ShoppingCardDaoMem implements ShoppingCartDao {
         return instance;
     }
 
+    public static ShoppingCartDao create() {
+        return new ShoppingCardDaoMem();
+    }
+
     @Override
     public void add(Product product) {
         CartItem foundCartItem = find(product);
