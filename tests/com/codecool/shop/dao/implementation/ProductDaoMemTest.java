@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProductDaoMemTest {
     ProductDao productDao;
+
     @BeforeEach
     public void init(){
         productDao = ProductDaoMem.create();
@@ -38,7 +39,7 @@ class ProductDaoMemTest {
         productDao.add(makeProduct());
         productDao.add(makeProduct());
 
-        assertNull( productDao.find(product.getId()));
+        assertNull(productDao.find(product.getId()));
     }
 
     @Test
@@ -86,7 +87,6 @@ class ProductDaoMemTest {
         assertEquals(products, productDao.getBy(supplier));
     }
 
-
     @Test
     public void getByReturnsAllProductsFromOneCategoryIfProductListNotNull(){
         ProductCategory productCategory = makeCategory();
@@ -104,7 +104,6 @@ class ProductDaoMemTest {
         assertEquals(products, productDao.getBy(productCategory));
     }
 
-
     private Product makeProduct(){
         return new Product(UUID.randomUUID().toString(), "name",12.12f, "USD", "desc",makeCategory(),makeSupplier() );
     }
@@ -116,6 +115,4 @@ class ProductDaoMemTest {
     private Supplier makeSupplier(){
         return new Supplier(null, null, null);
     }
-
-
 }

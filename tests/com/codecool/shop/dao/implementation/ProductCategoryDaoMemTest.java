@@ -40,7 +40,6 @@ class ProductCategoryDaoMemTest {
         assertNull(productCategoryDao.find(productCategory.getId()));
     }
 
-
     @Test
     public void removeProductCategoryReturnNull(){
         ProductCategory productCategory = makeCategory();
@@ -66,16 +65,9 @@ class ProductCategoryDaoMemTest {
         }
 
         assertEquals(productCategories, productCategoryDao.getAll());
-
-
     }
-
-
 
     private ProductCategory makeCategory(){
         return new ProductCategory(UUID.randomUUID().toString(), null, null, null);
     }
-
-
-
 }

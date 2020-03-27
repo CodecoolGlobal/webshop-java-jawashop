@@ -15,7 +15,7 @@ class SupplierDaoMemTest {
 
     @BeforeEach
     public void init(){
-        supplierDao = SupplierDaoMem.getInstance();
+        supplierDao = SupplierDaoMem.create();
     }
 
     @Test
@@ -37,9 +37,8 @@ class SupplierDaoMemTest {
         supplierDao.add(makeSupplier());
         supplierDao.add(makeSupplier());
 
-        assertSame(null, supplierDao.find(supplier.getId()));
+        assertNull(supplierDao.find(supplier.getId()));
     }
-
 
     @Test
     public void removeSupplierReturnNull(){
@@ -50,25 +49,23 @@ class SupplierDaoMemTest {
         supplierDao.add(makeSupplier());
 
         supplierDao.remove(supplier.getId());
-        assertSame(null, supplierDao.find(supplier.getId()));
+        assertNull(supplierDao.find(supplier.getId()));
 
     }
 
     @Test
     public void getReturnsAllSuppliersIfProductListNotNull(){
         List<Supplier> suppliers = new ArrayList<>();
+        suppliers.add(makeSupplier());
+        suppliers.add(makeSupplier());
+        suppliers.add(makeSupplier());
 
-        suppliers.add(makeSupplier());
-        suppliers.add(makeSupplier());
-        suppliers.add(makeSupplier());
         for (Supplier supplier: suppliers) {
             supplierDao.add(supplier);
         }
 
         assertEquals(suppliers, supplierDao.getAll());
     }
-
-
 
     private Supplier makeSupplier(){
         return new Supplier(UUID.randomUUID().toString(), null, null);

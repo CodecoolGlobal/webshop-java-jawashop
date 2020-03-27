@@ -53,7 +53,6 @@ class ShoppingCardDaoMemTest {
 
         shoppingCartDao.remove(product.getId());
         assertNull(shoppingCartDao.find(product.getId()));
-
     }
 
     @Test
@@ -70,7 +69,6 @@ class ShoppingCardDaoMemTest {
         assertEquals(products, shoppingCartDao.getAll());
     }
 
-
     private Product makeProduct(){
         return new Product(UUID.randomUUID().toString(), null,0.0f, "HUF", null, makeCategory(), makeSupplier() );
     }
@@ -82,5 +80,4 @@ class ShoppingCardDaoMemTest {
     private Supplier makeSupplier(){
         return new Supplier(UUID.randomUUID().toString(), null, null);
     }
-
 }
