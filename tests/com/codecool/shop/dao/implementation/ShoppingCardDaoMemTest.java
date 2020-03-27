@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ShoppingCartDao;
+import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -29,7 +30,7 @@ class ShoppingCardDaoMemTest {
         shoppingCartDao.add(product);
         shoppingCartDao.add(makeProduct());
 
-        assertSame(product, shoppingCartDao.find(product.getId()));
+        assertSame(product, shoppingCartDao.find(product).getProduct());
     }
 
     @Test
@@ -40,7 +41,7 @@ class ShoppingCardDaoMemTest {
         shoppingCartDao.add(makeProduct());
         shoppingCartDao.add(makeProduct());
 
-        assertNull(shoppingCartDao.find(product.getId()));
+        assertNull(shoppingCartDao.find(product));
     }
 
     @Test
@@ -51,22 +52,29 @@ class ShoppingCardDaoMemTest {
         shoppingCartDao.add(product);
         shoppingCartDao.add(makeProduct());
 
-        shoppingCartDao.remove(product.getId());
-        assertNull(shoppingCartDao.find(product.getId()));
+        CartItem cartItem = shoppingCartDao.find(product);
+        shoppingCartDao.remove(cartItem);
+        assertNull(shoppingCartDao.find(product));
     }
 
     @Test
     public void getReturnsAllProductsIfProductListNotNull(){
-        List<Product> products = new ArrayList<>();
+        List<CartItem> cartItems = new ArrayList<>();
+        cartItems.add(makeCartItem());
+        cartItems.add(makeCartItem());
+        cartItems.add(makeCartItem());
 
-        products.add(makeProduct());
-        products.add(makeProduct());
-        products.add(makeProduct());
-        for (Product product: products) {
-            shoppingCartDao.add(product);
+        for (CartItem cartItem: cartItems) {
+            shoppingCartDao.add(cartItem.getProduct());
         }
 
-        assertEquals(products, shoppingCartDao.getAll());
+        for (int i = 0; i < shoppingCartDao.getAll().size(); i++) {
+            assertSame(cartItems.get(i).getProduct(), shoppingCartDao.getAll().get(i).getProduct());
+        }
+    }
+
+    private CartItem makeCartItem() {
+        return new CartItem(makeProduct(), 0);
     }
 
     private Product makeProduct(){

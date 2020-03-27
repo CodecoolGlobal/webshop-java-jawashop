@@ -4,7 +4,7 @@ export default class NumberPicker {
     minimumValue = 0;
     maximumValue = 99;
     step = 1;
-    currentValue = 0;
+    __currentValue = 0;
     __valueChangedCallback = null;
     __valueIncreasedCallback = null;
     __valueDecreasedCallback = null;
@@ -19,6 +19,7 @@ export default class NumberPicker {
         this.__decreaseButton.addEventListener("click", event => { this.__decreaseFunction(); });
 
         this.__numberDisplayer = container.querySelector("input");
+        this.__numberDisplayer.setAttribute("value", this.currentValue);
 
         this.__increaseButton = container.querySelectorAll("button").item(1);
         this.__increaseButton.addEventListener("click", event => { this.__increaseFunction(); });
@@ -36,6 +37,11 @@ export default class NumberPicker {
 
     onValueDecreasedEvent(callback) {
         this.__valueDecreasedCallback = callback;
+    }
+
+    setValue(value) {
+        this.__currentValue = value;
+        this.__numberDisplayer.setAttribute("value", this.__currentValue);
     }
 
     __decreaseFunction() {

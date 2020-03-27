@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.ShoppingCartDao;
+import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -23,32 +24,87 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
 
     @Override
     public void add(Product product) {
-        UUID uuid = UUID.randomUUID();
-        String query = "INSERT INTO cart (id, product_id, quantity) VALUES (?,?,?)";
+        CartItem foundCartItem = find(product);
+
+        if (foundCartItem == null) {
+            UUID uuid = UUID.randomUUID();
+            String query = "INSERT INTO cart (id, product_id, quantity) VALUES (?,?,?)";
+            try (Connection connection = dataSource.getConnection();) {
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setObject(1, uuid, Types.OTHER);
+                statement.setObject(2, product.getId(), Types.OTHER);
+                statement.setInt(3, 1);
+                statement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            String query = "UPDATE cart SET quantity = quantity + 1 WHERE product_id = ?;";
+            try (Connection connection = dataSource.getConnection();) {
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setObject(1, product.getId(), Types.OTHER);
+                statement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+         }
+    }
+
+    @Override
+    public CartItem find(Product product) {
+        String query = "SELECT * FROM cart WHERE product_id = ?;";
         try(Connection connection = dataSource.getConnection();){
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setObject(1, uuid, Types.OTHER);
-            statement.setObject(2,product.getId(), Types.OTHER);
-            statement.setInt(3,1);
-            statement.execute();
+            statement.setObject(1, product.getId(), Types.OTHER);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new CartItem(
+                        resultSet.getString("id"),
+                        new Product(
+                                resultSet.getString("product_id"),
+                                null,
+                                0,
+                                "JPY",
+                                null,
+                                new ProductCategory(null, null, null, null),
+                                new Supplier(null, null, null)),
+                        resultSet.getInt("quantity"));
+            }
         }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public void remove(CartItem cartItem) {
+        String query = "DELETE FROM cart WHERE id = ?;";
+        try (Connection connection = dataSource.getConnection();) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, cartItem.getId(), Types.OTHER);
+            statement.execute();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public Product find(String id) {
-        return null;
+    public void update(CartItem cartItem) {
+        String query = "UPDATE cart SET quantity = ? WHERE id = ?";
+        try (Connection connection = dataSource.getConnection();) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, cartItem.getQuantity());
+            statement.setObject(2, cartItem.getId(), Types.OTHER);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void remove(String id) {
-
-    }
-
-    @Override
-    public List<Product> getAll() {
-        List<Product> products = new ArrayList<>();
+    public List<CartItem> getAll() {
+        List<CartItem> products = new ArrayList<>();
         String query = "SELECT cart.id, " +
                 "       product_id, " +
                 "       quantity, " +
@@ -70,24 +126,26 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
         try(Connection connection = dataSource.getConnection();){
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
-                products.add(new Product(
-                   resultSet.getString("product_id"),
-                   resultSet.getString("product_name"),
-                   resultSet.getFloat("default_price"),
-                   resultSet.getString("default_currency"),
-                   resultSet.getString("product_description"),
-                   new ProductCategory( resultSet.getString("category_id"),
-                                        resultSet.getString("category_name"),
-                                        resultSet.getString("department"),
-                                        resultSet.getString("category_description")
-                                        ),
-                   new Supplier(        resultSet.getString("supplier_id"),
-                                        resultSet.getString("supplier_name"),
-                                        resultSet.getString("supplier_description"))
-                ));
+            while (resultSet.next()) {
+                products.add(
+                        new CartItem(
+                                new Product(
+                                        resultSet.getString("product_id"),
+                                        resultSet.getString("product_name"),
+                                        resultSet.getFloat("default_price"),
+                                        resultSet.getString("default_currency"),
+                                        resultSet.getString("product_description"),
+                                        new ProductCategory(
+                                                resultSet.getString("category_id"),
+                                                resultSet.getString("category_name"),
+                                                resultSet.getString("department"),
+                                                resultSet.getString("category_description")),
+                                        new Supplier(
+                                                resultSet.getString("supplier_id"),
+                                                resultSet.getString("supplier_name"),
+                                                resultSet.getString("supplier_description"))),
+                                resultSet.getInt("quantity")));
             }
-
         }catch (SQLException e){
             e.printStackTrace();
         }

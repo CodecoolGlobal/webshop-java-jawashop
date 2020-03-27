@@ -16,7 +16,21 @@ export let dataHandler = {
         fetch(url, {
             method: 'POST',
             credentials: 'same-origin',
-            body: JSON.stringify(Object.fromEntries(data)),
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => dataHandler.__jsonParser(response))
+        .then(jsonResponse => callback(jsonResponse))
+        .catch(err => dataHandler.__errorChecker(url, err));
+    },
+
+    delete: function (url, data, callback) {
+        fetch(url, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+            body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -29,5 +43,5 @@ export let dataHandler = {
     setPostMiddleware(jsonParser, errorCheckerCallback) {
         dataHandler.__jsonParser = jsonParser;
         dataHandler.__errorChecker = errorCheckerCallback;
-    }
-}
+    },
+};

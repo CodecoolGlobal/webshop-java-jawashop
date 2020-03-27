@@ -9,7 +9,11 @@ export let dataHandler = {
         web.get('/cart', callback);
     },
 
-    addProduct: function(id){
-        web.post(`/cart`, new Map([["id", id]]), callback);
+    addProduct: function(id, callback) {
+        web.post(`/cart`, { "id": id }, callback);
+    },
+
+    removeProduct: function(id, callback) {
+        web.delete(`/cart`, { "id": id }, callback);
     },
 };

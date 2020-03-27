@@ -1,13 +1,17 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
+import com.codecool.shop.jsonbuilder.CartItemJsonBuilder;
 import com.codecool.shop.jsonbuilder.CurrencyJsonBuilder;
 import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
 import com.codecool.shop.jsonbuilder.SupplierJsonBuilder;
+import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,24 +24,26 @@ public class ShoppingCartController extends JsonResponseController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<Product> shoppingCartProducts = new ShoppingCartDaoJDBC().getAll();
+        List<CartItem> cartItems = new ShoppingCartDaoJDBC().getAll();
 
-        JsonObjectBuilder cartBuilder = calculateCartStats(shoppingCartProducts);
+        JsonObjectBuilder cartBuilder = calculateCartStats(cartItems);
 
         if (req.getParameter("list") != null) {
             cartBuilder.add(
-                    "products",
-                    ProductJsonBuilder.create()
-                            .addId()
-                            .addName()
-                            .addDescription()
-                            .addPrice()
-                            .addCurrency(CurrencyJsonBuilder.create()
-                                    .addSymbol()
-                                    .addDisplayName())
-                            .addSupplier(SupplierJsonBuilder.create()
-                                    .addName())
-                            .runOn(shoppingCartProducts));
+                    "items",
+                    CartItemJsonBuilder.create()
+                            .addProducts(ProductJsonBuilder.create()
+                                .addId()
+                                .addName()
+                                .addDescription()
+                                .addPrice()
+                                .addCurrency(CurrencyJsonBuilder.create()
+                                        .addSymbol()
+                                        .addDisplayName())
+                                .addSupplier(SupplierJsonBuilder.create()
+                                        .addName()))
+                            .addQuantity()
+                        .runOn(cartItems));
         }
 
         super.jsonify(cartBuilder.build(), req, resp);
@@ -47,32 +53,85 @@ public class ShoppingCartController extends JsonResponseController {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
+        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
 
-        if(product != null) {
-            new ShoppingCartDaoJDBC().add(product);
+        if(product == null) {
+            throw new IllegalArgumentException("There is no Product { ID = " + id + "}");
         }
 
-        List<Product> shoppingCartProducts = new ShoppingCartDaoJDBC().getAll();
+        shoppingCartDao.add(product);
 
-        JsonObjectBuilder rootObject = calculateCartStats(shoppingCartProducts);
+        List<CartItem> cartItems = shoppingCartDao.getAll();
+
+        JsonObjectBuilder rootObject = calculateCartStats(cartItems);
+        appendCartItem(product, cartItems, rootObject);
 
         super.jsonify(rootObject.build(), req, resp);
     }
 
-    private JsonObjectBuilder calculateCartStats(List<Product> shoppingCartProducts) {
-        float totalPrice = 0;
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = super.getIdFrom(req);
+        Product product = new ProductDaoJDBC().find(id);
+        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
 
-        for (Product product : shoppingCartProducts) {
-            totalPrice += product.getDefaultPrice();
+        if(product == null) {
+            throw new IllegalArgumentException("There is no Product { ID = " + id + "}");
         }
 
-        String totalValue = totalPrice + " " + new ProductDaoJDBC().getAll().get(0).getDefaultCurrency().toString();
+        CartItem cartItem = shoppingCartDao.find(product);
 
-        JsonObjectBuilder cartBuilder = Json.createObjectBuilder();
-        cartBuilder
-                .add("item_count", shoppingCartProducts.size())
+        if (0 < cartItem.getQuantity()) {
+            cartItem.changeQuantity(-1);
+            shoppingCartDao.update(cartItem);
+        }
+
+        if (cartItem.getQuantity() == 0) {
+            shoppingCartDao.remove(cartItem);
+        }
+
+        List<CartItem> cartItems = shoppingCartDao.getAll();
+
+        JsonObjectBuilder rootObject = calculateCartStats(cartItems);
+        appendCartItem(product, cartItems, rootObject);
+
+        super.jsonify(rootObject.build(), req, resp);
+    }
+
+    private JsonObjectBuilder calculateCartStats(List<CartItem> cartItems) {
+        float totalPrice = 0;
+        int itemCount = 0;
+
+        for (CartItem cartItem : cartItems) {
+            totalPrice += cartItem.getProduct().getDefaultPrice() * cartItem.getQuantity();
+            itemCount += cartItem.getQuantity();
+        }
+
+        String totalValue = totalPrice + " JPY";
+
+        JsonObjectBuilder cartBuilder = Json.createObjectBuilder()
+                .add("item_count", itemCount)
                 .add("total_value", totalValue);
-
         return cartBuilder;
+    }
+
+    private void appendCartItem(Product product, List<CartItem> cartItems, JsonObjectBuilder rootObject) {
+        CartItem cartItem = findCurrent(product, cartItems);
+
+        if (cartItem == null) {
+            cartItem = new CartItem(product, 0);
+        }
+
+        JsonObject quantityObject = CartItemJsonBuilder.create()
+                .addProducts(ProductJsonBuilder.create()
+                    .addId())
+                .addQuantity()
+                .runOn(cartItem);
+
+        rootObject.add("cart_item", quantityObject);
+    }
+
+    private CartItem findCurrent(Product product, List<CartItem> cartItems) {
+        return cartItems.stream().filter(t -> t.getProduct().getId().equals(product.getId())).findFirst().orElse(null);
     }
 }
