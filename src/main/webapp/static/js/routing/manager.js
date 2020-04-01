@@ -20,6 +20,7 @@ RoutingManager.prototype.setRoute = function(newRoute) {
 RoutingManager.prototype.goTo = function(url) {
     for (const [matcher, handler] of this.matchers) {
         if(url.match(matcher)) {
+            console.log(`Navigating to ${url}`)
             handler();
             return;
         }
