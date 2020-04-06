@@ -48,32 +48,32 @@ export let template = {
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label class="sr-only" for="inputCountry">Country</label>
-                            <input type="text" name="billingCountry" class="form-control" id="inputCountry" placeholder="Country" required>
+                            <label class="sr-only" for="inputBillingCountry">Country</label>
+                            <input type="text" name="billingCountry" class="form-control" id="inputBillingCountry" placeholder="Country" required>
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Hungary"></i>
                                 <span class="d-inline d-sm-none">e.g. Hungary</span>
                             </small>
                         </div>
                         <div class="form-group col-md-3">
-                            <label class="sr-only" for="inputCity">City</label>
-                            <input type="text" name="billingCity" class="form-control" id="inputCity" placeholder="City" required>
+                            <label class="sr-only" for="inputBillingCity">City</label>
+                            <input type="text" name="billingCity" class="form-control" id="inputBillingCity" placeholder="City" required>
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Budapest"></i>
                                 <span class="d-inline d-sm-none">e.g. Budapest</span>
                             </small>
                         </div>
                         <div class="form-group col-md-2">
-                            <label class="sr-only" for="inputZip">Zip</label>
-                            <input type="text" name="billingZip" class="form-control" id="inputZip" placeholder="Zip code" required>
+                            <label class="sr-only" for="inputBillingZip">Zip</label>
+                            <input type="text" name="billingZip" class="form-control" id="inputBillingZip" placeholder="Zip code" required>
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 1065"></i>
                                 <span class="d-inline d-sm-none">e.g. 1065</span>
                             </small>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="sr-only" for="inputAddress">Address</label>
-                            <input type="text" name="billingAddress" class="form-control" id="inputAddress" placeholder="Address" required>
+                            <label class="sr-only" for="inputBillingAddress">Address</label>
+                            <input type="text" name="billingAddress" class="form-control" id="inputBillingAddress" placeholder="Address" required>
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 44 Nagymező str."></i>
                                 <span class="d-inline d-sm-none">e.g. 44 Nagymező str.</span>
@@ -85,32 +85,32 @@ export let template = {
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label class="sr-only" for="inputCountry">Country</label>
-                            <input type="text" name="shippingCountry" class="form-control" id="inputCountry" placeholder="Country">
+                            <label class="sr-only" for="inputShippingCountry">Country</label>
+                            <input type="text" name="shippingCountry" class="form-control" id="inputShippingCountry" placeholder="Country">
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Hungary"></i>
                                 <span class="d-inline d-sm-none">e.g. Hungary</span>
                             </small>
                         </div>
                         <div class="form-group col-md-3">
-                            <label class="sr-only" for="inputCity">City</label>
-                            <input type="text" name="shippingCity" class="form-control" id="inputCity" placeholder="City">
+                            <label class="sr-only" for="inputShippingCity">City</label>
+                            <input type="text" name="shippingCity" class="form-control" id="inputShippingCity" placeholder="City">
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. Budapest"></i>
                                 <span class="d-inline d-sm-none">e.g. Budapest</span>
                             </small>
                         </div>
                         <div class="form-group col-md-2">
-                            <label class="sr-only" for="inputZip">Zip</label>
-                            <input type="text" name="shippingZip" class="form-control" id="inputZip" placeholder="Zip code">
+                            <label class="sr-only" for="inputShippingZip">Zip</label>
+                            <input type="text" name="shippingZip" class="form-control" id="inputShippingZip" placeholder="Zip code">
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 1065"></i>
                                 <span class="d-inline d-sm-none">e.g. 1065</span>
                             </small>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="sr-only" for="inputAddress">Address</label>
-                            <input type="text" name="shippingAddress" class="form-control" id="inputAddress" placeholder="Address">
+                            <label class="sr-only" for="inputShippingAddress">Address</label>
+                            <input type="text" name="shippingAddress" class="form-control" id="inputShippingAddress" placeholder="Address">
                             <small class="form-text text-muted">
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 44 Nagymező str."></i>
                                 <span class="d-inline d-sm-none">e.g. 44 Nagymező str.</span>
