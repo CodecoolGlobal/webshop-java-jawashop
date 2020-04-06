@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS addresses;
 
 CREATE TABLE category (
     id uuid PRIMARY KEY,
@@ -30,6 +32,23 @@ CREATE TABLE cart (
     id uuid PRIMARY KEY,
     product_id uuid REFERENCES product(id),
     quantity INTEGER
+);
+
+CREATE TABLE addresses (
+    id uuid PRIMARY KEY,
+    country VARCHAR(30) NOT NULL,
+    city VARCHAR(30) NOT NULL,
+    zip_code VARCHAR(30) NOT NULL,
+    address VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE orders (
+    id uuid PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone_number BIGINT NOT NULL,
+    billing_address_id  uuid REFERENCES addresses(id),
+    shipping_address_id uuid REFERENCES addresses(id)
 );
 
 INSERT INTO category (id, name, description, department)

@@ -1,3 +1,4 @@
+import { dataHandler } from "./data_handler.js";
 import { formValidator } from "../components/formValidator.js";
 import { ui } from "./ui.js";
 
@@ -64,7 +65,10 @@ export let logic = {
         }
 
         if (isFilledCorrectly) {
-            console.log(formData);
+            formData["phoneNumber"] = formData["phoneNumber"].replace(/[+ /]/g, "") + " ";
+            dataHandler.addOrder(formData, function(response) {
+                console.log(response);
+            })
         }
     },
 };
