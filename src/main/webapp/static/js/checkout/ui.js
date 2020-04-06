@@ -24,6 +24,9 @@ export let ui = {
             });
             const isShippingAddressTheSame = filledShippingAddressesCount === 0;
             if (isShippingAddressTheSame) {
+                addressParts.forEach(function (addressPart) {
+                    formData[`shipping${addressPart}`] = formData[`billing${addressPart}`];
+                });
                 callback(formData);
             } else {
                 Notiflix.Report.Failure(
