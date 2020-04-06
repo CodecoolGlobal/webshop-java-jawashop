@@ -4,16 +4,20 @@ import { template } from "./templates.js";
 export let ui = {
     __rootNode: null,
 
-    render: function() {
+    render: function(submitCallback) {
         ui.__rootNode = getViewRoot();
         ui.__rootNode.innerHTML = template.forPage();
-        ui.__addClickListenerOnSubmitBtn(function(formData) {
-            console.log(formData);
-        });
+        ui.__addClickListenerOnSubmitBtn(submitCallback);
+    },
+
+    showValidationError: function(message) {
+        const container = ui.__rootNode.querySelector("#formErrors");
+        container.innerHTML += template.forErrorMessage(message);
     },
 
     __addClickListenerOnSubmitBtn: function(callback) {
-        ui.__rootNode.querySelector("button").addEventListener("click", function () {
+        ui.__rootNode.querySelector("form").onsubmit = function() {
+            ui.__rootNode.querySelector("#formErrors").innerHTML = "";
             const formData = exportFormInputs(ui.__rootNode);
             const addressParts = [ "Country", "City", "Zip", "Address" ];
             let filledShippingAddressesCount = 0;
@@ -35,6 +39,8 @@ export let ui = {
                             "with the billing address.",
                     "Ok!");
             }
-        });
+
+            return false;
+        };
     }
 };
