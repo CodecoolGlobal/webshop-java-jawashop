@@ -31,6 +31,10 @@ export let logic = {
                 const shouldRemoveCard = false;
                 uiCallback(cart.cart_item.quantity, shouldRemoveCard);
             }
+
+            if (cart.item_count === 0) {
+                ui.renderWithoutItems();
+            }
         });
     },
 };

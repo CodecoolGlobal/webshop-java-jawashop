@@ -3,11 +3,9 @@ import NumberPicker from "./../components/number-picker.js";
 import { template } from "./templates.js";
 
 export let ui = {
-    __rootNode: null,
+    __rootNode: getViewRoot(),
 
     renderProducts: function(cart, addProductCallback, removeProductCallback) {
-        ui.__rootNode = getViewRoot();
-        console.log(cart)
         ui.__rootNode.innerHTML = template.forCheckoutButton(cart.item_count);
         ui.__rootNode.innerHTML += cart.items.map(template.forProduct).join("");
 
@@ -55,5 +53,9 @@ export let ui = {
         checkoutBtns.forEach(checkoutBtn => checkoutBtn.addEventListener("click", function() {
             callback();
         }));
+    },
+
+    renderWithoutItems: function() {
+        ui.__rootNode.innerHTML = template.forCheckoutButton(0);
     },
 };
