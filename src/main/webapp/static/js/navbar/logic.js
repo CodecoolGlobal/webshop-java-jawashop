@@ -1,16 +1,14 @@
 import { dataHandler } from "./data_handler.js";
 import { ui } from "./ui.js";
 import { logic as homepage } from "./../index/logic.js";
+import { logic as registration } from "../registration/logic.js";
 import { logic as shoppingCart } from "./../shopping-cart/logic.js";
 
 export let navbar = {
     init: async function() {
 
         ui.init();
-
-        ui.addClickEventToRegistrationButton(function() {
-            console.log("Open registration View");
-        });
+        ui.addClickEventToRegistrationButton(registration.navigate);
 
         let [categoriesJson, suppliersJson, shoppingCartJson] = await Promise.all([
             dataHandler.getCategories(function(response) {
