@@ -37,5 +37,5 @@ export let logic = {
                 ui.renderSuccessfullRegistration();
             }
         });
-    }
+    },
 };

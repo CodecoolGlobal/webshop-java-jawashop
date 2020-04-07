@@ -43,6 +43,18 @@ public abstract class JsonResponseController extends HttpServlet {
         return object.getString("id");
     }
 
+    protected JsonObject getPostData(HttpServletRequest request) throws IOException {
+        String requestBody = request.getReader()
+                .lines()
+                .collect(Collectors.joining(System.lineSeparator()));
+
+        JsonReader jsonReader = Json.createReader(new StringReader(requestBody));
+        JsonObject object = jsonReader.readObject();
+        jsonReader.close();
+
+        return object;
+    }
+
     private String wrap(JsonObject rootObject) {
         return Json.createObjectBuilder()
                 .add("status", 200)

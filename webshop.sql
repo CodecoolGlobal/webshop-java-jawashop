@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS addresses;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE category (
     id uuid PRIMARY KEY,
@@ -57,6 +58,13 @@ CREATE TABLE order_products (
     order_id uuid  REFERENCES orders(id),
     product_id uuid REFERENCES product(id),
     quantity INTEGER
+);
+
+CREATE TABLE users (
+    id uuid PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR NOT NULL
 );
 
 INSERT INTO category (id, name, description, department)

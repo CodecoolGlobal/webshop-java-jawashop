@@ -59,6 +59,10 @@ public class InputValidator {
         return hasLengthBetween(5, 30, input);
     }
 
+    public boolean isValidPassword(String input) {
+        return 8 <= input.length();
+    }
+
     private boolean hasLengthBetween(int min, int max, String input) {
         return min <= input.length() && input.length() <= max;
     }
