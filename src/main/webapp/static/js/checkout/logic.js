@@ -64,11 +64,21 @@ export let logic = {
             isFilledCorrectly = false;
         }
 
-        if (isFilledCorrectly) {
-            formData["phoneNumber"] = formData["phoneNumber"].replace(/[+ /]/g, "") + " ";
-            dataHandler.addOrder(formData, function(response) {
-                console.log(response);
-            })
+        if (!isFilledCorrectly) {
+            return;
         }
+
+        formData["phoneNumber"] = formData["phoneNumber"].replace(/[+ /]/g, "") + " ";
+        dataHandler.addOrder(formData, function(errors) {
+            errors.forEach(error => {
+                ui.showValidationError(error);
+            });
+
+            if (errors.length !== 0) {
+                return;
+            }
+
+
+        });
     },
 };
