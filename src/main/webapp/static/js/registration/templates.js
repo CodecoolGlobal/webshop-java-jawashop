@@ -9,7 +9,7 @@ export let template = {
                             <div class="form-group">
                                 <label for="inputName">Name</label>
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. John Doe"></i>
-                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Your full name" required value="Tom PoLáKoSz">
+                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Your full name" required>
                                 <small class="form-text text-muted d-inline d-sm-none">
                                     e.g. John Doe
                                 </small>
@@ -21,7 +21,7 @@ export let template = {
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">@</div>
                                     </div>
-                                    <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email address" required value="polakosz@freemail.hu">
+                                    <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email address" required>
                                 </div>
                                 <small class="form-text text-muted d-inline d-sm-none">
                                     e.g. john@doe.com
@@ -31,7 +31,7 @@ export let template = {
                                 <label for="inputPassword">Password</label>
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="At least 8 characters long"></i>
                                 <div class="input-group">
-                                    <input type="password" name="password" id="inputPassword" data-toggle="password" class="form-control" placeholder="Password" minlength="8" required value="12345678">
+                                    <input type="password" name="password" id="inputPassword" data-toggle="password" class="form-control" placeholder="Password" minlength="8" required>
                                 </div>
                                 <small class="form-text text-muted d-inline d-sm-none">
                                     At least 8 characters long
