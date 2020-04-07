@@ -61,4 +61,9 @@ export let ui = {
             callback();
         })
     },
-}
+
+    addClickEventToRegistrationButton: function(clickCallback) {
+        const regBtn = ui.__rootNode.querySelector("#registrationBtn");
+        regBtn.addEventListener("click", clickCallback);
+    },
+};

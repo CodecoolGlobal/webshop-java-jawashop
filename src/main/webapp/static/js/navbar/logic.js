@@ -8,6 +8,10 @@ export let navbar = {
 
         ui.init();
 
+        ui.addClickEventToRegistrationButton(function() {
+            console.log("Open registration View");
+        });
+
         let [categoriesJson, suppliersJson, shoppingCartJson] = await Promise.all([
             dataHandler.getCategories(function(response) {
                 ui.renderCategoryDropdown(response);
