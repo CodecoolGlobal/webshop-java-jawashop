@@ -130,6 +130,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             while (resultSet.next()) {
                 products.add(
                         new CartItem(
+                                resultSet.getString("id"),
                                 new Product(
                                         resultSet.getString("product_id"),
                                         resultSet.getString("product_name"),

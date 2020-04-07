@@ -9,13 +9,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.UUID;
 
 public class AddressDaoJDBC implements AddressDao {
 
     private DataSource dataSource;
 
-    public AddressDaoJDBC(){ this(DbConnection.getConnection()); }
+    public AddressDaoJDBC() {
+        this(DbConnection.getConnection());
+    }
 
     public AddressDaoJDBC(DataSource dataSource){
         this.dataSource = dataSource;

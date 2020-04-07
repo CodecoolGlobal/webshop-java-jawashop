@@ -14,7 +14,9 @@ public class OrderDaoJDBC implements OrderDao {
 
     private DataSource dataSource;
 
-    public OrderDaoJDBC(){ this(DbConnection.getConnection()); }
+    public OrderDaoJDBC() {
+        this(DbConnection.getConnection());
+    }
 
     public OrderDaoJDBC(DataSource dataSource){
         this.dataSource = dataSource;

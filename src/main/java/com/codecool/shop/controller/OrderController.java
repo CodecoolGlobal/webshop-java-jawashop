@@ -4,9 +4,15 @@ import com.codecool.shop.InputValidator;
 import com.codecool.shop.dao.AddressDao;
 import com.codecool.shop.dao.JDBC.AddressDaoJDBC;
 import com.codecool.shop.dao.JDBC.OrderDaoJDBC;
+import com.codecool.shop.dao.JDBC.OrderedProductJDBC;
 import com.codecool.shop.dao.OrderDao;
+import com.codecool.shop.dao.OrderedProductDao;
+import com.codecool.shop.dao.ShoppingCartDao;
+import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
 import com.codecool.shop.model.Address;
+import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Order;
+import com.codecool.shop.model.OrderedProduct;
 
 import javax.json.*;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet("/order")
@@ -43,6 +50,16 @@ public class OrderController extends JsonResponseController {
 
         OrderDao orderDao = new OrderDaoJDBC();
         orderDao.add(order);
+
+        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
+        List<CartItem> cartItems = shoppingCartDao.getAll();
+
+        OrderedProductDao orderedProductDao = new OrderedProductJDBC();
+
+        for (CartItem cartItem : cartItems) {
+            orderedProductDao.add(new OrderedProduct(order, cartItem.getProduct(), cartItem.getQuantity()));
+            shoppingCartDao.remove(cartItem);
+        }
 
         super.jsonify(Json.createArrayBuilder().build(), req, resp);
     }

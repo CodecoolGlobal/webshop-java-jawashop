@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS order_products;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
@@ -49,6 +50,13 @@ CREATE TABLE orders (
     phone_number BIGINT NOT NULL,
     billing_address_id  uuid REFERENCES addresses(id),
     shipping_address_id uuid REFERENCES addresses(id)
+);
+
+CREATE TABLE order_products (
+    id uuid PRIMARY KEY,
+    order_id uuid  REFERENCES orders(id),
+    product_id uuid REFERENCES product(id),
+    quantity INTEGER
 );
 
 INSERT INTO category (id, name, description, department)
