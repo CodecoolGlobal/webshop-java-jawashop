@@ -1,11 +1,16 @@
 import { dataHandler } from "./data_handler.js";
 import { ui as navbar } from "./../navbar/ui.js";
 import { ui } from "./ui.js";
+import {logic as checkout} from "../checkout/logic.js";
 
 export let logic = {
+
     navigate: function () {
         dataHandler.getProducts(function (response) {
             ui.renderProducts(response, logic.__addProductCallback, logic.__removeProductCallback);
+            ui.addClickEventToCheckoutButtons(function() {
+                checkout.navigate();
+            });
         });
     },
 
@@ -25,6 +30,10 @@ export let logic = {
             } else {
                 const shouldRemoveCard = false;
                 uiCallback(cart.cart_item.quantity, shouldRemoveCard);
+            }
+
+            if (cart.item_count === 0) {
+                ui.renderWithoutItems();
             }
         });
     },

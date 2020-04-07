@@ -21,4 +21,29 @@ export let template = {
             </div>
         `
     },
+
+    forCheckoutButton: function(itemCount) {
+        if (0 < itemCount) {
+            return `
+                <div class="row m-3">
+                    <div class="col card-container p-3 align-middle">
+                        <div class="alert alert-info m-0">
+                            Are You finished the review? Proceed to 
+                            <button type="button" class="btn btn-success checkout-btn">Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            `
+        } else {
+            return `
+                <div class="row m-3">
+                    <div class="col card-container p-3 align-middle">
+                        <div class="alert alert-info m-0 text-center">
+                            There is no item in the Shopping Cart!
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+    },
 };

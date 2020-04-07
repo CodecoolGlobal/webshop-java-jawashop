@@ -14,13 +14,14 @@ import java.util.List;
 import java.util.UUID;
 
 public class ShoppingCartDaoJDBC implements ShoppingCartDao {
+
     private DataSource dataSource;
 
     public ShoppingCartDaoJDBC(){ this(DbConnection.getConnection()); }
+
     public ShoppingCartDaoJDBC(DataSource dataSource){
         this.dataSource = dataSource;
     }
-
 
     @Override
     public void add(Product product) {
@@ -129,6 +130,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             while (resultSet.next()) {
                 products.add(
                         new CartItem(
+                                resultSet.getString("id"),
                                 new Product(
                                         resultSet.getString("product_id"),
                                         resultSet.getString("product_name"),
