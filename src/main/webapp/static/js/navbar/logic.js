@@ -31,4 +31,10 @@ export let navbar = {
             }),
         ]);
     },
-}
+
+    updateShoppingCartStats: function() {
+        dataHandler.getShoppingCartStats(function(response) {
+            ui.updateCartButtonStats(response);
+        });
+    },
+};
