@@ -4,21 +4,25 @@ import { template } from "./templates.js";
 export let ui = {
     __rootNode: null,
 
-    render: function(submitCallback) {
+    renderLoginForm: function(submitCallback) {
         ui.__rootNode = getViewRoot();
-        ui.__rootNode.innerHTML = template.forPage();
+        ui.__rootNode.innerHTML = template.forLoginForm();
+        $("#inputPassword").password();
         ui.__addClickListenerOnSubmitBtn(submitCallback);
     },
 
-    showValidationError: function(message) {
+    renderValidationError: function(message) {
         const container = ui.__rootNode.querySelector("#formErrors");
         container.innerHTML += template.forErrorMessage(message);
     },
 
     __addClickListenerOnSubmitBtn: function(callback) {
-        ui.__rootNode.querySelector("form").onsubmit = function() {
+        const formNode = ui.__rootNode.querySelector("form");
+        formNode.onsubmit =  function() {
             ui.__rootNode.querySelector("#formErrors").innerHTML = "";
-            const formData = exportFormInputs(ui.__rootNode);
+            const formData = exportFormInputs(formNode);
+            // Fix for bootstrap-show-password (creates a new input)
+            delete formData.null;
             callback(formData);
             return false;
         };

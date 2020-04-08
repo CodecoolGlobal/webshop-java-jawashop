@@ -1,22 +1,21 @@
 import { dataHandler } from "./data_handler.js";
 import { formValidator } from "../components/formValidator.js";
-import { navbar } from "../navbar/logic.js";
 import { ui } from "./ui.js";
 
 export let logic = {
-    navigateLoginPage: function() {
-        ui.render(logic.__submitForm);
+    navigate: function() {
+        ui.renderLoginForm(logic.__submitCallback);
     },
 
-    __submitForm: function(formData) {
+    __submitCallback: function(formData) {
         let isFilledCorrectly = true;
         if (!formValidator.isValidEmail(formData["email"])) {
-            ui.showValidationError("Invalid Email address!");
+            ui.renderValidationError("Invalid Email address!");
             isFilledCorrectly = false;
         }
 
         if (!formValidator.isValidPassword(formData["password"])) {
-            ui.showValidationError("Invalid password! It should be at least 8 characters long.");
+            ui.renderValidationError("Invalid password! It should be at least 8 characters long!");
             isFilledCorrectly = false;
         }
 
@@ -26,7 +25,7 @@ export let logic = {
 
         dataHandler.login(formData, function(errors) {
             errors.forEach(error => {
-                ui.showValidationError(error);
+                ui.renderValidationError(error);
             });
 
             if (errors.length === 0) {

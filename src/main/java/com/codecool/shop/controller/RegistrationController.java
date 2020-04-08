@@ -34,7 +34,7 @@ public class RegistrationController extends JsonResponseController {
         JsonArrayBuilder errorBag = validate(postData);
 
         UserDao userDao = new UserDaoJDBC();
-        User newUser = createOrderFrom(postData);
+        User newUser = createUserFrom(postData);
 
         try {
             if (userDao.isExists(newUser.getEmail())) {
@@ -69,7 +69,7 @@ public class RegistrationController extends JsonResponseController {
         return errors;
     }
 
-    private User createOrderFrom(JsonObject postData) {
+    private User createUserFrom(JsonObject postData) {
         return new User(
                 postData.getString("name"),
                 postData.getString("email"),

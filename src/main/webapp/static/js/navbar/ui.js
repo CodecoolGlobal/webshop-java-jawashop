@@ -66,4 +66,9 @@ export let ui = {
         const regBtn = ui.__rootNode.querySelector("#registrationBtn");
         regBtn.addEventListener("click", clickCallback);
     },
+
+    addClickEventToLoginButton: function(clickCallback) {
+        const loginBtn = ui.__rootNode.querySelector("#loginBtn");
+        loginBtn.addEventListener("click", clickCallback);
+    },
 };

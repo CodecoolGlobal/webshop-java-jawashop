@@ -1,5 +1,6 @@
 import { dataHandler } from "./data_handler.js";
 import { ui } from "./ui.js";
+import { logic as login } from "./../login/logic.js";
 import { logic as homepage } from "./../index/logic.js";
 import { logic as registration } from "../registration/logic.js";
 import { logic as shoppingCart } from "./../shopping-cart/logic.js";
@@ -8,6 +9,7 @@ export let navbar = {
     init: async function() {
 
         ui.init();
+        ui.addClickEventToLoginButton(login.navigate);
         ui.addClickEventToRegistrationButton(registration.navigate);
 
         let [categoriesJson, suppliersJson, shoppingCartJson] = await Promise.all([

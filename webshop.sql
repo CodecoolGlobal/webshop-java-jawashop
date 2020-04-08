@@ -64,7 +64,8 @@ CREATE TABLE users (
     id uuid PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR NOT NULL
+    password VARCHAR NOT NULL,
+    auth_token VARCHAR NULL
 );
 
 INSERT INTO category (id, name, description, department)
