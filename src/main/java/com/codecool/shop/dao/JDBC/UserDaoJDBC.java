@@ -74,6 +74,21 @@ public class UserDaoJDBC implements UserDao {
     }
 
     @Override
+    public Optional<User> findBy(String authToken) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query = "SELECT id FROM users WHERE auth_token = ? LIMIT 1";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, authToken);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+
+            return Optional.of(new User(resultSet.getString("id"), authToken));
+        }
+    }
+
+    @Override
     public void update(User user) throws SQLException {
         try (Connection connection = dataSource.getConnection();) {
             String query = "UPDATE users SET auth_token = ? WHERE id = ?;";

@@ -10,5 +10,6 @@ public interface UserDao {
     boolean isExists(String email) throws SQLException;
     boolean isAuthTokenExists(String value) throws SQLException;
     Optional<User> find(String email, String password) throws SQLException;
+    Optional<User> findBy(String authToken) throws SQLException;
     void update(User user) throws SQLException;
 }

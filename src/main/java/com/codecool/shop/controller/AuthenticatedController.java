@@ -15,6 +15,8 @@ import java.util.Optional;
 
 public class AuthenticatedController extends JsonResponseController {
 
+    protected static final String COOKIE_KEY = "auth_token";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         tryAuthenticate(req);
@@ -30,8 +32,22 @@ public class AuthenticatedController extends JsonResponseController {
         tryAuthenticate(req);
     }
 
+    protected Optional<Cookie> getAuthCookie(HttpServletRequest request) {
+        if (request.getCookies() == null) {
+            return Optional.empty();
+        }
+
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals(COOKIE_KEY)) {
+                return Optional.of(cookie);
+            }
+        }
+
+        return Optional.empty();
+    }
+
     private void tryAuthenticate(HttpServletRequest request) throws UnAuthorizedException, InternalServerException {
-        Optional<String> optionalAuthCookie = getAuthCookie(request);
+        Optional<Cookie> optionalAuthCookie = getAuthCookie(request);
 
         if (!optionalAuthCookie.isPresent()) {
             throw new UnAuthorizedException();
@@ -40,25 +56,11 @@ public class AuthenticatedController extends JsonResponseController {
         UserDao userDao = new UserDaoJDBC();
 
         try {
-            if (!userDao.isAuthTokenExists(optionalAuthCookie.get())) {
+            if (!userDao.isAuthTokenExists(optionalAuthCookie.get().getValue())) {
                 throw new UnAuthorizedException();
             }
         } catch (SQLException e) {
             throw new InternalServerException(e);
         }
-    }
-
-    private Optional<String> getAuthCookie(HttpServletRequest request) {
-        if (request.getCookies() == null) {
-            return Optional.empty();
-        }
-
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("auth_token")) {
-                return Optional.of(cookie.getValue());
-            }
-        }
-
-        return Optional.empty();
     }
 }
