@@ -49,6 +49,14 @@ export let formValidator = {
         return formValidator.__hasLengthBetween(5, 30, input);
     },
 
+    isValidPassword: function(input) {
+        if (!formValidator.__isString(input)) {
+            return false;
+        }
+
+        return 8 <= input.length;
+    },
+
     __isString: function(input) {
         // https://stackoverflow.com/a/9436948/7306734
         return typeof input === 'string' || input instanceof String;

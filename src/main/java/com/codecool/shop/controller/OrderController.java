@@ -19,9 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet("/order")
 public class OrderController extends JsonResponseController {
@@ -34,7 +32,7 @@ public class OrderController extends JsonResponseController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        JsonObject postData = getPostData(req);
+        JsonObject postData = super.getPostData(req);
         JsonArray errorBag = validate(postData);
 
         if (!errorBag.isEmpty()) {
@@ -62,18 +60,6 @@ public class OrderController extends JsonResponseController {
         }
 
         super.jsonify(Json.createArrayBuilder().build(), req, resp);
-    }
-
-    private JsonObject getPostData(HttpServletRequest request) throws IOException {
-        String requestBody = request.getReader()
-                .lines()
-                .collect(Collectors.joining(System.lineSeparator()));
-
-        JsonReader jsonReader = Json.createReader(new StringReader(requestBody));
-        JsonObject object = jsonReader.readObject();
-        jsonReader.close();
-
-        return object;
     }
 
     private JsonArray validate(JsonObject postData) {
