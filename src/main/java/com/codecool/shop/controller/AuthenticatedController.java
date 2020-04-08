@@ -5,21 +5,28 @@ import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
 public class AuthenticatedController extends JsonResponseController {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws UnAuthorizedException, InternalServerException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         tryAuthenticate(req);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws UnAuthorizedException, InternalServerException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws UnAuthorizedException, InternalServerException, IOException {
+        tryAuthenticate(req);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws UnAuthorizedException, InternalServerException, IOException {
         tryAuthenticate(req);
     }
 

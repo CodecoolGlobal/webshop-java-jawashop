@@ -9,6 +9,8 @@ import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.OrderedProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
+import com.codecool.shop.exception.InternalServerException;
+import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.model.Address;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Order;
@@ -22,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/order")
-public class OrderController extends JsonResponseController {
+public class OrderController extends AuthenticatedController {
 
     private static final InputValidator validator;
 
@@ -31,7 +33,9 @@ public class OrderController extends JsonResponseController {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
+        super.doPost(req, resp);
+
         JsonObject postData = super.getPostData(req);
         JsonArray errorBag = validate(postData);
 
