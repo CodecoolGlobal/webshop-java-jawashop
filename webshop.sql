@@ -65,8 +65,10 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
-    auth_token VARCHAR NULL
+    auth_token VARCHAR NULL UNIQUE
 );
+
+CREATE UNIQUE INDEX auth_token_idx ON users(auth_token);
 
 INSERT INTO category (id, name, description, department)
 VALUES
