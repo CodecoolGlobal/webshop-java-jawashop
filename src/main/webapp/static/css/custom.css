@@ -81,3 +81,7 @@ div#cart-button {
         text-align: center;
         padding: 3px;
     }
+
+.btn.disabled {
+    cursor: not-allowed;
+}
