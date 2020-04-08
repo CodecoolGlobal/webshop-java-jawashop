@@ -45,6 +45,17 @@ public class UserDaoJDBC implements UserDao {
     }
 
     @Override
+    public boolean isAuthTokenExists(String value) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query = "SELECT FROM users WHERE auth_token = ? LIMIT 1";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, value);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        }
+    }
+
+    @Override
     public Optional<User> find(String email, String password) throws SQLException {
         try (Connection connection = dataSource.getConnection();) {
             String query = "SELECT id, auth_token FROM users WHERE email = ? AND password = ? LIMIT 1";
