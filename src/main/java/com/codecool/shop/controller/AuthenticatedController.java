@@ -49,6 +49,10 @@ public class AuthenticatedController extends JsonResponseController {
     }
 
     private Optional<String> getAuthCookie(HttpServletRequest request) {
+        if (request.getCookies() == null) {
+            return Optional.empty();
+        }
+
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("auth_token")) {
                 return Optional.of(cookie.getValue());
