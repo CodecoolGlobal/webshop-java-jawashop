@@ -1,5 +1,6 @@
 import { dataHandler } from "./data_handler.js";
 import { formValidator } from "../components/formValidator.js";
+import { navbar } from "../navbar/logic.js";
 import { ui } from "./ui.js";
 
 export let logic = {
@@ -29,7 +30,7 @@ export let logic = {
             });
 
             if (errors.length === 0) {
-                // change login and register buttons to logout button
+                navbar.authenticated();
             }
         });
     },

@@ -1,6 +1,7 @@
 import { dataHandler } from "./data_handler.js";
 import { ui } from "./ui.js";
 import { logic as login } from "./../login/logic.js";
+import { logic as logout } from "./../logout/logic.js";
 import { logic as homepage } from "./../index/logic.js";
 import { logic as registration } from "../registration/logic.js";
 import { logic as shoppingCart } from "./../shopping-cart/logic.js";
@@ -11,6 +12,7 @@ export let navbar = {
         ui.init();
         ui.addClickEventToLoginButton(login.navigate);
         ui.addClickEventToRegistrationButton(registration.navigate);
+        ui.addClickEventToLogoutButton(logout.execute);
 
         let [categoriesJson, suppliersJson, shoppingCartJson] = await Promise.all([
             dataHandler.getCategories(function(response) {
@@ -40,5 +42,13 @@ export let navbar = {
         dataHandler.getShoppingCartStats(function(response) {
             ui.updateCartButtonStats(response);
         });
+    },
+
+    authenticated: function() {
+        ui.renderAsAuthenticated();
+    },
+
+    loggedOut: function() {
+        ui.renderAsLoggedOut();
     },
 };
