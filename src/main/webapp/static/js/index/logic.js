@@ -3,7 +3,6 @@ import { ui } from "./ui.js";
 
 export let logic = {
     init: function() {
-
         ui.init();
 
         dataHandler.getAllProduct(function(response) {
