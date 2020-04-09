@@ -6,6 +6,7 @@ export let template = {
                 <div class="row">
                     <form class="mx-auto">
                         <div class="form">
+                            <h3 class="mb-3">Login</h3>
                             <div class="form-group">
                                 <label for="inputEmail">Email</label>
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. john@doe.com"></i>
