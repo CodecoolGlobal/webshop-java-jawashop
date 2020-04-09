@@ -66,4 +66,28 @@ export let ui = {
         const regBtn = ui.__rootNode.querySelector("#registrationBtn");
         regBtn.addEventListener("click", clickCallback);
     },
+
+    addClickEventToLoginButton: function(clickCallback) {
+        const loginBtn = ui.__rootNode.querySelector("#loginBtn");
+        loginBtn.addEventListener("click", clickCallback);
+    },
+
+    addClickEventToLogoutButton: function(clickCallback) {
+        const logoutBtn = ui.__rootNode.querySelector("#logoutBtn");
+        logoutBtn.addEventListener("click", clickCallback);
+    },
+
+    renderAsAuthenticated: function() {
+        ui.__rootNode.querySelector("#registrationBtn").parentNode.classList.add("d-none");
+        ui.__rootNode.querySelector("#loginBtn").parentNode.classList.add("d-none");
+        ui.__rootNode.querySelector("#logoutBtn").parentNode.classList.remove("d-none");
+        ui.__rootNode.querySelector("#cart-button").parentNode.classList.remove("d-none");
+    },
+
+    renderAsLoggedOut: function() {
+        ui.__rootNode.querySelector("#registrationBtn").parentNode.classList.remove("d-none");
+        ui.__rootNode.querySelector("#loginBtn").parentNode.classList.remove("d-none");
+        ui.__rootNode.querySelector("#logoutBtn").parentNode.classList.add("d-none");
+        ui.__rootNode.querySelector("#cart-button").parentNode.classList.add("d-none");
+    },
 };

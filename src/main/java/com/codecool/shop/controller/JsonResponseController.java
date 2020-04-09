@@ -31,6 +31,15 @@ public abstract class JsonResponseController extends HttpServlet {
         out.close();
     }
 
+    protected void jsonify(String message, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+
+        PrintWriter out = response.getWriter();
+        out.print(wrap(message));
+        out.flush();
+        out.close();
+    }
+
     protected String getIdFrom(HttpServletRequest req) throws IOException {
         String requestBody = req.getReader()
                 .lines()
@@ -67,6 +76,14 @@ public abstract class JsonResponseController extends HttpServlet {
         return Json.createObjectBuilder()
                 .add("status", 200)
                 .add("message", rootArray)
+                .build()
+                .toString();
+    }
+
+    private String wrap(String value) {
+        return Json.createObjectBuilder()
+                .add("status", 200)
+                .add("message", value)
                 .build()
                 .toString();
     }

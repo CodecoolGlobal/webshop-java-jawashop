@@ -1,20 +1,12 @@
 export let template = {
-    forRegistrationForm: function() {
+    forLoginForm: function() {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div id="formErrors"></div>
                 <div class="row">
                     <form class="mx-auto">
                         <div class="form">
-                            <h3 class="mb-3">Registration</h3>
-                            <div class="form-group">
-                                <label for="inputName">Name</label>
-                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. John Doe"></i>
-                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Your full name" required>
-                                <small class="form-text text-muted d-inline d-sm-none">
-                                    e.g. John Doe
-                                </small>
-                            </div>
+                            <h3 class="mb-3">Login</h3>
                             <div class="form-group">
                                 <label for="inputEmail">Email</label>
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. john@doe.com"></i>
@@ -39,7 +31,7 @@ export let template = {
                                 </small>
                             </div>
                             <div class="form-row">
-                                <button class="btn btn-primary mx-auto">Register</button>
+                                <button class="btn btn-primary mx-auto">Login</button>
                             </div>
                         </div>
                     </form>
@@ -53,12 +45,4 @@ export let template = {
             <div class="alert alert-danger text-center">${message}</div>
         `
     },
-
-    forSuccessfullRegistration: function() {
-        return `
-            <div class="card-container m-3 p-3 rounded">
-                <div class="alert alert-success m-0 text-center" role="alert">Successful registration!</div>
-            </div>
-        `
-    }
 };

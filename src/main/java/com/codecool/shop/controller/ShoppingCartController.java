@@ -3,6 +3,8 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
+import com.codecool.shop.exception.InternalServerException;
+import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.CartItemJsonBuilder;
 import com.codecool.shop.jsonbuilder.CurrencyJsonBuilder;
 import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
@@ -13,6 +15,7 @@ import com.codecool.shop.model.Product;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +23,12 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/cart")
-public class ShoppingCartController extends JsonResponseController {
+public class ShoppingCartController extends AuthenticatedController {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        super.doGet(req, resp);
+
         List<CartItem> cartItems = new ShoppingCartDaoJDBC().getAll();
 
         JsonObjectBuilder cartBuilder = calculateCartStats(cartItems);
@@ -50,7 +55,9 @@ public class ShoppingCartController extends JsonResponseController {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
+        super.doPost(req, resp);
+
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
         ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
@@ -70,7 +77,9 @@ public class ShoppingCartController extends JsonResponseController {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
+        super.doDelete(req, resp);
+
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
         ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();

@@ -6,6 +6,7 @@ import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.Optional;
 
 public class UserDaoJDBC implements UserDao {
 
@@ -40,6 +41,61 @@ public class UserDaoJDBC implements UserDao {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
+        }
+    }
+
+    @Override
+    public boolean isAuthTokenExists(String value) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query = "SELECT FROM users WHERE auth_token = ? LIMIT 1";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, value);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        }
+    }
+
+    @Override
+    public Optional<User> find(String email, String password) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query = "SELECT id, auth_token FROM users WHERE email = ? AND password = ? LIMIT 1";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+
+            return Optional.of(new User(
+                    resultSet.getString("id"),
+                    resultSet.getString("auth_token")));
+        }
+    }
+
+    @Override
+    public Optional<User> findBy(String authToken) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query = "SELECT id FROM users WHERE auth_token = ? LIMIT 1";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, authToken);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+
+            return Optional.of(new User(resultSet.getString("id"), authToken));
+        }
+    }
+
+    @Override
+    public void update(User user) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query = "UPDATE users SET auth_token = ? WHERE id = ?;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.getAuthToken());
+            statement.setObject(2, user.getId(), Types.OTHER);
+            statement.execute();
         }
     }
 }

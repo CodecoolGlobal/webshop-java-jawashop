@@ -9,9 +9,15 @@ export let ui = {
         ui.__rootNode = getViewRoot();
     },
 
-    renderProductsPage: function(products) {
+    renderProductsPage: function(products, isEnabled) {
         ui.__rootNode.innerHTML = "<div class='row'></div>";
-        ui.__rootNode.firstChild.innerHTML = products.map(template.forProduct).join("");
+
+        if (isEnabled) {
+            ui.__rootNode.firstChild.innerHTML = products.map(template.forEnabledProduct).join("");
+        } else {
+            ui.__rootNode.firstChild.innerHTML = products.map(template.forDisabledProduct).join("");
+            $('button.btn').tooltip();
+        }
     },
 
     addClickEventToAddToCartButtons: function(callback) {
@@ -24,4 +30,4 @@ export let ui = {
     updateCartStats: function(stats) {
         navbar.updateCartButtonStats(stats);
     }
-}
+};
