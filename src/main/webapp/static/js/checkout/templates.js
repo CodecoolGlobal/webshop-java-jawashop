@@ -3,8 +3,9 @@ export let template = {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div id="formErrors"></div>
-                <div class="row">
+                <div class="row p-3">
                     <form class="mx-auto">
+                        <h3>Checkout</h3>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputName">Name</label>
