@@ -5,7 +5,10 @@ import { logic as user } from "../user/logic.js";
 export let logic = {
     init: function() {
         ui.init();
+        logic.getAllProducts();
+    },
 
+    getAllProducts: function() {
         dataHandler.getAllProduct(function(response) {
             ui.renderProductsPage(response, user.isAuthenticated());
             logic.__addClickEventToAddToCartButtons();

@@ -1,5 +1,6 @@
 import { dataHandler } from "./data_handler.js";
 import { formValidator } from "../components/formValidator.js";
+import { logic as homepage } from "../index/logic.js";
 import { navbar } from "../navbar/logic.js";
 import { ui } from "./ui.js";
 import { logic as user } from "../user/logic.js";
@@ -34,6 +35,7 @@ export let logic = {
                 navbar.updateShoppingCartStats();
                 user.checkAuthentication();
                 navbar.authenticated();
+                homepage.getAllProducts();
             }
         });
     },
