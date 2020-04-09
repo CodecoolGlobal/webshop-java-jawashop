@@ -24,7 +24,7 @@ export let template = {
                                 <label for="inputPassword">Password</label>
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="At least 8 characters long"></i>
                                 <div class="input-group">
-                                    <input type="password" name="password" id="inputPassword" data-toggle="password" class="form-control" placeholder="Password" minlength="2" required>
+                                    <input type="password" name="password" id="inputPassword" data-toggle="password" class="form-control" placeholder="Password" minlength="8" required>
                                 </div>
                                 <small class="form-text text-muted d-inline d-sm-none">
                                     At least 8 characters long
