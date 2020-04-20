@@ -24,7 +24,7 @@ export let ui = {
         const creditCardBtn = ui.__rootNode.querySelector("#creditCardBtn");
         creditCardBtn.addEventListener("click", function() {
             ui.__rootNode.innerHTML = template.forCreditCardForm();
-            ui.__addClickEventToPayPalBtn();
+            ui.__addClickEventToPayPalBtn(submitCallback);
             ui.__addClickListenerOnSubmitBtn(submitCallback);
         });
     },
@@ -34,7 +34,7 @@ export let ui = {
         paypalBtn.addEventListener("click", function() {
             ui.__rootNode.innerHTML = template.forPayPalForm();
             $("#inputPassword").password();
-            ui.__addClickEventToCreditCardBtn();
+            ui.__addClickEventToCreditCardBtn(submitCallback);
             ui.__addClickListenerOnSubmitBtn(submitCallback);
         });
     },
@@ -46,6 +46,7 @@ export let ui = {
             const formData = exportFormInputs(ui.__rootNode);
             // Fix for bootstrap-show-password (creates a new input)
             delete formData.null;
+            console.log("formData", formData)
             callback(formData);
 
             return false;

@@ -15,7 +15,6 @@ export let logic = {
                 isFilledCorrectly = false;
             }
         } else if (formData.type === "paypal") {
-            console.log("formData.email", formData.email)
             if (!formValidator.isValidEmail(formData.email)) {
                 ui.showValidationError("Invalid Email address");
                 isFilledCorrectly = false;
