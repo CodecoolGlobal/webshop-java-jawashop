@@ -6,8 +6,8 @@ export let ui = {
 
     render: function(submitCallback) {
         ui.__rootNode = getViewRoot();
-        ui.__rootNode.innerHTML = template.forPage();
-        ui.__addClickListenerOnSubmitBtn(submitCallback);
+        ui.__rootNode.innerHTML = template.forPaymentMethodSelector();
+        ui.__addClickListenerToPaymentMethods(submitCallback);
     },
 
     showValidationError: function(message) {
@@ -15,32 +15,40 @@ export let ui = {
         container.innerHTML += template.forErrorMessage(message);
     },
 
+    __addClickListenerToPaymentMethods: function(submitCallback) {
+        ui.__addClickEventToCreditCardBtn(submitCallback);
+        ui.__addClickEventToPayPalBtn(submitCallback);
+    },
+
+    __addClickEventToCreditCardBtn: function(submitCallback) {
+        const creditCardBtn = ui.__rootNode.querySelector("#creditCardBtn");
+        creditCardBtn.addEventListener("click", function() {
+            ui.__rootNode.innerHTML = template.forCreditCardForm();
+            ui.__addClickEventToPayPalBtn();
+            ui.__addClickListenerOnSubmitBtn(submitCallback);
+        });
+    },
+
+    __addClickEventToPayPalBtn: function(submitCallback) {
+        const paypalBtn = ui.__rootNode.querySelector("#paypalBtn");
+        paypalBtn.addEventListener("click", function() {
+            ui.__rootNode.innerHTML = template.forPayPalForm();
+            $("#inputPassword").password();
+            ui.__addClickEventToCreditCardBtn();
+            ui.__addClickListenerOnSubmitBtn(submitCallback);
+        });
+    },
+
     __addClickListenerOnSubmitBtn: function(callback) {
         ui.__rootNode.querySelector("form").onsubmit = function() {
             ui.__rootNode.querySelector("#formErrors").innerHTML = "";
+
             const formData = exportFormInputs(ui.__rootNode);
-            const addressParts = [ "Country", "City", "Zip", "Address" ];
-            let filledShippingAddressesCount = 0;
-            addressParts.forEach(function (addressPart) {
-                if (formData[`shipping${addressPart}`] !== "") {
-                    filledShippingAddressesCount++;
-                }
-            });
-            const isShippingAddressTheSame = filledShippingAddressesCount === 0;
-            if (isShippingAddressTheSame) {
-                addressParts.forEach(function (addressPart) {
-                    formData[`shipping${addressPart}`] = formData[`billing${addressPart}`];
-                });
-                callback(formData);
-            } else {
-                Notiflix.Report.Failure(
-                    "Error",
-                    "Either fill out the all shipping address details or leave it all empty if its the same " +
-                            "with the billing address.",
-                    "Ok!");
-            }
+            // Fix for bootstrap-show-password (creates a new input)
+            delete formData.null;
+            callback(formData);
 
             return false;
         };
-    }
+    },
 };

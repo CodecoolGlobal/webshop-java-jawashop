@@ -1,6 +1,5 @@
 import { dataHandler } from "./data_handler.js";
 import { formValidator } from "../components/formValidator.js";
-import { navbar } from "../navbar/logic.js";
 import { ui } from "./ui.js";
 
 export let logic = {
@@ -10,58 +9,24 @@ export let logic = {
 
     __submitForm: function(formData) {
         let isFilledCorrectly = true;
-        if (!formValidator.isValidFullName(formData["name"])) {
-            ui.showValidationError("Invalid Name!");
-            isFilledCorrectly = false;
-        }
+        if (formData.type === "credit-card") {
+            if (!formValidator.isValidFullName(formData.card_owner)) {
+                ui.showValidationError("Invalid Card Owner value!");
+                isFilledCorrectly = false;
+            }
+        } else if (formData.type === "paypal") {
+            console.log("formData.email", formData.email)
+            if (!formValidator.isValidEmail(formData.email)) {
+                ui.showValidationError("Invalid Email address");
+                isFilledCorrectly = false;
+            }
 
-        if (!formValidator.isValidEmail(formData["email"])) {
-            ui.showValidationError("Invalid Email address!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidPhoneNumber(formData["phoneNumber"])) {
-            ui.showValidationError("Invalid phone number!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidCountry(formData["billingCountry"])) {
-            ui.showValidationError("Invalid billing country!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidCity(formData["billingCity"])) {
-            ui.showValidationError("Invalid billing city!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidZipCode(formData["billingZip"])) {
-            ui.showValidationError("Invalid billing ZIP code!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidAddress(formData["billingAddress"])) {
-            ui.showValidationError("Invalid billing address!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidCountry(formData["shippingCountry"])) {
-            ui.showValidationError("Invalid shipping country!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidCity(formData["shippingCity"])) {
-            ui.showValidationError("Invalid shipping city!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidZipCode(formData["shippingZip"])) {
-            ui.showValidationError("Invalid shipping ZIP code!");
-            isFilledCorrectly = false;
-        }
-
-        if (!formValidator.isValidAddress(formData["shippingAddress"])) {
-            ui.showValidationError("Invalid shipping address!");
+            if (!formValidator.isValidPassword(formData.password)) {
+                ui.showValidationError("Invalid Password!");
+                isFilledCorrectly = false;
+            }
+        } else {
+            ui.showValidationError("Form is invalid! Developers are notified about this problem.");
             isFilledCorrectly = false;
         }
 
@@ -69,14 +34,13 @@ export let logic = {
             return;
         }
 
-        formData["phoneNumber"] = formData["phoneNumber"].replace(/[+ /]/g, "") + " ";
-        dataHandler.addOrder(formData, function(errors) {
+        dataHandler.addPayment(formData, function(errors) {
             errors.forEach(error => {
                 ui.showValidationError(error);
             });
 
             if (errors.length === 0) {
-                navbar.updateShoppingCartStats();
+                console.log("Successful operation. Redirecting to a new page...");
             }
         });
     },
