@@ -10,10 +10,13 @@ export let logic = {
     __submitForm: function(formData) {
         let isFilledCorrectly = true;
         if (formData.type === "credit-card") {
-            if (!formValidator.isValidFullName(formData.card_owner)) {
+            /*if (!formValidator.isValidFullName(formData.card_owner)) {
                 ui.showValidationError("Invalid Card Owner value!");
                 isFilledCorrectly = false;
-            }
+            }*/
+
+            // server-side JSON parser can't handle Long
+            formData.card_number += " ";
         } else if (formData.type === "paypal") {
             if (!formValidator.isValidEmail(formData.email)) {
                 ui.showValidationError("Invalid Email address");
@@ -32,6 +35,8 @@ export let logic = {
         if (!isFilledCorrectly) {
             return;
         }
+
+        console.log("Payment (PayPal or Credit card) form will be send to the server")
 
         dataHandler.addPayment(formData, function(errors) {
             errors.forEach(error => {

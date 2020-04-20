@@ -1,4 +1,4 @@
-import { getViewRoot, exportFormInputs } from "./../ui.js";
+import { getViewRoot, exportFormInputs } from "../ui.js";
 import { template } from "./templates.js";
 
 export let ui = {
@@ -46,7 +46,6 @@ export let ui = {
             const formData = exportFormInputs(ui.__rootNode);
             // Fix for bootstrap-show-password (creates a new input)
             delete formData.null;
-            console.log("formData", formData)
             callback(formData);
 
             return false;

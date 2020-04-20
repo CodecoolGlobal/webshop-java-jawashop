@@ -57,6 +57,8 @@ public abstract class JsonResponseController extends HttpServlet {
                 .lines()
                 .collect(Collectors.joining(System.lineSeparator()));
 
+        System.out.printf("POST data: %s\n", requestBody);
+
         JsonReader jsonReader = Json.createReader(new StringReader(requestBody));
         JsonObject object = jsonReader.readObject();
         jsonReader.close();

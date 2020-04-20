@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS supplier;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS addresses;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS credit_cards;
 
 CREATE TABLE category (
     id uuid PRIMARY KEY,
@@ -66,6 +67,14 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
     auth_token VARCHAR NULL UNIQUE
+);
+
+CREATE TABLE credit_cards (
+    id uuid PRIMARY KEY,
+    number INTEGER NOT NULL,
+    owner_name VARCHAR(100) NOT NULL,
+    expire_date VARCHAR(5) NOT NULL,
+    code INTEGER NOT NULL
 );
 
 CREATE UNIQUE INDEX auth_token_idx ON users(auth_token);
