@@ -71,7 +71,7 @@ CREATE TABLE users (
 
 CREATE TABLE credit_cards (
     id uuid PRIMARY KEY,
-    number INTEGER NOT NULL,
+    number BIGINT NOT NULL,
     owner_name VARCHAR(100) NOT NULL,
     expire_date VARCHAR(5) NOT NULL,
     code INTEGER NOT NULL
