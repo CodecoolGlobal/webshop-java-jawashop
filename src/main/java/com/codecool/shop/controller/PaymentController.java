@@ -2,6 +2,8 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.CreditCardDao;
 import com.codecool.shop.dao.JDBC.CreditCardDaoJDBC;
+import com.codecool.shop.exception.InternalServerException;
+import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.model.CreditCard;
 
 import javax.json.Json;
@@ -14,10 +16,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = {"/payment"})
-public class PaymentController extends JsonResponseController {
+public class PaymentController extends AuthenticatedController {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, InternalServerException, UnAuthorizedException {
+        super.doPost(request, response);
+
         JsonObject postData = super.getPostData(request);
 
         if (postData.getString("type").equals("paypal")) {
