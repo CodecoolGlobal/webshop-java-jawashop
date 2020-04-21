@@ -62,10 +62,12 @@ public class OrderController extends AuthenticatedController {
         for (CartItem cartItem : cartItems) {
             orderedProductDao.add(new OrderedProduct(order, cartItem.getProduct(), cartItem.getQuantity()));
             shoppingCartDao.remove(cartItem);
+            order.increaseTotalPrice(cartItem.getQuantity() * cartItem.getProduct().getDefaultPrice());
         }
 
         JsonObject orderJson = OrderJsonBuilder.create()
                 .addId()
+                .addTotalPrice()
                 .runOn(order);
 
         super.jsonify(orderJson, req, resp);

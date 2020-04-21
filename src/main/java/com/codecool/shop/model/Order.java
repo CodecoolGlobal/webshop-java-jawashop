@@ -10,6 +10,7 @@ public class Order {
     private final long phoneNumber;
     private final Address billingAddress;
     private final Address shippingAddress;
+    private double totalPrice;
 
     public Order(String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
         this(UUID.randomUUID().toString(), name, email, phoneNumber, billingAddress, shippingAddress);
@@ -46,5 +47,13 @@ public class Order {
 
     public Address getShippingAddress() {
         return shippingAddress;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void increaseTotalPrice(double value) {
+        this.totalPrice += value;
     }
 }

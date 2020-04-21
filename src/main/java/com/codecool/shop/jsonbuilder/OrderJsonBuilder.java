@@ -19,6 +19,7 @@ public class OrderJsonBuilder {
     private AddressJsonBuilder billingAddressBuilder;
     private boolean shouldAddShippingAddress;
     private AddressJsonBuilder shippingAddressBuilder;
+    private boolean shouldAddTotalPrice;
 
     private OrderJsonBuilder() {
         this.rootObject = Json.createObjectBuilder();
@@ -60,6 +61,11 @@ public class OrderJsonBuilder {
         return this;
     }
 
+    public OrderJsonBuilder addTotalPrice() {
+        this.shouldAddTotalPrice = true;
+        return this;
+    }
+
     public JsonArray runOn(List<Order> orders) {
         javax.json.JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         for (Order order : orders) {
@@ -91,6 +97,10 @@ public class OrderJsonBuilder {
 
         if (shouldAddShippingAddress) {
             this.rootObject.add("shipping_address", shippingAddressBuilder.runOn(order.getShippingAddress()));
+        }
+
+        if (shouldAddTotalPrice) {
+            this.rootObject.add("total_price", order.getTotalPrice());
         }
 
         return this.rootObject.build();
