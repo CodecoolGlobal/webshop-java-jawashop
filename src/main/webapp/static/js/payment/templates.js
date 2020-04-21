@@ -140,5 +140,35 @@ export let template = {
         return `
             <div class="alert alert-danger text-center">${message}</div>
         `
-    }
+    },
+
+    forSuccessfulOrder: function() {
+        return `
+            <div class="card-container m-3 p-3 rounded">
+                <div class="row">
+                    <h3><i class="far fa-check-circle"></i> Successful order!</h3>
+                    <p>Your order </p>
+                    <h4>Ordered products:</h4>
+                    <div id="ordered-products"></div>
+                </div>
+            </div>
+        `
+    },
+
+    forProduct: function(product) {
+        return `
+            <div class="row">
+                <div class="col-4">
+                    <img src="/static/img/uploads/${product.id}.jpg" class="product-image" alt="${product.name}">
+                </div>
+            </div>
+        `
+    },
+
+    forFailedOrder: function(message) {
+        return `
+            <div class="card-container m-3 p-3 rounded">
+            </div>
+        `
+    },
 };
