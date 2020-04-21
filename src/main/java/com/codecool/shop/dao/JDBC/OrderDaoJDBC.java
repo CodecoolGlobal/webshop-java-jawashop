@@ -3,12 +3,11 @@ package com.codecool.shop.dao.JDBC;
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
+import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.util.Optional;
 
 public class OrderDaoJDBC implements OrderDao {
 
@@ -36,6 +35,17 @@ public class OrderDaoJDBC implements OrderDao {
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean isExists(String id) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT * FROM orders WHERE id = ? LIMIT 1";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, id, Types.OTHER);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
         }
     }
 }

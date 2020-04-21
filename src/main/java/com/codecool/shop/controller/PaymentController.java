@@ -2,6 +2,8 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.CreditCardDao;
 import com.codecool.shop.dao.JDBC.CreditCardDaoJDBC;
+import com.codecool.shop.dao.JDBC.OrderDaoJDBC;
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.model.CreditCard;
@@ -23,14 +25,26 @@ public class PaymentController extends AuthenticatedController {
         super.doPost(request, response);
 
         JsonObject postData = super.getPostData(request);
+        JsonArrayBuilder errorBag = Json.createArrayBuilder();
 
         if (postData.getString("type").equals("paypal")) {
-            super.jsonify(Json.createArrayBuilder().build(), request, response);
+            errorBag.add("Payment with PayPal is not supported yet!");
+            super.jsonify(errorBag.build(), request, response);
             return;
         }
 
+        String orderID = postData.getString("orderID");
+        OrderDao orderDao = new OrderDaoJDBC();
+
+        try {
+            if (!orderDao.isExists(orderID)) {
+                errorBag.add("The order doesn't exists!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         CreditCardDao creditCardDao = new CreditCardDaoJDBC();
-        JsonArrayBuilder errorBag = Json.createArrayBuilder();
         CreditCard creditCard = createCreditCardFrom(postData);
 
         try {
