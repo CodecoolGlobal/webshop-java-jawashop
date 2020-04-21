@@ -25,7 +25,7 @@ export let template = {
                                 <div class="form-group col">
                                     <label for="inputCardNumber">Card Number</label>
                                     <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. 1234 1234 1234 1234"></i>
-                                    <input type="text" name="card_number" class="form-control" id="inputCardNumber" placeholder="e.g. 1234 1234 1234 1234" minlength="1" maxlength="19" required value="12">
+                                    <input type="text" name="card_number" class="form-control" id="inputCardNumber" placeholder="e.g. 1234 1234 1234 1234" minlength="12" maxlength="19" required value="1234 1234 1234 1234">
                                     <small class="form-text text-muted d-inline d-sm-none">
                                         e.g. 1234 1234 1234 1234
                                     </small>
