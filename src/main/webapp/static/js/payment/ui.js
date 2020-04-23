@@ -4,9 +4,9 @@ import { template } from "./templates.js";
 export let ui = {
     __rootNode: null,
 
-    render: function(submitCallback) {
+    render: function(order, submitCallback) {
         ui.__rootNode = getViewRoot();
-        ui.__rootNode.innerHTML = template.forPaymentMethodSelector();
+        ui.__rootNode.innerHTML = template.forPaymentMethodSelector(order);
         ui.__addClickListenerToPaymentMethods(submitCallback);
     },
 

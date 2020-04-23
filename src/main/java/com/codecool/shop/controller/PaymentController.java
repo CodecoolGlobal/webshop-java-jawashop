@@ -41,6 +41,8 @@ public class PaymentController extends AuthenticatedController {
                 errorBag.add("The order doesn't exists!");
             }
         } catch (SQLException e) {
+            errorBag.add("Sorry but we couldn't save Your payment details because of some technical difficulties on our side. " +
+                "We will investigate the issue! Thank You for your patience!");
             e.printStackTrace();
         }
 

@@ -3,8 +3,8 @@ import { formValidator } from "../components/formValidator.js";
 import { ui } from "./ui.js";
 
 export let logic = {
-    navigate: function() {
-        ui.render(logic.__submitForm);
+    navigate: function(order) {
+        ui.render(order, logic.__submitForm);
     },
 
     __submitForm: function(formData) {

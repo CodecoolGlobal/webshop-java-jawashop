@@ -1,5 +1,6 @@
 export let template = {
-    forPaymentMethodSelector: function() {
+    forPaymentMethodSelector: function(order) {
+        console.log(order)
         return `
             <div class="card-container m-3 p-3 rounded">
                 <h3>Payment methods</h3>
