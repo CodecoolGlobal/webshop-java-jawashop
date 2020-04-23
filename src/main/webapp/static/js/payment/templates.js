@@ -1,13 +1,13 @@
 export let template = {
     forPaymentMethodSelector: function(order) {
-        console.log(order)
         return `
             <div class="card-container m-3 p-3 rounded">
                 <h3>Payment methods</h3>
+                <p>Your order total price: <span class="text-success font-weight-bold">${order.total_price} JPY</span></p>
                 <p>Please select one of the available methods for payment:</p>
                 <ul>
                     <li id="creditCardBtn"><i class="fa fa-credit-card mr-3" aria-hidden="true"></i>Credit Card</li>
-                    <li id="paypalBtn"><i class="fab fa-cc-paypal mr-3" aria-hidden="true"></i>PayPal</li>
+                    <li id="paypalBtn"><del><i class="fab fa-cc-paypal mr-3" aria-hidden="true"></i>PayPal</del></li>
                 </ul>
             </div>
         `
@@ -85,38 +85,43 @@ export let template = {
                 <div id="formErrors"></div>
                 <div class="row">
                     <form class="mx-auto">
-                        <div class="form">
-                            <h3 class="mb-3">PayPal</h3>
-                            <input type="hidden" name="type" value="paypal">
-                            <div class="form-group">
-                                <label for="inputEmail">Email</label>
-                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. john@doe.com"></i>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">@</div>
+                        <fieldset disabled>
+                            <div class="form">
+                                <h3 class="mb-3">PayPal</h3>
+                                <div class="alert alert-danger" role="alert">
+                                    Payment with PayPal not supported yet.
+                                </div>
+                                <input type="hidden" name="type" value="paypal">
+                                <div class="form-group">
+                                    <label for="inputEmail">Email</label>
+                                    <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. john@doe.com"></i>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">@</div>
+                                        </div>
+                                        <input type="email" name="email" class="form-control" id="inputEmail" autocomplete="on" placeholder="Email address" required>
                                     </div>
-                                    <input type="email" name="email" class="form-control" id="inputEmail" autocomplete="on" placeholder="Email address" required>
+                                    <small class="form-text text-muted d-inline d-sm-none">
+                                        e.g. john@doe.com
+                                    </small>
                                 </div>
-                                <small class="form-text text-muted d-inline d-sm-none">
-                                    e.g. john@doe.com
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword">Password</label>
-                                <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="At least 8 characters long"></i>
-                                <div class="input-group">
-                                    <input type="password" name="password" id="inputPassword" autocomplete="off" data-toggle="password" class="form-control" placeholder="Password" minlength="8" required>
+                                <div class="form-group">
+                                    <label for="inputPassword">Password</label>
+                                    <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="At least 8 characters long"></i>
+                                    <div class="input-group">
+                                        <input type="password" name="password" id="inputPassword" autocomplete="off" data-toggle="password" class="form-control" placeholder="Password" minlength="8" required>
+                                    </div>
+                                    <small class="form-text text-muted d-inline d-sm-none">
+                                        At least 8 characters long
+                                    </small>
                                 </div>
-                                <small class="form-text text-muted d-inline d-sm-none">
-                                    At least 8 characters long
-                                </small>
-                            </div>
-                            <div class="form-row mb-3">
-                                <div class="mx-auto">
-                                    <button class="btn btn-primary">Authenticate</button>
+                                <div class="form-row mb-3">
+                                    <div class="mx-auto">
+                                        <button class="btn btn-primary">Authenticate</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
                     </form>
                 </div>
                 <div class="row">

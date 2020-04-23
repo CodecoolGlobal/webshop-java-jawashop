@@ -1,13 +1,11 @@
 import { dataHandler } from "./data_handler.js";
 import { ui } from "./ui.js";
 import { logic as user } from "../user/logic.js";
-import { logic as payment } from "../payment/logic.js";
 
 export let logic = {
     init: function() {
         ui.init();
-        payment.navigate();
-        //logic.getAllProducts();
+        logic.getAllProducts();
     },
 
     getAllProducts: function() {
