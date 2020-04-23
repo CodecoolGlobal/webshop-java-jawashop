@@ -10,7 +10,7 @@ export let template = {
                             <div class="form-group col-md-6">
                                 <label for="inputName">Name</label>
                                 <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. John Doe"></i>
-                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Your full name" required>
+                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Your full name" required value="Tom PoLáKoSz">
                                 <small class="form-text text-muted d-inline d-sm-none">
                                     e.g. John Doe
                                 </small>
@@ -22,7 +22,7 @@ export let template = {
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">@</div>
                                     </div>
-                                    <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email address" required>
+                                    <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email address" required value="polakosz@freemail.hu">
                                 </div>
                                 <small class="form-text text-muted d-inline d-sm-none">
                                     e.g. john@doe.com
@@ -39,7 +39,7 @@ export let template = {
                                             <i class="fas fa-phone"></i>
                                         </div>
                                     </div>
-                                    <input type="text" name="phoneNumber" class="form-control" id="inputPhone" placeholder="+36/30 123 4523" required>
+                                    <input type="text" name="phoneNumber" class="form-control" id="inputPhone" placeholder="+36/30 123 4523" required value="+36/30 123 4567">
                                 </div>
                                 <small class="form-text text-muted d-inline d-sm-none">
                                     e.g. +36/30 123 4567

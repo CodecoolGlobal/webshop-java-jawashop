@@ -11,6 +11,7 @@ import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
+import com.codecool.shop.jsonbuilder.OrderJsonBuilder;
 import com.codecool.shop.model.Address;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Order;
@@ -61,9 +62,15 @@ public class OrderController extends AuthenticatedController {
         for (CartItem cartItem : cartItems) {
             orderedProductDao.add(new OrderedProduct(order, cartItem.getProduct(), cartItem.getQuantity()));
             shoppingCartDao.remove(cartItem);
+            order.increaseTotalPrice(cartItem.getQuantity() * cartItem.getProduct().getDefaultPrice());
         }
 
-        super.jsonify(Json.createArrayBuilder().build(), req, resp);
+        JsonObject orderJson = OrderJsonBuilder.create()
+                .addId()
+                .addTotalPrice()
+                .runOn(order);
+
+        super.jsonify(orderJson, req, resp);
     }
 
     private JsonArray validate(JsonObject postData) {

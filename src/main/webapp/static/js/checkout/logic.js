@@ -1,6 +1,7 @@
 import { dataHandler } from "./data_handler.js";
 import { formValidator } from "../components/formValidator.js";
 import { navbar } from "../navbar/logic.js";
+import { logic as payment } from "../payment/logic.js";
 import { ui } from "./ui.js";
 
 export let logic = {
@@ -70,13 +71,15 @@ export let logic = {
         }
 
         formData["phoneNumber"] = formData["phoneNumber"].replace(/[+ /]/g, "") + " ";
-        dataHandler.addOrder(formData, function(errors) {
-            errors.forEach(error => {
-                ui.showValidationError(error);
-            });
-
-            if (errors.length === 0) {
+        dataHandler.addOrder(formData, function(response) {
+            if (response instanceof Array) {
+                const errors = response;
+                errors.forEach(error => {
+                    ui.showValidationError(error);
+                });
+            } else {
                 navbar.updateShoppingCartStats();
+                payment.navigate(response);
             }
         });
     },
