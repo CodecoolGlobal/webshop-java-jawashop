@@ -7,7 +7,7 @@ export let ui = {
     render: function(order, submitCallback) {
         ui.__rootNode = getViewRoot();
         ui.__rootNode.innerHTML = template.forPaymentMethodSelector(order);
-        ui.__addClickListenerToPaymentMethods(submitCallback);
+        ui.__addClickListenerToPaymentMethods(order, submitCallback);
     },
 
     showValidationError: function(message) {
@@ -15,27 +15,33 @@ export let ui = {
         container.innerHTML += template.forErrorMessage(message);
     },
 
-    __addClickListenerToPaymentMethods: function(submitCallback) {
-        ui.__addClickEventToCreditCardBtn(submitCallback);
-        ui.__addClickEventToPayPalBtn(submitCallback);
+    renderSuccessfulPayment: function(order) {
+        ui.__rootNode.innerHTML = template.forSuccessfulPayment(order);
+        const productListContainer = ui.__rootNode.querySelector("#ordered-products");
+        productListContainer.innerHTML = order.products.map(template.forProduct).join("");
     },
 
-    __addClickEventToCreditCardBtn: function(submitCallback) {
+    __addClickListenerToPaymentMethods: function(order, submitCallback) {
+        ui.__addClickEventToCreditCardBtn(order, submitCallback);
+        ui.__addClickEventToPayPalBtn(order, submitCallback);
+    },
+
+    __addClickEventToCreditCardBtn: function(order, submitCallback) {
         const creditCardBtn = ui.__rootNode.querySelector("#creditCardBtn");
         creditCardBtn.addEventListener("click", function() {
-            ui.__rootNode.innerHTML = template.forCreditCardForm();
-            ui.__addClickEventToPayPalBtn(submitCallback);
-            ui.__addClickListenerOnSubmitBtn(submitCallback);
+            ui.__rootNode.innerHTML = template.forCreditCardForm(order);
+            ui.__addClickEventToPayPalBtn(order, submitCallback);
+            ui.__addClickListenerOnSubmitBtn(order, submitCallback);
         });
     },
 
-    __addClickEventToPayPalBtn: function(submitCallback) {
+    __addClickEventToPayPalBtn: function(order, submitCallback) {
         const paypalBtn = ui.__rootNode.querySelector("#paypalBtn");
         paypalBtn.addEventListener("click", function() {
-            ui.__rootNode.innerHTML = template.forPayPalForm();
+            ui.__rootNode.innerHTML = template.forPayPalForm(order);
             $("#inputPassword").password();
-            ui.__addClickEventToCreditCardBtn(submitCallback);
-            ui.__addClickListenerOnSubmitBtn(submitCallback);
+            ui.__addClickEventToCreditCardBtn(order, submitCallback);
+            ui.__addClickListenerOnSubmitBtn(order, submitCallback);
         });
     },
 

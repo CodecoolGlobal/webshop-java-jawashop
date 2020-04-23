@@ -13,7 +13,7 @@ export let template = {
         `
     },
 
-    forCreditCardForm: function() {
+    forCreditCardForm: function(order) {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div id="formErrors"></div>
@@ -22,6 +22,7 @@ export let template = {
                         <form class="mx-auto">
                             <h3 class="mb-3">Credit Card Payment</h3>
                             <input type="hidden" name="type" value="credit-card">
+                            <input type="hidden" name="order_id" value="${order.id}">
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="inputCardNumber">Card Number</label>
@@ -79,7 +80,7 @@ export let template = {
         `
     },
 
-    forPayPalForm: function() {
+    forPayPalForm: function(order) {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div id="formErrors"></div>
@@ -92,6 +93,7 @@ export let template = {
                                     Payment with PayPal not supported yet.
                                 </div>
                                 <input type="hidden" name="type" value="paypal">
+                                <input type="hidden" name="order_id" value="${order.id}">
                                 <div class="form-group">
                                     <label for="inputEmail">Email</label>
                                     <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. john@doe.com"></i>
@@ -142,12 +144,12 @@ export let template = {
         `
     },
 
-    forSuccessfulOrder: function() {
+    forSuccessfulPayment: function(order) {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div class="row">
                     <h3><i class="far fa-check-circle"></i> Successful order!</h3>
-                    <p>Your order </p>
+                    <p>Your can track your order with this identifier: ${order.id}</p>
                     <h4>Ordered products:</h4>
                     <div id="ordered-products"></div>
                 </div>
@@ -161,13 +163,6 @@ export let template = {
                 <div class="col-4">
                     <img src="/static/img/uploads/${product.id}.jpg" class="product-image" alt="${product.name}">
                 </div>
-            </div>
-        `
-    },
-
-    forFailedOrder: function(message) {
-        return `
-            <div class="card-container m-3 p-3 rounded">
             </div>
         `
     },
