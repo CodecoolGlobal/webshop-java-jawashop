@@ -3,7 +3,7 @@ export let template = {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <h3>Payment methods</h3>
-                <p>Your order total price: <span class="text-success font-weight-bold">${order.total_price} JPY</span></p>
+                <p>Your order total price: <span class="text-primary font-weight-bold">${order.total_price} JPY</span></p>
                 <p>Please select one of the available methods for payment:</p>
                 <ul>
                     <li id="creditCardBtn"><i class="fa fa-credit-card mr-3" aria-hidden="true"></i>Credit Card</li>
@@ -13,7 +13,7 @@ export let template = {
         `
     },
 
-    forCreditCardForm: function() {
+    forCreditCardForm: function(order) {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div id="formErrors"></div>
@@ -22,6 +22,7 @@ export let template = {
                         <form class="mx-auto">
                             <h3 class="mb-3">Credit Card Payment</h3>
                             <input type="hidden" name="type" value="credit-card">
+                            <input type="hidden" name="order_id" value="${order.id}">
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="inputCardNumber">Card Number</label>
@@ -79,7 +80,7 @@ export let template = {
         `
     },
 
-    forPayPalForm: function() {
+    forPayPalForm: function(order) {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div id="formErrors"></div>
@@ -92,6 +93,7 @@ export let template = {
                                     Payment with PayPal not supported yet.
                                 </div>
                                 <input type="hidden" name="type" value="paypal">
+                                <input type="hidden" name="order_id" value="${order.id}">
                                 <div class="form-group">
                                     <label for="inputEmail">Email</label>
                                     <i class="fas fa-question-circle d-sm-inline d-none" data-toggle="tooltip" data-placement="top" title="e.g. john@doe.com"></i>
@@ -140,5 +142,41 @@ export let template = {
         return `
             <div class="alert alert-danger text-center">${message}</div>
         `
-    }
+    },
+
+    forSuccessfulPayment: function(order) {
+        console.log(order)
+        return `
+            <div class="card-container m-3 p-3 rounded">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="text-success"><i class="far fa-check-circle"></i> Successful order!</h3>
+                        <p>Your can track your order with this identifier:
+                            <span class="text-primary font-weight-bold">${order.id}</span>
+                        </p>
+                        <h4>Ordered products:</h4>
+                        <div id="ordered-products"></div>
+                    </div>
+                </div>
+            </div>
+        `
+    },
+
+    forProduct: function(orderedProduct) {
+        return `
+            <div class="row p-3">
+                <div class="col-2">
+                    <img src="/static/img/uploads/${orderedProduct.product.id}.jpg" class="img-fluid" alt="${orderedProduct.product.name}">
+                </div>
+                <div class="col-6">
+                    <h4>${orderedProduct.product.name}</h4>
+                    <p>${orderedProduct.product.description}</p>
+                </div>
+                <div class="col-4 text-center d-flex flex-column justify-content-center">
+                    <div class="border-bottom">${orderedProduct.quantity}x${orderedProduct.product.price} ${orderedProduct.product.currency.code}</div>
+                    <div class="border-top">${orderedProduct.quantity * orderedProduct.product.price} ${orderedProduct.product.currency.code}</div>
+                </div>
+            </div>
+        `
+    },
 };

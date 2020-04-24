@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS order_products;
+DROP TABLE IF EXISTS order_payments;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
@@ -75,6 +76,13 @@ CREATE TABLE credit_cards (
     owner_name VARCHAR(100) NOT NULL,
     expire_date VARCHAR(5) NOT NULL,
     code INTEGER NOT NULL
+);
+
+CREATE TABLE order_payments (
+    id uuid PRIMARY KEY,
+    order_id uuid NOT NULL REFERENCES orders(id),
+    credit_card_id uuid NOT NULL REFERENCES credit_cards(id),
+    inserted_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE UNIQUE INDEX auth_token_idx ON users(auth_token);
