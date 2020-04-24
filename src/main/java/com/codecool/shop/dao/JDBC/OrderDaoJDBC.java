@@ -3,11 +3,9 @@ package com.codecool.shop.dao.JDBC;
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
-import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.Optional;
 
 public class OrderDaoJDBC implements OrderDao {
 
