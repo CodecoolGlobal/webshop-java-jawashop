@@ -3,7 +3,7 @@ export let template = {
         return `
             <div class="card-container m-3 p-3 rounded">
                 <h3>Payment methods</h3>
-                <p>Your order total price: <span class="text-success font-weight-bold">${order.total_price} JPY</span></p>
+                <p>Your order total price: <span class="text-primary font-weight-bold">${order.total_price} JPY</span></p>
                 <p>Please select one of the available methods for payment:</p>
                 <ul>
                     <li id="creditCardBtn"><i class="fa fa-credit-card mr-3" aria-hidden="true"></i>Credit Card</li>
@@ -145,23 +145,36 @@ export let template = {
     },
 
     forSuccessfulPayment: function(order) {
+        console.log(order)
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div class="row">
-                    <h3><i class="far fa-check-circle"></i> Successful order!</h3>
-                    <p>Your can track your order with this identifier: ${order.id}</p>
-                    <h4>Ordered products:</h4>
-                    <div id="ordered-products"></div>
+                    <div class="col">
+                        <h3 class="text-success"><i class="far fa-check-circle"></i> Successful order!</h3>
+                        <p>Your can track your order with this identifier:
+                            <span class="text-primary font-weight-bold">${order.id}</span>
+                        </p>
+                        <h4>Ordered products:</h4>
+                        <div id="ordered-products"></div>
+                    </div>
                 </div>
             </div>
         `
     },
 
-    forProduct: function(product) {
+    forProduct: function(orderedProduct) {
         return `
-            <div class="row">
-                <div class="col-4">
-                    <img src="/static/img/uploads/${product.id}.jpg" class="product-image" alt="${product.name}">
+            <div class="row p-3">
+                <div class="col-2">
+                    <img src="/static/img/uploads/${orderedProduct.product.id}.jpg" class="img-fluid" alt="${orderedProduct.product.name}">
+                </div>
+                <div class="col-6">
+                    <h4>${orderedProduct.product.name}</h4>
+                    <p>${orderedProduct.product.description}</p>
+                </div>
+                <div class="col-4 text-center d-flex flex-column justify-content-center">
+                    <div class="border-bottom">${orderedProduct.quantity}x${orderedProduct.product.price} ${orderedProduct.product.currency.code}</div>
+                    <div class="border-top">${orderedProduct.quantity * orderedProduct.product.price} ${orderedProduct.product.currency.code}</div>
                 </div>
             </div>
         `

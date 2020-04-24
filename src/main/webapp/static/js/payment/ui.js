@@ -31,7 +31,7 @@ export let ui = {
         creditCardBtn.addEventListener("click", function() {
             ui.__rootNode.innerHTML = template.forCreditCardForm(order);
             ui.__addClickEventToPayPalBtn(order, submitCallback);
-            ui.__addClickListenerOnSubmitBtn(order, submitCallback);
+            ui.__addClickListenerOnSubmitBtn(submitCallback);
         });
     },
 
@@ -41,7 +41,7 @@ export let ui = {
             ui.__rootNode.innerHTML = template.forPayPalForm(order);
             $("#inputPassword").password();
             ui.__addClickEventToCreditCardBtn(order, submitCallback);
-            ui.__addClickListenerOnSubmitBtn(order, submitCallback);
+            ui.__addClickListenerOnSubmitBtn(submitCallback);
         });
     },
 

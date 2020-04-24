@@ -33,12 +33,14 @@ export let logic = {
             return;
         }
         dataHandler.addPayment(formData, function(response) {
-            if (response instanceof Array) {
+            if (response instanceof Array && 0 < response.length && !(response[0] instanceof Object)) {
                 const errors = response;
                 errors.forEach(error => {
                     ui.showValidationError(error);
                 });
             } else {
+                response["id"] = formData.order_id;
+                response["products"] = response;
                 const order = response;
                 ui.renderSuccessfulPayment(order);
             }
