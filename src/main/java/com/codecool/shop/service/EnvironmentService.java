@@ -27,8 +27,6 @@ public class EnvironmentService {
             throw new FileNotFoundException("No environment file configured!");
         }
 
-        String path = fileUri.getFile();
-
         File environmentFile = new File(fileUri.getFile());
 
         parse(environmentFile);
