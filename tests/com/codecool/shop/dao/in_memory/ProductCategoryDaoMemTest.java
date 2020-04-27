@@ -4,6 +4,8 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +21,7 @@ class ProductCategoryDaoMemTest {
     }
 
     @Test
-    public void findReturnProductCategoryIfExists(){
+    public void findReturnProductCategoryIfExists() throws SQLException {
         ProductCategory productCategory = makeCategory();
 
         productCategoryDao.add(makeCategory());
@@ -30,7 +32,7 @@ class ProductCategoryDaoMemTest {
     }
 
     @Test
-    public void findReturnNullIfProductCategoryNotExists(){
+    public void findReturnNullIfProductCategoryNotExists() throws SQLException {
         ProductCategory productCategory = makeCategory();
 
         productCategoryDao.add(makeCategory());
@@ -41,7 +43,7 @@ class ProductCategoryDaoMemTest {
     }
 
     @Test
-    public void removeProductCategoryReturnNull(){
+    public void removeProductCategoryReturnNull() throws SQLException {
         ProductCategory productCategory = makeCategory();
 
         productCategoryDao.add(makeCategory());
@@ -54,7 +56,7 @@ class ProductCategoryDaoMemTest {
     }
 
     @Test
-    public void getReturnsAllProductCategoriesIfProductListNotNull(){
+    public void getReturnsAllProductCategoriesIfProductListNotNull() throws SQLException {
         List<ProductCategory> productCategories = new ArrayList<>();
 
         productCategories.add(makeCategory());
