@@ -16,13 +16,11 @@ public class HomeController extends JsonResponseController {
                 "<html>" +
                         "<head>" +
                             "<title>Codecool Shop</title>" +
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/custom.css\"/>" +
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/header.css\"/>" +
-                            "<script src=\"/static/js/core.js\" type=\"module\" defer>" +
-                            "</script><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/main.css\" />" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/main.css\" />" +
+                            "<script src=\"/static/js/core.js\" type=\"module\" defer></script>" +
                         "</head>" +
                         "<body></body>" +
-                "</html>");
+                    "</html>");
         out.flush();
         out.close();
     }
