@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.util.stream.Collectors;
 
 public abstract class JsonResponseController extends HttpServlet {
+
     protected void jsonify(JsonObject jsonObject, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
 

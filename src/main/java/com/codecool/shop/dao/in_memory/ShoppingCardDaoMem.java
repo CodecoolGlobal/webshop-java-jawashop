@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCardDaoMem implements ShoppingCartDao {
+
     private List<CartItem> data = new ArrayList<>();
     private static ShoppingCardDaoMem instance = null;
 

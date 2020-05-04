@@ -10,6 +10,5 @@ public interface ShoppingCartDao {
     CartItem find(Product product);
     void remove(CartItem cartItem);
     void update(CartItem cartItem);
-
     List<CartItem> getAll();
 }
