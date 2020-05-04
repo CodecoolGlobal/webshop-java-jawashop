@@ -1,8 +1,8 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.implementation.ProductDaoJDBC;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
+import com.codecool.shop.dao.JDBC.ProductDaoJDBC;
+import com.codecool.shop.dao.JDBC.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.CartItemJsonBuilder;

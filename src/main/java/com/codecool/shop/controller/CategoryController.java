@@ -1,6 +1,6 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.implementation.ProductCategoryDaoJDBC;
+import com.codecool.shop.dao.JDBC.ProductCategoryDaoJDBC;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.jsonbuilder.CategoryJsonBuilder;
 

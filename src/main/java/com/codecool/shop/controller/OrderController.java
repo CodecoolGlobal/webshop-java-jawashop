@@ -8,7 +8,7 @@ import com.codecool.shop.dao.JDBC.OrderedProductJDBC;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.OrderedProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
+import com.codecool.shop.dao.JDBC.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.OrderJsonBuilder;
