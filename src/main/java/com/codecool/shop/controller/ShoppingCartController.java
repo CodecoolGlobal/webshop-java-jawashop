@@ -11,6 +11,7 @@ import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
 import com.codecool.shop.jsonbuilder.SupplierJsonBuilder;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.User;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -56,29 +57,34 @@ public class ShoppingCartController extends AuthenticatedController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
-        super.authenticate(req);
+        User user = super.authenticate(req);
 
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
-        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
-
         if(product == null) {
             throw new IllegalArgumentException("There is no Product { ID = " + id + "}");
         }
 
-        shoppingCartDao.add(product);
+        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
+        CartItem cartItem = shoppingCartDao.find(product);
+        if (cartItem == null) {
+            shoppingCartDao.add(new CartItem(user, product, 1));
+        } else {
+            cartItem.changeQuantity(1);
+            shoppingCartDao.update(cartItem);
+        }
 
         List<CartItem> cartItems = shoppingCartDao.getAll();
 
         JsonObjectBuilder rootObject = calculateCartStats(cartItems);
-        appendCartItem(product, cartItems, rootObject);
+        appendCartItem(product, cartItems, user, rootObject);
 
         super.jsonify(rootObject.build(), req, resp);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
-        super.authenticate(req);
+        User user = super.authenticate(req);
 
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
@@ -102,7 +108,7 @@ public class ShoppingCartController extends AuthenticatedController {
         List<CartItem> cartItems = shoppingCartDao.getAll();
 
         JsonObjectBuilder rootObject = calculateCartStats(cartItems);
-        appendCartItem(product, cartItems, rootObject);
+        appendCartItem(product, cartItems, user, rootObject);
 
         super.jsonify(rootObject.build(), req, resp);
     }
@@ -124,11 +130,11 @@ public class ShoppingCartController extends AuthenticatedController {
         return cartBuilder;
     }
 
-    private void appendCartItem(Product product, List<CartItem> cartItems, JsonObjectBuilder rootObject) {
+    private void appendCartItem(Product product, List<CartItem> cartItems, User user, JsonObjectBuilder rootObject) {
         CartItem cartItem = findCurrent(product, cartItems);
 
         if (cartItem == null) {
-            cartItem = new CartItem(product, 0);
+            cartItem = new CartItem(user, product, 0);
         }
 
         JsonObject quantityObject = CartItemJsonBuilder.create()

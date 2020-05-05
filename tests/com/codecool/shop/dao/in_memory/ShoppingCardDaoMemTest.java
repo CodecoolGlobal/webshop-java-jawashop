@@ -1,10 +1,7 @@
 package com.codecool.shop.dao.in_memory;
 
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.model.CartItem;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
+import com.codecool.shop.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +22,11 @@ class ShoppingCardDaoMemTest {
     @Test
     public void findReturnProductIfExists(){
         Product product = makeProduct();
+        CartItem item = new CartItem(makeUser(), product, 0);
 
-        shoppingCartDao.add(makeProduct());
-        shoppingCartDao.add(product);
-        shoppingCartDao.add(makeProduct());
+        shoppingCartDao.add(makeCartItem());
+        shoppingCartDao.add(item);
+        shoppingCartDao.add(makeCartItem());
 
         assertSame(product, shoppingCartDao.find(product).getProduct());
     }
@@ -37,9 +35,9 @@ class ShoppingCardDaoMemTest {
     public void findReturnNullIfProductNotExists(){
         Product product = makeProduct();
 
-        shoppingCartDao.add(makeProduct());
-        shoppingCartDao.add(makeProduct());
-        shoppingCartDao.add(makeProduct());
+        shoppingCartDao.add(makeCartItem());
+        shoppingCartDao.add(makeCartItem());
+        shoppingCartDao.add(makeCartItem());
 
         assertNull(shoppingCartDao.find(product));
     }
@@ -47,10 +45,11 @@ class ShoppingCardDaoMemTest {
     @Test
     public void removeProductReturnNull(){
         Product product = makeProduct();
+        CartItem item = new CartItem(makeUser(), product, 0);
 
-        shoppingCartDao.add(makeProduct());
-        shoppingCartDao.add(product);
-        shoppingCartDao.add(makeProduct());
+        shoppingCartDao.add(makeCartItem());
+        shoppingCartDao.add(item);
+        shoppingCartDao.add(makeCartItem());
 
         CartItem cartItem = shoppingCartDao.find(product);
         shoppingCartDao.remove(cartItem);
@@ -65,7 +64,7 @@ class ShoppingCardDaoMemTest {
         cartItems.add(makeCartItem());
 
         for (CartItem cartItem: cartItems) {
-            shoppingCartDao.add(cartItem.getProduct());
+            shoppingCartDao.add(cartItem);
         }
 
         for (int i = 0; i < shoppingCartDao.getAll().size(); i++) {
@@ -73,8 +72,12 @@ class ShoppingCardDaoMemTest {
         }
     }
 
+    private User makeUser() {
+        return new User(null, null);
+    }
+
     private CartItem makeCartItem() {
-        return new CartItem(makeProduct(), 0);
+        return new CartItem(new User(null, null), makeProduct(), 0);
     }
 
     private Product makeProduct(){
