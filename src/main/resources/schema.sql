@@ -74,7 +74,6 @@ CREATE TABLE order_products (
 
 CREATE TABLE credit_cards (
     id uuid PRIMARY KEY,
-    user_id uuid NOT NULL REFERENCES users(id),
     number BIGINT NOT NULL,
     owner_name VARCHAR(100) NOT NULL,
     expire_date VARCHAR(5) NOT NULL,
@@ -83,7 +82,6 @@ CREATE TABLE credit_cards (
 
 CREATE TABLE order_payments (
     id uuid PRIMARY KEY,
-    user_id uuid NOT NULL REFERENCES users(id),
     order_id uuid NOT NULL REFERENCES orders(id),
     credit_card_id uuid NOT NULL REFERENCES credit_cards(id),
     inserted_at TIMESTAMP NOT NULL DEFAULT now()
