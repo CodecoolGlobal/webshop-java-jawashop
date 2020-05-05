@@ -49,7 +49,6 @@ CREATE TABLE cart (
 
 CREATE TABLE addresses (
     id uuid PRIMARY KEY,
-    user_id uuid NOT NULL REFERENCES users(id),
     country VARCHAR(30) NOT NULL,
     city VARCHAR(30) NOT NULL,
     zip_code VARCHAR(30) NOT NULL,

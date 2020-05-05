@@ -32,7 +32,7 @@ public class OrderController extends AuthenticatedController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
-        super.authenticate(req);
+        User user = super.authenticate(req);
 
         JsonObject postData = super.getPostData(req);
         JsonArray errorBag = validate(postData);
@@ -42,7 +42,7 @@ public class OrderController extends AuthenticatedController {
             return;
         }
 
-        Order order = createOrderFrom(postData);
+        Order order = createOrderFrom(postData, user);
 
         AddressDao addressDao = new AddressDaoJDBC();
         addressDao.add(order.getBillingAddress());
@@ -120,8 +120,9 @@ public class OrderController extends AuthenticatedController {
         return errors.build();
     }
 
-    private Order createOrderFrom(JsonObject postData) {
+    private Order createOrderFrom(JsonObject postData, User user) {
         return new Order(
+                user,
                 postData.getString("name"),
                 postData.getString("email"),
                 Long.parseLong(postData.getString("phoneNumber").substring(0, 11)),
