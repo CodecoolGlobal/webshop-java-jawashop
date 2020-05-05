@@ -12,10 +12,7 @@ import com.codecool.shop.dao.JDBC.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.OrderJsonBuilder;
-import com.codecool.shop.model.Address;
-import com.codecool.shop.model.CartItem;
-import com.codecool.shop.model.Order;
-import com.codecool.shop.model.OrderedProduct;
+import com.codecool.shop.model.*;
 
 import javax.json.*;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +32,7 @@ public class OrderController extends AuthenticatedController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
-        super.doPost(req, resp);
+        super.authenticate(req);
 
         JsonObject postData = super.getPostData(req);
         JsonArray errorBag = validate(postData);

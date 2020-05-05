@@ -35,7 +35,7 @@ public class PaymentController extends AuthenticatedController {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, InternalServerException, UnAuthorizedException {
-        super.doPost(request, response);
+        super.authenticate(request);
 
         JsonObject postData = super.getPostData(request);
         JsonArrayBuilder errorBag = Json.createArrayBuilder();

@@ -27,7 +27,7 @@ public class ShoppingCartController extends AuthenticatedController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        super.doGet(req, resp);
+        super.authenticate(req);
 
         List<CartItem> cartItems = new ShoppingCartDaoJDBC().getAll();
 
@@ -56,7 +56,7 @@ public class ShoppingCartController extends AuthenticatedController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
-        super.doPost(req, resp);
+        super.authenticate(req);
 
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
@@ -78,7 +78,7 @@ public class ShoppingCartController extends AuthenticatedController {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
-        super.doDelete(req, resp);
+        super.authenticate(req);
 
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
