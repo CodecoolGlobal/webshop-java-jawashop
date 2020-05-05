@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.in_memory;
 
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.CartItem;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCardDaoMem implements ShoppingCartDao {
+
     private List<CartItem> data = new ArrayList<>();
     private static ShoppingCardDaoMem instance = null;
 
@@ -25,14 +26,8 @@ public class ShoppingCardDaoMem implements ShoppingCartDao {
     }
 
     @Override
-    public void add(Product product) {
-        CartItem foundCartItem = find(product);
-
-        if (foundCartItem != null) {
-            foundCartItem.changeQuantity(+1);
-        } else {
-            this.data.add(new CartItem(product, 1));
-        }
+    public void add(CartItem item) {
+        this.data.add(item);
     }
 
     @Override
@@ -48,17 +43,12 @@ public class ShoppingCardDaoMem implements ShoppingCartDao {
             throw new IllegalStateException("There is no Product in the Cart with ID " + cartItem.getProduct().getId());
         }
 
-        foundCartItem.changeQuantity(-1);
-
-        if (foundCartItem.getQuantity() == 0) {
-            this.data.remove(foundCartItem);
-        }
+        this.data.remove(foundCartItem);
     }
 
     @Override
     public void update(CartItem cartItem) {
         CartItem foundCartItem = find(cartItem.getProduct());
-
         foundCartItem.setQuantity(cartItem.getQuantity());
     }
 

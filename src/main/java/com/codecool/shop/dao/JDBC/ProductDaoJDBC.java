@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.JDBC;
 
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.ProductDao;
@@ -13,6 +13,7 @@ import java.util.List;
 
 
 public class ProductDaoJDBC implements ProductDao {
+
     private DataSource dataSource;
 
     public ProductDaoJDBC() {

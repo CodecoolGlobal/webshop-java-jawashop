@@ -22,14 +22,15 @@ public class OrderDaoJDBC implements OrderDao {
     @Override
     public void add(Order order) {
         try (Connection connection = dataSource.getConnection();) {
-            String query = "INSERT INTO orders (id, name, email, phone_number, billing_address_id, shipping_address_id) VALUES (?,?,?,?,?,?)";
+            String query = "INSERT INTO orders (id, user_id, name, email, phone_number, billing_address_id, shipping_address_id) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setObject(1, order.getId(), Types.OTHER);
-            statement.setString(2, order.getName());
-            statement.setString(3, order.getEmail());
-            statement.setLong(4, order.getPhoneNumber());
-            statement.setObject(5, order.getBillingAddress().getId(), Types.OTHER);
-            statement.setObject(6, order.getShippingAddress().getId(), Types.OTHER);
+            statement.setObject(2, order.getUser().getId(), Types.OTHER);
+            statement.setString(3, order.getName());
+            statement.setString(4, order.getEmail());
+            statement.setLong(5, order.getPhoneNumber());
+            statement.setObject(6, order.getBillingAddress().getId(), Types.OTHER);
+            statement.setObject(7, order.getShippingAddress().getId(), Types.OTHER);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

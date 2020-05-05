@@ -6,8 +6,16 @@ DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS addresses;
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS credit_cards;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id uuid PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR NOT NULL,
+    auth_token VARCHAR NULL UNIQUE
+);
 
 CREATE TABLE category (
     id uuid PRIMARY KEY,
@@ -34,6 +42,7 @@ CREATE TABLE product (
 
 CREATE TABLE cart (
     id uuid PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES users(id),
     product_id uuid REFERENCES product(id),
     quantity INTEGER
 );
@@ -48,6 +57,7 @@ CREATE TABLE addresses (
 
 CREATE TABLE orders (
     id uuid PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES users(id),
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone_number BIGINT NOT NULL,
@@ -60,14 +70,6 @@ CREATE TABLE order_products (
     order_id uuid  REFERENCES orders(id),
     product_id uuid REFERENCES product(id),
     quantity INTEGER
-);
-
-CREATE TABLE users (
-    id uuid PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR NOT NULL,
-    auth_token VARCHAR NULL UNIQUE
 );
 
 CREATE TABLE credit_cards (

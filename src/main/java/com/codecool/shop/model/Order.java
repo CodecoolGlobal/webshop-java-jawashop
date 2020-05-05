@@ -5,6 +5,7 @@ import java.util.UUID;
 public class Order {
 
     private final String id;
+    private final User user;
     private final String name;
     private final String email;
     private final long phoneNumber;
@@ -12,12 +13,13 @@ public class Order {
     private final Address shippingAddress;
     private double totalPrice;
 
-    public Order(String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
-        this(UUID.randomUUID().toString(), name, email, phoneNumber, billingAddress, shippingAddress);
+    public Order(User user,String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
+        this(UUID.randomUUID().toString(), user, name, email, phoneNumber, billingAddress, shippingAddress);
     }
 
-    public Order(String id, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
+    public Order(String id, User user, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
         this.id = id;
+        this.user = user;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -27,6 +29,10 @@ public class Order {
 
     public String getId() {
         return id;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String getName() {

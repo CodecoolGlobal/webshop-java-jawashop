@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.JDBC;
 
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.ProductCategoryDao;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
+
     private DataSource dataSource;
 
     public ProductCategoryDaoJDBC() {

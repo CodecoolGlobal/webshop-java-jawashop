@@ -6,10 +6,9 @@ import com.codecool.shop.model.Product;
 import java.util.List;
 
 public interface ShoppingCartDao {
-    void add(Product product);
+    void add(CartItem item);
     CartItem find(Product product);
     void remove(CartItem cartItem);
     void update(CartItem cartItem);
-
     List<CartItem> getAll();
 }

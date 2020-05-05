@@ -1,16 +1,22 @@
 import { logic as errorHandler } from "./error/logic.js";
-import { navbar } from "./navbar/logic.js";
 import { logic as homepage } from "./index/logic.js";
 import { logic as user } from "./user/logic.js";
+import { navbar } from "./navbar/logic.js";
+import { ui as header } from "./components/header.js";
+import { ui as body } from "./components/body.js";
 
-async function init() {
-    errorHandler.init();
+function init() {
+    header.render(async function() {
+        body.init();
 
-    user.checkAuthentication();
+        errorHandler.init();
 
-    navbar.init();
+        user.checkAuthentication();
 
-    homepage.init();
+        await navbar.init();
+
+        homepage.init();
+    });
 }
 
 init();

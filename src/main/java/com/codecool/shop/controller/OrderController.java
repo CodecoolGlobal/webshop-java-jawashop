@@ -8,14 +8,11 @@ import com.codecool.shop.dao.JDBC.OrderedProductJDBC;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.OrderedProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoJDBC;
+import com.codecool.shop.dao.JDBC.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.OrderJsonBuilder;
-import com.codecool.shop.model.Address;
-import com.codecool.shop.model.CartItem;
-import com.codecool.shop.model.Order;
-import com.codecool.shop.model.OrderedProduct;
+import com.codecool.shop.model.*;
 
 import javax.json.*;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +32,7 @@ public class OrderController extends AuthenticatedController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, InternalServerException, UnAuthorizedException {
-        super.doPost(req, resp);
+        User user = super.authenticate(req);
 
         JsonObject postData = super.getPostData(req);
         JsonArray errorBag = validate(postData);
@@ -45,7 +42,7 @@ public class OrderController extends AuthenticatedController {
             return;
         }
 
-        Order order = createOrderFrom(postData);
+        Order order = createOrderFrom(postData, user);
 
         AddressDao addressDao = new AddressDaoJDBC();
         addressDao.add(order.getBillingAddress());
@@ -123,8 +120,9 @@ public class OrderController extends AuthenticatedController {
         return errors.build();
     }
 
-    private Order createOrderFrom(JsonObject postData) {
+    private Order createOrderFrom(JsonObject postData, User user) {
         return new Order(
+                user,
                 postData.getString("name"),
                 postData.getString("email"),
                 Long.parseLong(postData.getString("phoneNumber").substring(0, 11)),

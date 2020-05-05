@@ -4,6 +4,119 @@ body {
     background-attachment: fixed;
 }
 
+/* HEADER */
+    .navbar {
+        padding-left: 15%;
+        padding-right: 15%;
+        font-family: 'Play', sans-serif;
+        font-size: 1.5rem;
+        box-shadow: 0px 5px 10px 5px #000000bf;
+    }
+
+    .logo {
+        margin-right: 2%;
+    }
+
+    .cart i {
+        color: #eeeeee;
+        font-size: 2.5rem;
+    }
+
+    .container {
+        margin-top: 110px;
+    }
+/* HEADER END */
+
+/* CUSTOM */
+    .glyphicon {
+        margin-right:5px;
+    }
+    .thumbnail
+    {
+        margin-bottom: 20px;
+        padding: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        border-radius: 0px;
+    }
+    .thumbnail img
+    {
+        margin-top: 10px;
+    }
+    .item.list-group-item
+    {
+        float: none;
+        width: 100%;
+        background-color: #fff;
+        margin-bottom: 10px;
+    }
+    .item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
+    {
+        background: #428bca;
+    }
+
+    .item.list-group-item .list-group-image
+    {
+        margin-right: 10px;
+    }
+    .item.list-group-item .thumbnail
+    {
+        margin-bottom: 0px;
+    }
+    .item.list-group-item .caption
+    {
+        padding: 9px 9px 0px 9px;
+    }
+    .item.list-group-item:nth-of-type(odd)
+    {
+        background: #eeeeee;
+    }
+
+    .item.list-group-item:before, .item.list-group-item:after
+    {
+        display: table;
+        content: " ";
+    }
+
+    .item.list-group-item img
+    {
+        float: left;
+    }
+    .item.list-group-item:after
+    {
+        clear: both;
+    }
+    .list-group-item-text
+    {
+        margin: 0 0 11px;
+    }
+
+    div#cart-button {
+        position: relative;
+    }
+    div#cart-button:hover {
+        text-shadow: 0px 5px 5px black;
+    }
+
+    div#cart-item-counter {
+        background: red;
+        position: absolute;
+        z-index: 15;
+        top: 0;
+        right: 0;
+        min-width: 50%;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px;
+        text-align: center;
+        padding: 3px;
+    }
+
+    .btn.disabled {
+        cursor: not-allowed;
+    }
+/* CUSTOM END */
+
 .card-container {
     background-color: #f6f6f6f6 ;
     color: #6b646e;
@@ -11,9 +124,9 @@ body {
     overflow: hidden;
     transition: 300ms;
 }
-    .card-vertical {
-        height: 37.5rem;
-    }
+.card-vertical {
+    height: 37.5rem;
+}
 
 .btn.btn-dark {
     color: white !important;

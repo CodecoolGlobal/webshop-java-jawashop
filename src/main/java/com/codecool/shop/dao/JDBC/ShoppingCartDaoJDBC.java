@@ -1,11 +1,8 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.JDBC;
 
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.model.CartItem;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
+import com.codecool.shop.model.*;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -25,31 +22,19 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     }
 
     @Override
-    public void add(Product product) {
-        CartItem foundCartItem = find(product);
-
-        if (foundCartItem == null) {
-            UUID uuid = UUID.randomUUID();
-            String query = "INSERT INTO cart (id, product_id, quantity) VALUES (?,?,?)";
-            try (Connection connection = dataSource.getConnection();) {
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setObject(1, uuid, Types.OTHER);
-                statement.setObject(2, product.getId(), Types.OTHER);
-                statement.setInt(3, 1);
-                statement.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            String query = "UPDATE cart SET quantity = quantity + 1 WHERE product_id = ?;";
-            try (Connection connection = dataSource.getConnection();) {
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setObject(1, product.getId(), Types.OTHER);
-                statement.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-         }
+    public void add(CartItem item) {
+        UUID uuid = UUID.randomUUID();
+        String query = "INSERT INTO cart (id, user_id, product_id, quantity) VALUES (?,?,?,?)";
+        try (Connection connection = dataSource.getConnection();) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, uuid, Types.OTHER);
+            statement.setObject(2, item.getOwner().getId(), Types.OTHER);
+            statement.setObject(3, item.getProduct().getId(), Types.OTHER);
+            statement.setInt(4, 1);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -62,6 +47,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             if (resultSet.next()) {
                 return new CartItem(
                         resultSet.getString("id"),
+                        null,
                         new Product(
                                 resultSet.getString("product_id"),
                                 null,
@@ -132,6 +118,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
                 products.add(
                         new CartItem(
                                 resultSet.getString("id"),
+                                null,
                                 new Product(
                                         resultSet.getString("product_id"),
                                         resultSet.getString("product_name"),

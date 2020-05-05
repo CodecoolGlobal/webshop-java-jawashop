@@ -13,10 +13,7 @@ import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.CurrencyJsonBuilder;
 import com.codecool.shop.jsonbuilder.OrderedProductJsonBuilder;
 import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
-import com.codecool.shop.model.CreditCard;
-import com.codecool.shop.model.Order;
-import com.codecool.shop.model.OrderedProduct;
-import com.codecool.shop.model.Payment;
+import com.codecool.shop.model.*;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -35,7 +32,7 @@ public class PaymentController extends AuthenticatedController {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, InternalServerException, UnAuthorizedException {
-        super.doPost(request, response);
+        User user = super.authenticate(request);
 
         JsonObject postData = super.getPostData(request);
         JsonArrayBuilder errorBag = Json.createArrayBuilder();
@@ -46,7 +43,7 @@ public class PaymentController extends AuthenticatedController {
             return;
         }
 
-        Order order = new Order(postData.getString("order_id"), null, null, 0, null, null);
+        Order order = new Order(postData.getString("order_id"), user, null, null, 0, null, null);
         OrderDao orderDao = new OrderDaoJDBC();
 
         try {
