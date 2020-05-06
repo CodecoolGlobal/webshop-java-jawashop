@@ -28,8 +28,8 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, category.getId(), Types.OTHER);
             statement.setString(2, category.getName());
-            statement.setString(3, category.getDepartment());
-            statement.setString(4, category.getDescription());
+            statement.setString(3, category.getDescription());
+            statement.setString(4, category.getDepartment());
             statement.execute();
         }
     }
@@ -42,19 +42,16 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
             statement.setObject(1,id, Types.OTHER);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){
-                return new ProductCategory(resultSet.getString("id"),
+                return new ProductCategory(
+                        resultSet.getString("id"),
                         resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        resultSet.getString("department"));
+                        resultSet.getString("department"),
+                        resultSet.getString("description"));
             }
         } catch (SQLException e){
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void remove(String id) {
     }
 
     @Override

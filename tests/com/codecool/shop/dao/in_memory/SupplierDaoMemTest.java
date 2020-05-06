@@ -41,19 +41,6 @@ class SupplierDaoMemTest {
     }
 
     @Test
-    public void removeSupplierReturnNull(){
-        Supplier supplier = makeSupplier();
-
-        supplierDao.add(makeSupplier());
-        supplierDao.add(supplier);
-        supplierDao.add(makeSupplier());
-
-        supplierDao.remove(supplier.getId());
-        assertNull(supplierDao.find(supplier.getId()));
-
-    }
-
-    @Test
     public void getReturnsAllSuppliersIfProductListNotNull(){
         List<Supplier> suppliers = new ArrayList<>();
         suppliers.add(makeSupplier());

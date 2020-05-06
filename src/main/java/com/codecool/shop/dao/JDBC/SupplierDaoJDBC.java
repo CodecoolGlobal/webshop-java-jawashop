@@ -33,7 +33,6 @@ public class SupplierDaoJDBC implements SupplierDao {
         } catch (SQLException e){
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -55,11 +54,6 @@ public class SupplierDaoJDBC implements SupplierDao {
             e.printStackTrace();
         }
         return tempSupplier;
-    }
-
-    @Override
-    public void remove(String id) {
-
     }
 
     @Override

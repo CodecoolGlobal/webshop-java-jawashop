@@ -43,19 +43,6 @@ class ProductCategoryDaoMemTest {
     }
 
     @Test
-    public void removeProductCategoryReturnNull() throws SQLException {
-        ProductCategory productCategory = makeCategory();
-
-        productCategoryDao.add(makeCategory());
-        productCategoryDao.add(productCategory);
-        productCategoryDao.add(makeCategory());
-
-        productCategoryDao.remove(productCategory.getId());
-        assertNull(productCategoryDao.find(productCategory.getId()));
-
-    }
-
-    @Test
     public void getReturnsAllProductCategoriesIfProductListNotNull() throws SQLException {
         List<ProductCategory> productCategories = new ArrayList<>();
 

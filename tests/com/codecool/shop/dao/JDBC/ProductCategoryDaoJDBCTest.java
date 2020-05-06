@@ -1,7 +1,9 @@
 package com.codecool.shop.dao.JDBC;
 
 import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -47,8 +49,8 @@ public class ProductCategoryDaoJDBCTest extends JDBCTest {
 
         assertEquals(getUUIDFrom('1'), category.getId());
         assertEquals("name #1", category.getName());
-        assertEquals("department #1", category.getDepartment());
         assertEquals("description #1", category.getDescription());
+        assertEquals("department #1", category.getDepartment());
     }
 
     @Test
@@ -56,6 +58,27 @@ public class ProductCategoryDaoJDBCTest extends JDBCTest {
         ProductCategory category = dao.find(getUUIDFrom('3'));
 
         assertNull(category);
+    }
+
+    @Test
+    public void d_getAllReturnsCorrectNumberOfRows() throws SQLException {
+        ProductCategory category2 = new ProductCategory(getUUIDFrom('2'), "name #2", "department #2", "description #2");
+        dao.add(category2);
+
+        assertEquals(2, dao.getAll().size());
+    }
+
+    @Test
+    public void d_getAllReturnsCorrectRows() {
+        List<ProductCategory> categories = dao.getAll();
+
+        ProductCategory category1 = categories.get(0);
+        ProductCategory category2 = categories.get(1);
+        assertEquals(getUUIDFrom('1'), category1.getId());
+        assertEquals("name #1", category1.getName());
+        assertEquals("department #1", category1.getDepartment());
+        assertEquals("description #1", category1.getDescription());
+        assertEquals(getUUIDFrom('2'), category2.getId());
     }
 
     @AfterClass
