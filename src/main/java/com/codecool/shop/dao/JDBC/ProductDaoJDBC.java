@@ -24,10 +24,20 @@ public class ProductDaoJDBC implements ProductDao {
         this.dataSource = dataSource;
     }
 
-
     @Override
-    public void add(Product product) {
-
+    public void add(Product product) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query = "INSERT INTO product (id, name, description, default_price, default_currency, category_id, supplier_id) VALUES (?,?,?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, product.getId(), Types.OTHER);
+            statement.setString(2, product.getName());
+            statement.setString(3, product.getDescription());
+            statement.setFloat(4, product.getDefaultPrice());
+            statement.setString(5, product.getDefaultCurrency().getCurrencyCode());
+            statement.setObject(6, product.getProductCategory().getId(), Types.OTHER);
+            statement.setObject(7, product.getSupplier().getId(), Types.OTHER);
+            statement.execute();
+        }
     }
 
     @Override
@@ -50,12 +60,11 @@ public class ProductDaoJDBC implements ProductDao {
                 "JOIN supplier s on product.supplier_id = s.id " +
                 "WHERE product.id = ?";
 
-        return executeGetQueries(query, id).get(0);
-    }
-
-    @Override
-    public void remove(String id) {
-
+        List<Product> results = executeGetQueries(query, id);
+        if (results.size() == 0) {
+            return null;
+        }
+        return results.get(0);
     }
 
     @Override
@@ -122,7 +131,6 @@ public class ProductDaoJDBC implements ProductDao {
                 "WHERE category_id = ?";
         return executeGetQueries(query, productCategory.getId());
     }
-
 
     private List<Product> executeGetQueries(String query, String id){
         List<Product> products = new ArrayList<>();

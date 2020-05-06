@@ -11,13 +11,12 @@ import org.junit.runners.MethodSorters;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ProductCategoryDaoJDBCTest {
+public class ProductCategoryDaoJDBCTest extends JDBCTest {
 
     private static ProductCategoryDao dao;
     private static final String dbName;
@@ -35,9 +34,10 @@ public class ProductCategoryDaoJDBCTest {
     @Test
     public void a_addCanAddRows() throws SQLException {
         ProductCategory productCategory = new ProductCategory(getUUIDFrom('1'), "name #1", "department #1", "description #1");
-        dao.add(productCategory);
-        List<ProductCategory> actual = dao.getAll();
 
+        dao.add(productCategory);
+
+        List<ProductCategory> actual = dao.getAll();
         assertEquals(1, actual.size());
     }
 
@@ -61,15 +61,5 @@ public class ProductCategoryDaoJDBCTest {
     @AfterClass
     public static void afterClass() throws SQLException {
         Postgres.cleanUpDb(dbName);
-    }
-
-    private String getUUIDFrom(char id) {
-        char[] uuid = new char[36];
-        Arrays.fill(uuid, id);
-        uuid[8] = '-';
-        uuid[13] = '-';
-        uuid[18] = '-';
-        uuid[23] = '-';
-        return new String(uuid);
     }
 }

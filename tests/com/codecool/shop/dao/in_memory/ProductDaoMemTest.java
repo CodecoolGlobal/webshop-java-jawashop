@@ -6,6 +6,8 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +23,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void findReturnProductIfExists(){
+    public void findReturnProductIfExists() throws SQLException {
         Product product = makeProduct();
 
         productDao.add(makeProduct());
@@ -32,7 +34,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void findReturnNullIfProductNotExists(){
+    public void findReturnNullIfProductNotExists() throws SQLException {
         Product product = makeProduct();
 
         productDao.add(makeProduct());
@@ -43,21 +45,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void removeProductReturnNull(){
-        Product product = makeProduct();
-
-        productDao.add(makeProduct());
-        productDao.add(product);
-        productDao.add(makeProduct());
-
-        productDao.remove(product.getId());
-        assertNull(productDao.find(product.getId()));
-
-
-    }
-
-    @Test
-    public void getReturnsAllProductsIfProductListNotNull(){
+    public void getReturnsAllProductsIfProductListNotNull() throws SQLException {
         List<Product> products = new ArrayList<>();
 
         products.add(makeProduct());
@@ -71,7 +59,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void getByReturnsAllProductsFromOneSupplierIfProductListNotNull(){
+    public void getByReturnsAllProductsFromOneSupplierIfProductListNotNull() throws SQLException {
         Supplier supplier = makeSupplier();
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -88,7 +76,7 @@ class ProductDaoMemTest {
     }
 
     @Test
-    public void getByReturnsAllProductsFromOneCategoryIfProductListNotNull(){
+    public void getByReturnsAllProductsFromOneCategoryIfProductListNotNull() throws SQLException {
         ProductCategory productCategory = makeCategory();
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

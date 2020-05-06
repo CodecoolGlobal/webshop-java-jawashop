@@ -29,7 +29,7 @@ public class SupplierDaoJDBC implements SupplierDao {
             statement.setObject(1,supplier.getId(), Types.OTHER);
             statement.setString(2,supplier.getName());
             statement.setString(3,supplier.getDescription());
-            statement.executeQuery();
+            statement.execute();
         } catch (SQLException e){
             e.printStackTrace();
         }

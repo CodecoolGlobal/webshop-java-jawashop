@@ -46,7 +46,7 @@ public class Postgres {
         Statement statement = c.createStatement();
         statement.execute(String.format("CREATE DATABASE %s;", dbName));
         DataSource dataSource = DbConnection.getConnection(dbName);
-        createShemaFor(dataSource);
+        createSchemaFor(dataSource);
         return dataSource;
     }
 
@@ -56,7 +56,7 @@ public class Postgres {
         statement.executeUpdate(String.format("DROP DATABASE %s;", dbName));
     }
 
-    private static void createShemaFor(DataSource dataSource) throws IOException, SQLException {
+    private static void createSchemaFor(DataSource dataSource) throws IOException, SQLException {
         URL fileURL = Postgres.class.getClassLoader().getResource("schema.sql");
         if (fileURL == null) {
             throw new FileNotFoundException("No DB migration file found!");
