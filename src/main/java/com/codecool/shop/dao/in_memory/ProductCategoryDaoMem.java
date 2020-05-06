@@ -35,21 +35,6 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
         return data.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
     }
 
-    public List<Product> getProductsByCategoryId(String id, List<Product> products) {
-        List<Product> productsByCategory = new ArrayList<>();
-        for (Product product : products) {
-            if (product.getProductCategory().getId().equals(id)) {
-                productsByCategory.add(product);
-            }
-        }
-        return productsByCategory;
-    }
-
-    @Override
-    public void remove(String id) {
-        data.remove(find(id));
-    }
-
     @Override
     public List<ProductCategory> getAll() {
         return data;

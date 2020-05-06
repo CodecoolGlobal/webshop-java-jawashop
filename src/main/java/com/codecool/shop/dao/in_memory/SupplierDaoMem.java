@@ -38,21 +38,6 @@ public class SupplierDaoMem implements SupplierDao {
         return data.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
     }
 
-    public List<Product> getProductsBySupplierId(String id, List<Product> products) {
-        List<Product> productsBySupplier = new ArrayList<>();
-        for (Product product : products) {
-            if (product.getSupplier().getId().equals(id)) {
-                productsBySupplier.add(product);
-            }
-        }
-        return productsBySupplier;
-    }
-
-    @Override
-    public void remove(String id) {
-        data.remove(find(id));
-    }
-
     @Override
     public List<Supplier> getAll() {
         return data;

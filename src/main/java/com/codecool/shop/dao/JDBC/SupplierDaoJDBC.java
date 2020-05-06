@@ -29,11 +29,10 @@ public class SupplierDaoJDBC implements SupplierDao {
             statement.setObject(1,supplier.getId(), Types.OTHER);
             statement.setString(2,supplier.getName());
             statement.setString(3,supplier.getDescription());
-            statement.executeQuery();
+            statement.execute();
         } catch (SQLException e){
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -55,11 +54,6 @@ public class SupplierDaoJDBC implements SupplierDao {
             e.printStackTrace();
         }
         return tempSupplier;
-    }
-
-    @Override
-    public void remove(String id) {
-
     }
 
     @Override
