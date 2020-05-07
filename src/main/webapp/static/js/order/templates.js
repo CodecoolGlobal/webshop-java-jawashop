@@ -1,24 +1,34 @@
 export let template = {
     forOrder: function(order) {
-        console.log(order)
         return `
-            <div class="card-container m-3 p-3 rounded">
-                <h3>Ordered: ${order.date}</h3>
-                <h5>Total price: ${order.total_price}</h5>
-                <h5>Products:</h5>
+            <div class="col-3"></div>
+            <div class="col-12 col-lg-6 card-container m-3 p-3 rounded mx-auto">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-12 col-xl-6">
+                        Order status: <span class="text-primary">Pending</span>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-12 col-xl-6">
+                        Ordered at: <span class="text-primary">${order.date.substring(0, 16)}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        Total price: <span class="text-primary">${order.total_price} JPY</span>
+                    </div>
+                </div>
+                
+                <h5 class="mt-4">Ordered products:</h5>
                 ${order.items.map(template.__forOrderedProduct).join("")}
             </div>
+            <div class="col-3"></div>
         `
     },
 
     __forOrderedProduct: function(orderedProduct) {
         return `
             <div class="row p-3 pl-5">
-                <div class="col">
-                    <span>${orderedProduct.product.name}</span>
-                    <span>${orderedProduct.product.price} JPY</span>
-                    <span>${orderedProduct.quantity}</span>
-                </div>
+                <div class="col">(${orderedProduct.quantity}x) ${orderedProduct.product.name}</div>
+                <div class="col text-right">${orderedProduct.product.price * orderedProduct.quantity} JPY</div>
             </div>
         `
     },

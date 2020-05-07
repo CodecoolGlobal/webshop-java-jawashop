@@ -63,7 +63,8 @@ public class OrderDaoJDBC implements OrderDao {
                 "FROM orders _order " +
                 "LEFT JOIN order_products op on _order.id = op.order_id " +
                 "LEFT JOIN product product on op.product_id = product.id " +
-                "WHERE _order.user_id = ?; ";
+                "WHERE _order.user_id = ? " +
+                "ORDER BY _order.inserted_at DESC;";
         try(Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setObject(1, user.getId(), Types.OTHER);
