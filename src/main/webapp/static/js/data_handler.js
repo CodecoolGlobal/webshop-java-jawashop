@@ -26,6 +26,19 @@ export let dataHandler = {
         .catch(err => dataHandler.__errorChecker(url, err));
     },
 
+    postAsync: function (url, data) {
+        return fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => dataHandler.__jsonParser(response))
+        .catch(err => dataHandler.__errorChecker(url, err));
+    },
+
     delete: function (url, data, callback) {
         fetch(url, {
             method: 'DELETE',

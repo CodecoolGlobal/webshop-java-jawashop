@@ -33,7 +33,6 @@ export let logic = {
 
             if (errors.length === 0) {
                 navbar.updateShoppingCartStats();
-                user.checkAuthentication();
                 navbar.authenticated();
                 homepage.getAllProducts();
             }

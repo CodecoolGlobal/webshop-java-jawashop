@@ -10,7 +10,7 @@ export let logic = {
     __parseToJson: async function(response) {
         const json = await response.json();
 
-        if (json.status == 200) {
+        if (json.status === 200) {
             return json.message;
         } else {
             throw `Unsuccessful server response: ${JSON.stringify(json)}`;
