@@ -2,6 +2,7 @@ import { dataHandler } from "./data_handler.js";
 import { ui } from "./ui.js";
 import { logic as login } from "./../login/logic.js";
 import { logic as logout } from "./../logout/logic.js";
+import { logic as orderHistory } from "./../order/logic.js";
 import { logic as homepage } from "./../index/logic.js";
 import { logic as registration } from "../registration/logic.js";
 import { logic as shoppingCart } from "./../shopping-cart/logic.js";
@@ -22,6 +23,10 @@ export let navbar = {
 
         ui.addClickEventToShoppingCart(function() {
             shoppingCart.navigate();
+        });
+
+        ui.addClickEventToOrderHistory(function() {
+            orderHistory.navigate();
         });
 
         await Promise.all([

@@ -62,7 +62,8 @@ CREATE TABLE orders (
     email VARCHAR(100) NOT NULL,
     phone_number BIGINT NOT NULL,
     billing_address_id  uuid REFERENCES addresses(id),
-    shipping_address_id uuid REFERENCES addresses(id)
+    shipping_address_id uuid REFERENCES addresses(id),
+    inserted_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE order_products (

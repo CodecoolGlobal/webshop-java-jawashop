@@ -71,4 +71,9 @@ export let ui = {
         ui.__rootNode.querySelector("#loginBtn").parentNode.classList.remove("d-none");
         ui.__rootNode.querySelector("#profileMenu").classList.add("d-none");
     },
+
+    addClickEventToOrderHistory: function(callback) {
+        const menuBtn = ui.__rootNode.querySelector("#orderHistoryBtn");
+        menuBtn.addEventListener("click", callback);
+    },
 };

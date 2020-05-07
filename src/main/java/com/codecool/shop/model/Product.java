@@ -9,6 +9,11 @@ public class Product extends BaseModel {
     private ProductCategory productCategory;
     private Supplier supplier;
 
+    public Product(String name, float defaultPrice) {
+        super(name);
+        this.defaultPrice = defaultPrice;
+    }
+
     public Product(String id, String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         super(name, description, id);
         this.setPrice(defaultPrice, currencyString);

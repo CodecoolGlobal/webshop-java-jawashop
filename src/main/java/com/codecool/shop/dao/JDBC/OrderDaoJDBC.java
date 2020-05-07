@@ -2,10 +2,12 @@ package com.codecool.shop.dao.JDBC;
 
 import com.codecool.shop.config.DbConnection;
 import com.codecool.shop.dao.OrderDao;
-import com.codecool.shop.model.Order;
+import com.codecool.shop.model.*;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDaoJDBC implements OrderDao {
 
@@ -46,5 +48,43 @@ public class OrderDaoJDBC implements OrderDao {
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         }
+    }
+
+    @Override
+    public List<Order> getAllWithProducts(User user) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query =
+                "SELECT " +
+                    "_order.id AS order_id," +
+                    "product.name," +
+                    "product.default_price," +
+                    "op.quantity," +
+                    "_order.inserted_at " +
+                "FROM orders _order " +
+                "LEFT JOIN order_products op on _order.id = op.order_id " +
+                "LEFT JOIN product product on op.product_id = product.id " +
+                "WHERE _order.user_id = ?; ";
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, user.getId(), Types.OTHER);
+            ResultSet resultSet = statement.executeQuery();
+            Order order = null;
+            while (resultSet.next()) {
+                if (order == null || !resultSet.getString("order_id").equals(order.getId())) {
+                    order = new Order(
+                            resultSet.getString("order_id"),
+                            resultSet.getString("inserted_at"));
+                    orders.add(order);
+                }
+                OrderedProduct orderedProduct = new OrderedProduct(
+                        order,
+                        new Product(
+                                resultSet.getString("name"),
+                                resultSet.getFloat("default_price")),
+                        resultSet.getInt("quantity"));
+                order.add(orderedProduct);
+            }
+        }
+        return orders;
     }
 }

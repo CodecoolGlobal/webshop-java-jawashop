@@ -41,9 +41,9 @@ export let template = {
                                         <span>(<span id="cart-item-counter" class="text-primary">0</span>)</span>
                                     </div>
                                 </span>
-                                <a class="dropdown-item">Order History</a>
+                                <span id="orderHistoryBtn" class="dropdown-item">Order History</span>
                                 <hr class="solid">
-                                <a id="logoutBtn" href="javascript:" class="dropdown-item">Logout</a>
+                                <span id="logoutBtn" href="javascript:" class="dropdown-item">Logout</span>
                             </div>
                         </li>
                     </ul>

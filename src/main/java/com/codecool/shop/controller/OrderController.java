@@ -12,13 +12,17 @@ import com.codecool.shop.dao.JDBC.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.OrderJsonBuilder;
+import com.codecool.shop.jsonbuilder.OrderedProductJsonBuilder;
+import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
 import com.codecool.shop.model.*;
 
 import javax.json.*;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/order")
@@ -28,6 +32,31 @@ public class OrderController extends AuthenticatedController {
 
     static {
         validator = new InputValidator();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = authenticate(req);
+
+        OrderDao orderDao = new OrderDaoJDBC();
+        List<Order> orders;
+        try {
+            orders = orderDao.getAllWithProducts(user);
+        } catch (SQLException e) {
+            throw new InternalServerException(e);
+        }
+
+        JsonArray ordersJson = OrderJsonBuilder.create()
+                .addProducts(OrderedProductJsonBuilder.create()
+                    .addProduct(ProductJsonBuilder.create()
+                        .addName()
+                        .addPrice())
+                    .addQuantity())
+                .addTotalPrice()
+                .addDate()
+                .runOn(orders);
+
+        super.jsonify(ordersJson, req, resp);
     }
 
     @Override
@@ -52,14 +81,14 @@ public class OrderController extends AuthenticatedController {
         orderDao.add(order);
 
         ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
+        OrderedProductDao orderedProductDao = new OrderedProductJDBC();
         List<CartItem> cartItems = shoppingCartDao.getAll(user);
 
-        OrderedProductDao orderedProductDao = new OrderedProductJDBC();
-
         for (CartItem cartItem : cartItems) {
-            orderedProductDao.add(new OrderedProduct(order, cartItem.getProduct(), cartItem.getQuantity()));
+            OrderedProduct orderedProduct = new OrderedProduct(order, cartItem.getProduct(), cartItem.getQuantity());
+            orderedProductDao.add(orderedProduct);
             shoppingCartDao.remove(cartItem);
-            order.increaseTotalPrice(cartItem.getQuantity() * cartItem.getProduct().getDefaultPrice());
+            order.add(orderedProduct);
         }
 
         JsonObject orderJson = OrderJsonBuilder.create()
