@@ -11,7 +11,7 @@ function init() {
 
         errorHandler.init();
 
-        user.checkAuthentication();
+        await user.checkAuthentication();
 
         await navbar.init();
 
