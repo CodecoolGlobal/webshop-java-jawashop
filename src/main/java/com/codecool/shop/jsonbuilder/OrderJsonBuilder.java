@@ -25,6 +25,7 @@ public class OrderJsonBuilder {
     private boolean shouldAddProducts;
     private OrderedProductJsonBuilder orderedProductBuilder;
     private boolean shouldAddDate;
+    private boolean shouldAddStatus;
 
     private OrderJsonBuilder() {
         this.rootObject = Json.createObjectBuilder();
@@ -77,6 +78,11 @@ public class OrderJsonBuilder {
         return this;
     }
 
+    public OrderJsonBuilder addStatus() {
+        this.shouldAddStatus = true;
+        return this;
+    }
+
     public OrderJsonBuilder addDate() {
         this.shouldAddDate = true;
         return this;
@@ -117,6 +123,10 @@ public class OrderJsonBuilder {
 
         if (shouldAddTotalPrice) {
             this.rootObject.add("total_price", order.getTotalPrice());
+        }
+
+        if (shouldAddStatus) {
+            this.rootObject.add("status", order.getStatus().getName());
         }
 
         if (shouldAddDate) {

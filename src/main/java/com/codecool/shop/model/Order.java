@@ -15,20 +15,22 @@ public class Order {
     private final Address shippingAddress;
     private double totalPrice;
     private final List<OrderedProduct> products;
+    private OrderStatus status;
     private String insertedAt;
 
-    public Order(String id, String insertedAt) {
-        this(id, null, null, null, 0, null, null);
+    public Order(String id, OrderStatus status, String insertedAt) {
+        this(id, null, status, null, null, 0, null, null);
         this.insertedAt = insertedAt;
     }
 
-    public Order(User user, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
-        this(UUID.randomUUID().toString(), user, name, email, phoneNumber, billingAddress, shippingAddress);
+    public Order(User user, OrderStatus status, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
+        this(UUID.randomUUID().toString(), user, status, name, email, phoneNumber, billingAddress, shippingAddress);
     }
 
-    public Order(String id, User user, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
+    public Order(String id, User user, OrderStatus status, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
         this.id = id;
         this.user = user;
+        this.status = status;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -76,6 +78,10 @@ public class Order {
 
     public List<OrderedProduct> getProducts() {
         return products;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
     }
 
     public String getDate() {

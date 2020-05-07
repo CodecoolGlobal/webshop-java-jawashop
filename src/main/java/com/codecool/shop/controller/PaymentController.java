@@ -1,10 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.CreditCardDao;
-import com.codecool.shop.dao.JDBC.CreditCardDaoJDBC;
-import com.codecool.shop.dao.JDBC.OrderDaoJDBC;
-import com.codecool.shop.dao.JDBC.OrderedProductJDBC;
-import com.codecool.shop.dao.JDBC.PaymentDaoJDBC;
+import com.codecool.shop.dao.JDBC.*;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.OrderedProductDao;
 import com.codecool.shop.dao.PaymentDao;
@@ -43,18 +40,16 @@ public class PaymentController extends AuthenticatedController {
             return;
         }
 
-        Order order = new Order(postData.getString("order_id"), user, null, null, 0, null, null);
-        OrderDao orderDao = new OrderDaoJDBC();
+        OrderStatusDaoJDBC orderStatusDao = new OrderStatusDaoJDBC();
+        OrderStatus orderStatus = orderStatusDao.get(OrderStatus.asPaid());
+        if (orderStatus == null) {
+            throw new InternalServerException(null);
+        }
 
-        try {
-            System.out.printf("Checking order.id = %s", order.getId());
-            if (!orderDao.isExists(order.getId())) {
-                errorBag.add("The order doesn't exists!");
-            }
-        } catch (SQLException e) {
-            errorBag.add("Sorry but we couldn't save Your payment details because of some technical difficulties on our side. " +
-                "We will investigate the issue! Thank You for your patience!");
-            e.printStackTrace();
+        Order order = new Order(postData.getString("order_id"), user, orderStatus, null, null, 0, null, null);
+        OrderDao orderDao = new OrderDaoJDBC();
+        if (!orderDao.isExists(order.getId())) {
+            errorBag.add("The order doesn't exists!");
         }
 
         CreditCardDao creditCardDao = new CreditCardDaoJDBC();
@@ -64,6 +59,7 @@ public class PaymentController extends AuthenticatedController {
         try {
             creditCardDao.add(creditCard);
             paymentDao.add(new Payment(order, creditCard));
+            orderDao.updateStatus(order);
         } catch (SQLException e) {
             errorBag.add("Sorry but we couldn't save Your payment details because of some technical difficulties on our side. " +
                     "We will investigate the issue! Thank You for your patience!");

@@ -5,7 +5,7 @@ export let template = {
             <div class="col-12 col-lg-6 card-container m-3 p-3 rounded mx-auto">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-12 col-xl-6">
-                        Order status: <span class="text-primary">Pending</span>
+                        Order status: <span class="text-primary">${order.status}</span>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-12 col-xl-6">
                         Ordered at: <span class="text-primary">${order.date.substring(0, 16)}</span>

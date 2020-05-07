@@ -36,3 +36,11 @@ VALUES
     ('3f9ba046-62b8-11ea-bc55-0242ac130003', 'Duo Goggles', 5000, 'JPY', 'Has a built-in microchip visor.', '3f9baabe-62b8-11ea-bc55-0242ac130003', '3f9ba87a-62b8-11ea-bc55-0242ac130003'),
     ('3f9ba104-62b8-11ea-bc55-0242ac130003', 'Viral Glasses', 5000, 'JPY', 'Funky glasses which create a psychedelic experience!', '3f9baabe-62b8-11ea-bc55-0242ac130003', '3f9ba87a-62b8-11ea-bc55-0242ac130003'),
     ('3f9ba1cc-62b8-11ea-bc55-0242ac130003', 'McFly Hoverboard', 25000, 'JPY', 'Marty, McFly away!', '3f9baabe-62b8-11ea-bc55-0242ac130003', '3f9ba7b2-62b8-11ea-bc55-0242ac130003');
+
+INSERT INTO order_statuses (id, name)
+VALUES
+    ('57c1c4d1-5760-421d-9c1f-31598d2790dd', 'Checked'),
+    ('b9583d8a-fd0c-48bb-99aa-dc6cd718d5f7', 'Paid'),
+    ('17d4e526-cae4-4965-90f2-e795c4c0f282', 'Confirmed'),
+    ('ca825f7f-bf9e-41b5-843f-f68aaaf307f6', 'Shipped')
+;

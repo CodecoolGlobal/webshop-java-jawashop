@@ -2,13 +2,10 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.InputValidator;
 import com.codecool.shop.dao.AddressDao;
-import com.codecool.shop.dao.JDBC.AddressDaoJDBC;
-import com.codecool.shop.dao.JDBC.OrderDaoJDBC;
-import com.codecool.shop.dao.JDBC.OrderedProductJDBC;
+import com.codecool.shop.dao.JDBC.*;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.OrderedProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.JDBC.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.OrderJsonBuilder;
@@ -53,6 +50,7 @@ public class OrderController extends AuthenticatedController {
                         .addPrice())
                     .addQuantity())
                 .addTotalPrice()
+                .addStatus()
                 .addDate()
                 .runOn(orders);
 
@@ -71,7 +69,13 @@ public class OrderController extends AuthenticatedController {
             return;
         }
 
-        Order order = createOrderFrom(postData, user);
+        OrderStatusDaoJDBC orderStatusDao = new OrderStatusDaoJDBC();
+        OrderStatus orderStatus = orderStatusDao.get(OrderStatus.asChecked());
+        if (orderStatus == null) {
+            throw new InternalServerException(null);
+        }
+
+        Order order = createOrderFrom(postData, user, orderStatus);
 
         AddressDao addressDao = new AddressDaoJDBC();
         addressDao.add(order.getBillingAddress());
@@ -149,9 +153,10 @@ public class OrderController extends AuthenticatedController {
         return errors.build();
     }
 
-    private Order createOrderFrom(JsonObject postData, User user) {
+    private Order createOrderFrom(JsonObject postData, User user, OrderStatus orderStatus) {
         return new Order(
                 user,
+                orderStatus,
                 postData.getString("name"),
                 postData.getString("email"),
                 Long.parseLong(postData.getString("phoneNumber").substring(0, 11)),
