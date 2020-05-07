@@ -1,5 +1,6 @@
 import { dataHandler } from "./data_handler.js";
 import { formValidator } from "../components/formValidator.js";
+import { logic as orderHistory } from "../order/logic.js";
 import { ui } from "./ui.js";
 
 export let logic = {
@@ -42,7 +43,13 @@ export let logic = {
                 response["id"] = formData.order_id;
                 response["products"] = response;
                 const order = response;
-                ui.renderSuccessfulPayment(order);
+                ui.renderSuccessfulPayment(order, function() {
+                    dataHandler.confirmPayment({id: formData.order_id}, function (response) {
+                        if (response === "OK") {
+                            orderHistory.navigate();
+                        }
+                    });
+                });
             }
         });
     },

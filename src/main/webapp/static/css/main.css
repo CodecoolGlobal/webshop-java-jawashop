@@ -10,7 +10,6 @@ body {
         padding-right: 15%;
         font-family: 'Play', sans-serif;
         font-size: 1.5rem;
-        box-shadow: 0px 5px 10px 5px #000000bf;
     }
 
     .logo {
@@ -166,4 +165,8 @@ body {
 
 .form-control::placeholder {
     color: #c3c3c3;
+}
+
+.shadow-strong {
+    box-shadow: 0 5px 10px 5px #000000bf;
 }

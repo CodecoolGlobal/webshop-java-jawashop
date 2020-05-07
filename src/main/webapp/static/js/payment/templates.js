@@ -178,4 +178,12 @@ export let template = {
             </div>
         `
     },
+
+    forConfirmationDialog: function() {
+        return `
+            <div class="fixed-bottom bg-light p-3 text-center shadow-strong">
+                After You checked all parameters please <span id="paymentConfirmBtn" class="btn btn-warning">Confirm</span> the payment!
+            </div>
+        `
+    }
 };

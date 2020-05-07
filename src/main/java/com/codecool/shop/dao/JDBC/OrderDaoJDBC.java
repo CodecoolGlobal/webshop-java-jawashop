@@ -68,6 +68,20 @@ public class OrderDaoJDBC implements OrderDao {
     }
 
     @Override
+    public boolean has(User user, Order order) throws InternalServerException {
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT id FROM orders WHERE user_id = ? AND id = ? LIMIT 1";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, user.getId(), Types.OTHER);
+            statement.setObject(2, order.getId(), Types.OTHER);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new InternalServerException(e);
+        }
+    }
+
+    @Override
     public List<Order> getAllWithProducts(User user) throws SQLException {
         List<Order> orders = new ArrayList<>();
         String query =

@@ -11,5 +11,6 @@ public interface OrderDao {
     void add(Order order);
     boolean isExists(String id) throws InternalServerException;
     void updateStatus(Order order) throws InternalServerException;
+    boolean has(User user, Order order) throws InternalServerException;
     List<Order> getAllWithProducts(User user) throws SQLException;
 }

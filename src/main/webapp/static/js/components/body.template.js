@@ -1,7 +1,7 @@
 export let template = {
     forNavbar: function() {
         return `
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-strong">
                 <a class="navbar-brand" href="#">
                     <img class="logo" src="../static/img/logo.svg" alt="">
                 </a>
