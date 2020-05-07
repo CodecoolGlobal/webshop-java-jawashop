@@ -18,25 +18,8 @@ export let ui = {
     },
 
     updateCartButtonStats: function(cart) {
-        const mobileNode = ui.__rootNode.querySelector("#cart-item-total-value-mobile");
-        mobileNode.innerHTML = template.forShoppingCartButton(cart);
-
-        const totalValueNode = ui.__rootNode.querySelector("#cart-item-total-value");
-        totalValueNode.innerHTML = cart.total_value;
-
         const cartItemCounterNode = ui.__rootNode.querySelector("#cart-item-counter");
         cartItemCounterNode.innerHTML = cart.item_count;
-
-        if (0 < cart.item_count) {
-            cartItemCounterNode.classList.add("d-lg-block");
-            totalValueNode.classList.add("d-lg-block");
-        } else {
-            cartItemCounterNode.classList.remove("d-lg-block");
-            cartItemCounterNode.classList.add("d-none");
-
-            totalValueNode.classList.remove("d-lg-block");
-            totalValueNode.classList.add("d-none");
-        }
     },
 
     addClickEventToCategoriesFilter: function(callback) {
@@ -80,14 +63,12 @@ export let ui = {
     renderAsAuthenticated: function() {
         ui.__rootNode.querySelector("#registrationBtn").parentNode.classList.add("d-none");
         ui.__rootNode.querySelector("#loginBtn").parentNode.classList.add("d-none");
-        ui.__rootNode.querySelector("#logoutBtn").parentNode.classList.remove("d-none");
-        ui.__rootNode.querySelector("#cart-button").parentNode.classList.remove("d-none");
+        ui.__rootNode.querySelector("#profileMenu").classList.remove("d-none");
     },
 
     renderAsLoggedOut: function() {
         ui.__rootNode.querySelector("#registrationBtn").parentNode.classList.remove("d-none");
         ui.__rootNode.querySelector("#loginBtn").parentNode.classList.remove("d-none");
-        ui.__rootNode.querySelector("#logoutBtn").parentNode.classList.add("d-none");
-        ui.__rootNode.querySelector("#cart-button").parentNode.classList.add("d-none");
+        ui.__rootNode.querySelector("#profileMenu").classList.add("d-none");
     },
 };

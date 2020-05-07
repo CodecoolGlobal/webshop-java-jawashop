@@ -28,22 +28,27 @@ export let template = {
                         <li class="nav-item d-none">
                             <a id="registrationBtn" href="javascript:" class="nav-link">Sign up</a>
                         </li>
-                        <li class="nav-item d-none">
-                            <a id="logoutBtn" href="javascript:" class="nav-link">Logout</a>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li id="profileMenu" class="nav-item dropdown d-none">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="far fa-user"></i> Profile
+                            </a>
+                            <div class="dropdown-menu" id="category-dropdown" aria-labelledby="navbarDropdown">
+                                <span id="cart-button" class="dropdown-item">
+                                    <div>
+                                        Shopping Cart
+                                        <span>(<span id="cart-item-counter" class="text-primary">0</span>)</span>
+                                    </div>
+                                </span>
+                                <a class="dropdown-item">Order History</a>
+                                <hr class="solid">
+                                <a id="logoutBtn" href="javascript:" class="dropdown-item">Logout</a>
+                            </div>
                         </li>
                     </ul>
-                    <div class="row d-none">
-                        <div id="cart-button" class="cart col-auto">
-                            <div id="cart-item-counter" class="d-none"></div>
-                            <a>
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                        </div>
-                        <div id="cart-item-total-value" class="col-auto d-none ml-1 text-light"></div>
-                        <div id="cart-item-total-value-mobile" class="col-auto d-block d-lg-none h6 text-light"></div>
-                    </div>
                 </div>
             </nav>
-        `
+        `;
     }
 }

@@ -145,7 +145,6 @@ export let template = {
     },
 
     forSuccessfulPayment: function(order) {
-        console.log(order)
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div class="row">
