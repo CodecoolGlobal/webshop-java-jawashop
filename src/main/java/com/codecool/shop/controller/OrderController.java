@@ -52,7 +52,7 @@ public class OrderController extends AuthenticatedController {
         orderDao.add(order);
 
         ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
-        List<CartItem> cartItems = shoppingCartDao.getAll();
+        List<CartItem> cartItems = shoppingCartDao.getAll(user);
 
         OrderedProductDao orderedProductDao = new OrderedProductJDBC();
 
