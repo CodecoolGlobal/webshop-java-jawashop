@@ -11,12 +11,4 @@ export let template = {
         `
     },
 
-    forShoppingCartButton : function(cart) {
-        if (0 < cart.item_count) {
-            return `You have <span class="text-info">${cart.item_count}</span> item in your cart.<br>
-                    Total price: <span class="text-info">${cart.total_value}</span>.`
-        } else {
-            return `You have <span class="text-info">${cart.item_count}</span> item in your cart.`
-        }
-    },
 }

@@ -15,10 +15,16 @@ export let ui = {
         container.innerHTML += template.forErrorMessage(message);
     },
 
-    renderSuccessfulPayment: function(order) {
+    renderSuccessfulPayment: function(order, callback) {
         ui.__rootNode.innerHTML = template.forSuccessfulPayment(order);
         const productListContainer = ui.__rootNode.querySelector("#ordered-products");
         productListContainer.innerHTML = order.products.map(template.forProduct).join("");
+        ui.__rootNode.innerHTML += template.forConfirmationDialog();
+        ui.__addClickListenerOnConfirmationBtn(callback);
+    },
+
+    removeConfirmDialog: function() {
+
     },
 
     __addClickListenerToPaymentMethods: function(order, submitCallback) {
@@ -56,5 +62,10 @@ export let ui = {
 
             return false;
         };
+    },
+
+    __addClickListenerOnConfirmationBtn: function(callback) {
+        const btn = ui.__rootNode.querySelector("#paymentConfirmBtn");
+        btn.addEventListener("click", callback);
     },
 };

@@ -57,27 +57,41 @@ class ShoppingCardDaoMemTest {
     }
 
     @Test
-    public void getReturnsAllProductsIfProductListNotNull(){
-        List<CartItem> cartItems = new ArrayList<>();
-        cartItems.add(makeCartItem());
-        cartItems.add(makeCartItem());
-        cartItems.add(makeCartItem());
-
-        for (CartItem cartItem: cartItems) {
+    public void getAllReturnsOnlyUserSpecificItems(){
+        User user = makeUser("2");
+        List<CartItem> expectedList = new ArrayList<>();
+        expectedList.add(makeCartItem(user));
+        expectedList.add(makeCartItem(user));
+        expectedList.add(makeCartItem(user));
+        for (CartItem cartItem: expectedList) {
             shoppingCartDao.add(cartItem);
         }
 
-        for (int i = 0; i < shoppingCartDao.getAll().size(); i++) {
-            assertSame(cartItems.get(i).getProduct(), shoppingCartDao.getAll().get(i).getProduct());
+        shoppingCartDao.add(makeCartItem(makeUser("3")));
+
+        List<CartItem> actualList = shoppingCartDao.getAll(user);
+
+        assertEquals(3, actualList.size(), "size()");
+
+        for (int i = 0; i < actualList.size(); i++) {
+            assertSame(expectedList.get(i).getProduct(), shoppingCartDao.getAll(user).get(i).getProduct());
         }
     }
 
     private User makeUser() {
-        return new User(null, null);
+        return makeUser("1");
+    }
+
+    private User makeUser(String id) {
+        return new User(id, null);
     }
 
     private CartItem makeCartItem() {
-        return new CartItem(new User(null, null), makeProduct(), 0);
+        return makeCartItem(new User("1", null));
+    }
+
+    private CartItem makeCartItem(User user) {
+        return new CartItem(user, makeProduct(), 0);
     }
 
     private Product makeProduct(){

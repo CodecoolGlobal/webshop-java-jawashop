@@ -6,6 +6,8 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class OrderJsonBuilder {
@@ -20,6 +22,10 @@ public class OrderJsonBuilder {
     private boolean shouldAddShippingAddress;
     private AddressJsonBuilder shippingAddressBuilder;
     private boolean shouldAddTotalPrice;
+    private boolean shouldAddProducts;
+    private OrderedProductJsonBuilder orderedProductBuilder;
+    private boolean shouldAddDate;
+    private boolean shouldAddStatus;
 
     private OrderJsonBuilder() {
         this.rootObject = Json.createObjectBuilder();
@@ -66,6 +72,22 @@ public class OrderJsonBuilder {
         return this;
     }
 
+    public OrderJsonBuilder addProducts(OrderedProductJsonBuilder orderedProductBuilder) {
+        this.shouldAddProducts = true;
+        this.orderedProductBuilder = orderedProductBuilder;
+        return this;
+    }
+
+    public OrderJsonBuilder addStatus() {
+        this.shouldAddStatus = true;
+        return this;
+    }
+
+    public OrderJsonBuilder addDate() {
+        this.shouldAddDate = true;
+        return this;
+    }
+
     public JsonArray runOn(List<Order> orders) {
         javax.json.JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         for (Order order : orders) {
@@ -101,6 +123,18 @@ public class OrderJsonBuilder {
 
         if (shouldAddTotalPrice) {
             this.rootObject.add("total_price", order.getTotalPrice());
+        }
+
+        if (shouldAddStatus) {
+            this.rootObject.add("status", order.getStatus().getName());
+        }
+
+        if (shouldAddDate) {
+            this.rootObject.add("date", order.getDate());
+        }
+
+        if (shouldAddProducts) {
+            this.rootObject.add("items", orderedProductBuilder.runOn(order.getProducts()));
         }
 
         return this.rootObject.build();

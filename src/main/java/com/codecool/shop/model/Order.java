@@ -1,5 +1,7 @@
 package com.codecool.shop.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Order {
@@ -12,19 +14,29 @@ public class Order {
     private final Address billingAddress;
     private final Address shippingAddress;
     private double totalPrice;
+    private final List<OrderedProduct> products;
+    private OrderStatus status;
+    private String insertedAt;
 
-    public Order(User user,String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
-        this(UUID.randomUUID().toString(), user, name, email, phoneNumber, billingAddress, shippingAddress);
+    public Order(String id, OrderStatus status, String insertedAt) {
+        this(id, null, status, null, null, 0, null, null);
+        this.insertedAt = insertedAt;
     }
 
-    public Order(String id, User user, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
+    public Order(User user, OrderStatus status, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
+        this(UUID.randomUUID().toString(), user, status, name, email, phoneNumber, billingAddress, shippingAddress);
+    }
+
+    public Order(String id, User user, OrderStatus status, String name, String email, long phoneNumber, Address billingAddress, Address shippingAddress) {
         this.id = id;
         this.user = user;
+        this.status = status;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.billingAddress = billingAddress;
         this.shippingAddress = shippingAddress;
+        this.products = new ArrayList<>();
     }
 
     public String getId() {
@@ -59,7 +71,20 @@ public class Order {
         return totalPrice;
     }
 
-    public void increaseTotalPrice(double value) {
-        this.totalPrice += value;
+    public void add(OrderedProduct product) {
+        this.totalPrice += product.getProduct().getDefaultPrice();
+        this.products.add(product);
+    }
+
+    public List<OrderedProduct> getProducts() {
+        return products;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public String getDate() {
+        return insertedAt;
     }
 }

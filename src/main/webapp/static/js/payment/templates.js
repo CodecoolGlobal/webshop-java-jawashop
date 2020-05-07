@@ -145,13 +145,12 @@ export let template = {
     },
 
     forSuccessfulPayment: function(order) {
-        console.log(order)
         return `
             <div class="card-container m-3 p-3 rounded">
                 <div class="row">
                     <div class="col">
                         <h3 class="text-success"><i class="far fa-check-circle"></i> Successful order!</h3>
-                        <p>Your can track your order with this identifier:
+                        <p>You can track your order with this identifier:
                             <span class="text-primary font-weight-bold">${order.id}</span>
                         </p>
                         <h4>Ordered products:</h4>
@@ -179,4 +178,12 @@ export let template = {
             </div>
         `
     },
+
+    forConfirmationDialog: function() {
+        return `
+            <div class="fixed-bottom bg-light p-3 text-center shadow-strong">
+                After You checked all parameters please <span id="paymentConfirmBtn" class="btn btn-warning">Confirm</span> the payment!
+            </div>
+        `
+    }
 };

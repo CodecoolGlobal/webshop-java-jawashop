@@ -2,23 +2,24 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.InputValidator;
 import com.codecool.shop.dao.AddressDao;
-import com.codecool.shop.dao.JDBC.AddressDaoJDBC;
-import com.codecool.shop.dao.JDBC.OrderDaoJDBC;
-import com.codecool.shop.dao.JDBC.OrderedProductJDBC;
+import com.codecool.shop.dao.JDBC.*;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.OrderedProductDao;
 import com.codecool.shop.dao.ShoppingCartDao;
-import com.codecool.shop.dao.JDBC.ShoppingCartDaoJDBC;
 import com.codecool.shop.exception.InternalServerException;
 import com.codecool.shop.exception.UnAuthorizedException;
 import com.codecool.shop.jsonbuilder.OrderJsonBuilder;
+import com.codecool.shop.jsonbuilder.OrderedProductJsonBuilder;
+import com.codecool.shop.jsonbuilder.ProductJsonBuilder;
 import com.codecool.shop.model.*;
 
 import javax.json.*;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/order")
@@ -28,6 +29,32 @@ public class OrderController extends AuthenticatedController {
 
     static {
         validator = new InputValidator();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = authenticate(req);
+
+        OrderDao orderDao = new OrderDaoJDBC();
+        List<Order> orders;
+        try {
+            orders = orderDao.getAllWithProducts(user);
+        } catch (SQLException e) {
+            throw new InternalServerException(e);
+        }
+
+        JsonArray ordersJson = OrderJsonBuilder.create()
+                .addProducts(OrderedProductJsonBuilder.create()
+                    .addProduct(ProductJsonBuilder.create()
+                        .addName()
+                        .addPrice())
+                    .addQuantity())
+                .addTotalPrice()
+                .addStatus()
+                .addDate()
+                .runOn(orders);
+
+        super.jsonify(ordersJson, req, resp);
     }
 
     @Override
@@ -42,7 +69,13 @@ public class OrderController extends AuthenticatedController {
             return;
         }
 
-        Order order = createOrderFrom(postData, user);
+        OrderStatusDaoJDBC orderStatusDao = new OrderStatusDaoJDBC();
+        OrderStatus orderStatus = orderStatusDao.get(OrderStatus.asChecked());
+        if (orderStatus == null) {
+            throw new InternalServerException(null);
+        }
+
+        Order order = createOrderFrom(postData, user, orderStatus);
 
         AddressDao addressDao = new AddressDaoJDBC();
         addressDao.add(order.getBillingAddress());
@@ -52,14 +85,14 @@ public class OrderController extends AuthenticatedController {
         orderDao.add(order);
 
         ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
-        List<CartItem> cartItems = shoppingCartDao.getAll();
-
         OrderedProductDao orderedProductDao = new OrderedProductJDBC();
+        List<CartItem> cartItems = shoppingCartDao.getAll(user);
 
         for (CartItem cartItem : cartItems) {
-            orderedProductDao.add(new OrderedProduct(order, cartItem.getProduct(), cartItem.getQuantity()));
+            OrderedProduct orderedProduct = new OrderedProduct(order, cartItem.getProduct(), cartItem.getQuantity());
+            orderedProductDao.add(orderedProduct);
             shoppingCartDao.remove(cartItem);
-            order.increaseTotalPrice(cartItem.getQuantity() * cartItem.getProduct().getDefaultPrice());
+            order.add(orderedProduct);
         }
 
         JsonObject orderJson = OrderJsonBuilder.create()
@@ -120,9 +153,10 @@ public class OrderController extends AuthenticatedController {
         return errors.build();
     }
 
-    private Order createOrderFrom(JsonObject postData, User user) {
+    private Order createOrderFrom(JsonObject postData, User user, OrderStatus orderStatus) {
         return new Order(
                 user,
+                orderStatus,
                 postData.getString("name"),
                 postData.getString("email"),
                 Long.parseLong(postData.getString("phoneNumber").substring(0, 11)),

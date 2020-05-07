@@ -3,9 +3,11 @@ package com.codecool.shop.dao.in_memory;
 import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShoppingCardDaoMem implements ShoppingCartDao {
 
@@ -53,7 +55,7 @@ public class ShoppingCardDaoMem implements ShoppingCartDao {
     }
 
     @Override
-    public List<CartItem> getAll() {
-        return data;
+    public List<CartItem> getAll(User user) {
+        return data.stream().filter(t -> t.getOwner().getId().equals(user.getId())).collect(Collectors.toList());
     }
 }

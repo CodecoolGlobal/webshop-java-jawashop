@@ -5,7 +5,6 @@ import com.codecool.shop.dao.ShoppingCartDao;
 import com.codecool.shop.model.*;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,9 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
             if (resultSet.next()) {
                 return new CartItem(
                         resultSet.getString("id"),
-                        null,
+                        new User(
+                                resultSet.getString("user_id"),
+                                null),
                         new Product(
                                 resultSet.getString("product_id"),
                                 null,
@@ -91,7 +92,7 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
     }
 
     @Override
-    public List<CartItem> getAll() {
+    public List<CartItem> getAll(User user) {
         List<CartItem> products = new ArrayList<>();
         String query = "SELECT cart.id, " +
                 "       product_id, " +
@@ -110,9 +111,11 @@ public class ShoppingCartDaoJDBC implements ShoppingCartDao {
                 "FROM cart " +
                 "JOIN product p on cart.product_id = p.id " +
                 "JOIN category c on p.category_id = c.id " +
-                "JOIN supplier s on p.supplier_id = s.id;";
-        try(Connection connection = dataSource.getConnection();){
+                "JOIN supplier s on p.supplier_id = s.id " +
+                "WHERE cart.user_id = ?;";
+        try(Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, user.getId(), Types.OTHER);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 products.add(

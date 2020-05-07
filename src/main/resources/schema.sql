@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS order_products;
 DROP TABLE IF EXISTS order_payments;
+DROP TABLE IF EXISTS order_statuses;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
@@ -55,14 +56,21 @@ CREATE TABLE addresses (
     address VARCHAR(50) NOT NULL
 );
 
+CREATE TABLE order_statuses (
+    id uuid PRIMARY KEY,
+    name VARCHAR(10) NOT NULL
+);
+
 CREATE TABLE orders (
     id uuid PRIMARY KEY,
     user_id uuid NOT NULL REFERENCES users(id),
+    status_id uuid NOT NULL REFERENCES order_statuses(id),
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone_number BIGINT NOT NULL,
     billing_address_id  uuid REFERENCES addresses(id),
-    shipping_address_id uuid REFERENCES addresses(id)
+    shipping_address_id uuid REFERENCES addresses(id),
+    inserted_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE order_products (

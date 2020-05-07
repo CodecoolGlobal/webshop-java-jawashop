@@ -28,9 +28,9 @@ public class ShoppingCartController extends AuthenticatedController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        super.authenticate(req);
+        User user = super.authenticate(req);
 
-        List<CartItem> cartItems = new ShoppingCartDaoJDBC().getAll();
+        List<CartItem> cartItems = new ShoppingCartDaoJDBC().getAll(user);
 
         JsonObjectBuilder cartBuilder = calculateCartStats(cartItems);
 
@@ -74,7 +74,7 @@ public class ShoppingCartController extends AuthenticatedController {
             shoppingCartDao.update(cartItem);
         }
 
-        List<CartItem> cartItems = shoppingCartDao.getAll();
+        List<CartItem> cartItems = shoppingCartDao.getAll(user);
 
         JsonObjectBuilder rootObject = calculateCartStats(cartItems);
         appendCartItem(product, cartItems, user, rootObject);
@@ -88,13 +88,15 @@ public class ShoppingCartController extends AuthenticatedController {
 
         String id = super.getIdFrom(req);
         Product product = new ProductDaoJDBC().find(id);
-        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
-
         if(product == null) {
             throw new IllegalArgumentException("There is no Product { ID = " + id + "}");
         }
 
+        ShoppingCartDao shoppingCartDao = new ShoppingCartDaoJDBC();
         CartItem cartItem = shoppingCartDao.find(product);
+        if (cartItem == null || !cartItem.getOwner().getId().equals(user.getId())) {
+            throw new InternalServerException(null);
+        }
 
         if (0 < cartItem.getQuantity()) {
             cartItem.changeQuantity(-1);
@@ -105,7 +107,7 @@ public class ShoppingCartController extends AuthenticatedController {
             shoppingCartDao.remove(cartItem);
         }
 
-        List<CartItem> cartItems = shoppingCartDao.getAll();
+        List<CartItem> cartItems = shoppingCartDao.getAll(user);
 
         JsonObjectBuilder rootObject = calculateCartStats(cartItems);
         appendCartItem(product, cartItems, user, rootObject);
