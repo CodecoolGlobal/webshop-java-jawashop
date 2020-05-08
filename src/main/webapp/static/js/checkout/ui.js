@@ -46,11 +46,7 @@ export let ui = {
                 });
                 callback(formData);
             } else {
-                Notiflix.Report.Failure(
-                    "Error",
-                    "Either fill out the all shipping address details or leave it all empty if its the same " +
-                            "with the billing address.",
-                    "Ok!");
+                callback(formData);
             }
 
             return false;
