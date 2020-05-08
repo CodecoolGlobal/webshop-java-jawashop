@@ -32,9 +32,12 @@ export let logic = {
             });
 
             if (errors.length === 0) {
-                navbar.updateShoppingCartStats();
-                navbar.authenticated();
-                homepage.getAllProducts();
+                user.checkAuthentication()
+                    .then(function() {
+                        navbar.updateShoppingCartStats();
+                        navbar.authenticated();
+                        homepage.getAllProducts();
+                    });
             }
         });
     },
