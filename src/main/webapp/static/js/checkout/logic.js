@@ -6,7 +6,9 @@ import { ui } from "./ui.js";
 
 export let logic = {
     navigate: function() {
-        ui.render(logic.__submitForm);
+        dataHandler.getAddresses(function(addresses) {
+            ui.render(addresses, logic.__submitForm);
+        });
     },
 
     __submitForm: function(formData) {

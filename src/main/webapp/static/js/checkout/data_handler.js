@@ -4,4 +4,8 @@ export let dataHandler = {
     addOrder: function(data, callback) {
         web.post(`/order`, data, callback);
     },
+
+    getAddresses: function(callback) {
+        web.get(`/address`, callback);
+    },
 };

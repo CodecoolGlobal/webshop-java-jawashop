@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS order_products;
 DROP TABLE IF EXISTS order_payments;
-DROP TABLE IF EXISTS order_statuses;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
 DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS order_statuses;
 DROP TABLE IF EXISTS addresses;
 DROP TABLE IF EXISTS credit_cards;
 DROP TABLE IF EXISTS users;
@@ -50,10 +50,12 @@ CREATE TABLE cart (
 
 CREATE TABLE addresses (
     id uuid PRIMARY KEY,
+    user_id uuid NOT NULL REFERENCES users(id),
     country VARCHAR(30) NOT NULL,
     city VARCHAR(30) NOT NULL,
     zip_code VARCHAR(30) NOT NULL,
-    address VARCHAR(50) NOT NULL
+    address VARCHAR(50) NOT NULL,
+    inserted_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE order_statuses (

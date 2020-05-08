@@ -46,6 +46,14 @@ export let template = {
                                 </small>
                             </div>
                         </div>
+                        <div class="row d-none">
+                            <div class="col-12">
+                                <h3>Saved addresses</h3>
+                            </div>
+                            <div class="col-12">
+                                <ul id="addressesContainer"></ul>
+                            </div>
+                        </div>
                         <div class="form-row">
                             <label class="p-1">Billing address</label>
                         </div>
@@ -133,5 +141,15 @@ export let template = {
         return `
             <div class="alert alert-danger text-center">${message}</div>
         `
-    }
+    },
+
+    forAddress: function(address) {
+        return `
+            <li>
+                ${address.zip_code} ${address.address}, ${address.city} ${address.country}: 
+                set as <span class="text-info address-btn">billing address</span> | 
+                set as <span class="text-info address-btn">shipping address</span>.  
+            </div>
+        `
+    },
 };

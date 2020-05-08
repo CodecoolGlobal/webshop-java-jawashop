@@ -78,8 +78,12 @@ public class OrderController extends AuthenticatedController {
         Order order = createOrderFrom(postData, user, orderStatus);
 
         AddressDao addressDao = new AddressDaoJDBC();
-        addressDao.add(order.getBillingAddress());
-        addressDao.add(order.getShippingAddress());
+        try {
+            addressDao.add(order.getBillingAddress());
+            addressDao.add(order.getShippingAddress());
+        } catch (SQLException e) {
+            throw new InternalServerException(e);
+        }
 
         OrderDao orderDao = new OrderDaoJDBC();
         orderDao.add(order);
@@ -161,14 +165,16 @@ public class OrderController extends AuthenticatedController {
                 postData.getString("email"),
                 Long.parseLong(postData.getString("phoneNumber").substring(0, 11)),
                 new Address(
+                        user,
                         postData.getString("billingCountry"),
                         postData.getString("billingCity"),
                         postData.getString("billingZip"),
                         postData.getString("billingAddress")),
                 new Address(
-                    postData.getString("shippingCountry"),
-                    postData.getString("shippingCity"),
-                    postData.getString("shippingZip"),
-                    postData.getString("shippingAddress")));
+                        user,
+                        postData.getString("shippingCountry"),
+                        postData.getString("shippingCity"),
+                        postData.getString("shippingZip"),
+                        postData.getString("shippingAddress")));
     }
 }
