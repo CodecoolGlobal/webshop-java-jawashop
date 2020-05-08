@@ -37,6 +37,39 @@ public class AddressDaoJDBC implements AddressDao {
     }
 
     @Override
+    public Address find(Address address, User user) throws SQLException {
+        try (Connection connection = dataSource.getConnection();) {
+            String query =
+                    "SELECT * " +
+                    "FROM addresses " +
+                    "WHERE " +
+                        "user_id = ? " +
+                        "AND country = ? " +
+                        "AND city = ? " +
+                        "AND zip_code = ?" +
+                        "AND address = ? " +
+                    "LIMIT 1;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, user.getId(), Types.OTHER);
+            statement.setString(2, address.getCountry());
+            statement.setString(3, address.getCity());
+            statement.setString(4, address.getZipCode());
+            statement.setString(5, address.getAddress());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new Address(
+                        resultSet.getString("id"),
+                        user,
+                        resultSet.getString("country"),
+                        resultSet.getString("city"),
+                        resultSet.getString("zip_code"),
+                        resultSet.getString("address"));
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<Address> getAllBy(User user) throws SQLException {
         List<Address> addresses = new ArrayList<>();
         String query = "SELECT * FROM addresses WHERE user_id = ?;";

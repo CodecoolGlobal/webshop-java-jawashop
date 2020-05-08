@@ -75,16 +75,22 @@ public class OrderController extends AuthenticatedController {
             throw new InternalServerException(null);
         }
 
-        Order order = createOrderFrom(postData, user, orderStatus);
 
         AddressDao addressDao = new AddressDaoJDBC();
+        Address billingAddress;
         try {
-            addressDao.add(order.getBillingAddress());
-            addressDao.add(order.getShippingAddress());
+            billingAddress = saveOrGet(getBillingAddress(postData, user), addressDao, user);
+        } catch (SQLException e) {
+            throw new InternalServerException(e);
+        }
+        Address shippingAddress;
+        try {
+            shippingAddress = saveOrGet(getShippingAddress(postData, user), addressDao, user);
         } catch (SQLException e) {
             throw new InternalServerException(e);
         }
 
+        Order order = createOrderFrom(postData, user, orderStatus, billingAddress, shippingAddress);
         OrderDao orderDao = new OrderDaoJDBC();
         orderDao.add(order);
 
@@ -157,24 +163,42 @@ public class OrderController extends AuthenticatedController {
         return errors.build();
     }
 
-    private Order createOrderFrom(JsonObject postData, User user, OrderStatus orderStatus) {
+    private Address getBillingAddress(JsonObject postData, User user) {
+        return new Address(
+                user,
+                postData.getString("billingCountry"),
+                postData.getString("billingCity"),
+                postData.getString("billingZip"),
+                postData.getString("billingAddress"));
+    }
+
+    private Address getShippingAddress(JsonObject postData, User user) {
+        return new Address(
+                user,
+                postData.getString("shippingCountry"),
+                postData.getString("shippingCity"),
+                postData.getString("shippingZip"),
+                postData.getString("shippingAddress"));
+    }
+
+    private Address saveOrGet(Address address, AddressDao addressDao, User user) throws SQLException {
+        Address dbAddress = addressDao.find(address, user);
+        if (dbAddress != null) {
+            return dbAddress;
+        } else {
+            addressDao.add(address);
+            return address;
+        }
+    }
+
+    private Order createOrderFrom(JsonObject postData, User user, OrderStatus orderStatus, Address billingAddress, Address shippingAddress) {
         return new Order(
                 user,
                 orderStatus,
                 postData.getString("name"),
                 postData.getString("email"),
                 Long.parseLong(postData.getString("phoneNumber").substring(0, 11)),
-                new Address(
-                        user,
-                        postData.getString("billingCountry"),
-                        postData.getString("billingCity"),
-                        postData.getString("billingZip"),
-                        postData.getString("billingAddress")),
-                new Address(
-                        user,
-                        postData.getString("shippingCountry"),
-                        postData.getString("shippingCity"),
-                        postData.getString("shippingZip"),
-                        postData.getString("shippingAddress")));
+                billingAddress,
+                shippingAddress);
     }
 }

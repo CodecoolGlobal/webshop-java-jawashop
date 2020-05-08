@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface AddressDao {
     void add(Address address) throws SQLException;
+    Address find(Address address, User user) throws SQLException;
     List<Address> getAllBy(User user) throws SQLException;
 }
